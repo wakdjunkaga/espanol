@@ -1,0 +1,437 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Lulu y Popo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Noto+Serif+SC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #faf6ef;
+    --card: #f5efe4;
+    --ink: #2b2620;
+    --muted: #8a7f6f;
+    --accent: #a8768c;
+    --gold: #c9a56a;
+    --rule: #e4dccb;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--ink);
+  }
+
+  body {
+    font-family: "EB Garamond", "Noto Serif SC", serif;
+    line-height: 1.5;
+    padding: 10vh 20px 14vh;
+  }
+
+  .sheet {
+    max-width: 620px;
+    margin: 0 auto;
+  }
+
+  .titlepage {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .kicker {
+    font-size: 11px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 18px;
+  }
+
+  .kicker .zh {
+    font-family: "Noto Serif SC", serif;
+    text-transform: none;
+    letter-spacing: 0.1em;
+  }
+
+  h1.title {
+    font-family: "Cormorant Garamond", "Noto Serif SC", serif;
+    font-size: 46px;
+    font-weight: 500;
+    font-style: italic;
+    margin: 0;
+    color: var(--ink);
+  }
+
+  .subtitle {
+    margin-top: 14px;
+    font-size: 14px;
+    color: var(--muted);
+  }
+
+  .rule {
+    width: 60px;
+    height: 1px;
+    background: var(--gold);
+    margin: 22px auto;
+  }
+
+  /* toggle */
+  .toggle-bar {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    padding: 14px 0 10px;
+    margin: -10vh -20px 6vh;
+    background: linear-gradient(var(--bg) 70%, transparent);
+  }
+
+  .toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--card);
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    padding: 6px 16px 6px 6px;
+    cursor: pointer;
+    user-select: none;
+    box-shadow: 0 2px 10px rgba(43,38,32,0.05);
+  }
+
+  .switch {
+    position: relative;
+    width: 38px;
+    height: 22px;
+    border-radius: 999px;
+    background: var(--rule);
+    transition: background 0.2s ease;
+    flex-shrink: 0;
+  }
+
+  .switch::after {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #fff;
+    transition: transform 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  }
+
+  .toggle input { display: none; }
+  .toggle input:checked ~ .switch { background: var(--accent); }
+  .toggle input:checked ~ .switch::after { transform: translateX(16px); }
+
+  .toggle-label {
+    font-size: 13.5px;
+    letter-spacing: 0.02em;
+    color: var(--muted);
+  }
+
+  .toggle-label .zh {
+    font-family: "Noto Serif SC", serif;
+    color: var(--ink);
+  }
+
+  /* listen */
+  .listen {
+    background: var(--card);
+    border: 1px solid var(--rule);
+    border-radius: 14px;
+    padding: 14px 16px 16px;
+    margin: 0 0 40px;
+  }
+
+  .listen-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px 10px;
+    margin-bottom: 9px;
+  }
+
+  .listen-label {
+    font-size: 11.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .listen-label .zh {
+    font-family: "Noto Serif SC", serif;
+    text-transform: none;
+    letter-spacing: 0.05em;
+  }
+
+  .listen audio {
+    width: 100%;
+    height: 32px;
+  }
+
+  .audio-toggle {
+    display: inline-flex;
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .audio-src-btn {
+    border: none;
+    background: #fff;
+    color: var(--muted);
+    font-family: inherit;
+    font-size: 11.5px;
+    letter-spacing: 0.03em;
+    padding: 5px 13px;
+    cursor: pointer;
+  }
+
+  .audio-src-btn + .audio-src-btn { border-left: 1px solid var(--rule); }
+
+  .audio-src-btn.active {
+    background: var(--accent);
+    color: #fff;
+  }
+
+  .audio-src-btn .zh { font-family: "Noto Serif SC", serif; }
+
+  /* passages */
+  .passage {
+    margin-bottom: 30px;
+  }
+
+  .passage-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .play-btn {
+    flex-shrink: 0;
+    width: 30px;
+    height: 30px;
+    margin-top: 2px;
+    border-radius: 50%;
+    border: 1px solid var(--rule);
+    background: #fff;
+    color: var(--accent);
+    font-size: 11px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 0 0 2px;
+    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  }
+
+  .play-btn:hover { background: var(--card); }
+
+  .play-btn.playing {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
+
+  .passage-text { flex: 1 1 auto; min-width: 0; }
+
+  .es {
+    font-size: 19px;
+    line-height: 1.65;
+  }
+
+  .zh-line {
+    font-family: "Noto Serif SC", serif;
+    font-weight: 300;
+    font-size: 15.5px;
+    color: var(--muted);
+    line-height: 1.65;
+    margin-top: 8px;
+    max-height: 300px;
+    opacity: 1;
+    overflow: hidden;
+    transition: max-height 0.3s ease, opacity 0.25s ease, margin 0.3s ease;
+  }
+
+  body.hide-zh .zh-line {
+    max-height: 0;
+    opacity: 0;
+    margin-top: 0;
+  }
+
+  /* glossary */
+  .day-label {
+    font-family: "Noto Serif SC", serif;
+    font-size: 12.5px;
+    letter-spacing: 0.18em;
+    color: var(--accent);
+    margin: 46px 2px 10px;
+  }
+
+  .day-label .en {
+    font-family: "EB Garamond", serif;
+    font-style: italic;
+    color: var(--muted);
+    letter-spacing: 0.02em;
+    margin-left: 8px;
+  }
+
+  ul.glossary {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  li.term { border-top: 1px solid var(--rule); }
+  li.term:last-child { border-bottom: 1px solid var(--rule); }
+
+  .term-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 18px;
+    padding: 13px 6px;
+    transition: background 0.15s ease, padding-left 0.15s ease;
+  }
+
+  .term-row:hover {
+    background: var(--card);
+    padding-left: 14px;
+  }
+
+  .term-es {
+    font-size: 16px;
+    flex: 1 1 auto;
+  }
+
+  .term-zh {
+    font-family: "Noto Serif SC", serif;
+    font-weight: 300;
+    font-size: 14.5px;
+    color: var(--muted);
+    text-align: right;
+    flex: 1 1 auto;
+  }
+
+  .foot {
+    margin-top: 54px;
+    padding-top: 20px;
+    border-top: 1px solid var(--rule);
+    text-align: center;
+    font-size: 11.5px;
+    color: #a79c8c;
+    letter-spacing: 0.05em;
+  }
+
+  .foot .zh { font-family: "Noto Serif SC", serif; }
+
+  @media (max-width: 480px) {
+    h1.title { font-size: 38px; }
+    .es { font-size: 17.5px; }
+    .term-row { flex-direction: column; gap: 3px; }
+    .term-zh { text-align: left; }
+  }
+</style>
+</head>
+<body class="hide-zh">
+
+<div class="toggle-bar">
+  <label class="toggle">
+    <input type="checkbox" id="zh-toggle" onchange="document.body.classList.toggle('hide-zh', !this.checked)">
+    <span class="switch"></span>
+    <span class="toggle-label">translation <span class="zh">· 中文</span></span>
+  </label>
+</div>
+
+<div class="sheet">
+
+  <div class="titlepage">
+    <div class="kicker">Lectura bilingüe <span class="zh">· 双语阅读</span></div>
+    <h1 class="title">Lulu y Popo</h1>
+    <div class="subtitle">22 de agosto de 2026</div>
+    <div class="rule"></div>
+  </div>
+
+  <div class="listen">
+    <div class="listen-top">
+      <div class="listen-label">escuchar <span class="zh">· 听音频</span></div>
+    </div>
+    <audio controls id="main-audio" src="audio/lulu-popo-tts.mp3"></audio>
+  </div>
+
+  <div class="passage">
+    <div class="passage-row">
+      <button class="play-btn" data-src="audio/lulu-popo-1.mp3" aria-label="play">▶</button>
+      <div class="passage-text">
+        <div class="es">Tengo un bichón que se llama Lulu. Hace dos años y medio que Lulu está con nosotros. Tiene muy buen carácter, y ya es como uno más de la familia.</div>
+        <div class="zh-line">我有一只比熊犬，叫Lulu。Lulu和我们在一起已经两年半了。它性格很好，已经像家里的一员一样。</div>
+      </div>
+    </div>
+  </div>
+  <div class="passage">
+    <div class="passage-row">
+      <button class="play-btn" data-src="audio/lulu-popo-2.mp3" aria-label="play">▶</button>
+      <div class="passage-text">
+        <div class="es">Me encanta tener animales de compañía, pero la verdad es que necesitan muchos cuidados. Por ejemplo, Lulu tiene el pelo largo y blanco, así que se ensucia muy rápido cuando lo paseamos. Además, siempre tenemos que organizarnos bien cuando nos vamos de viaje. A veces lo dejamos con alguien de confianza, y otras con una chica que cuida perros. Ella nos cobra unos 300 euros al mes, pero una residencia canina normal costaría el doble.</div>
+        <div class="zh-line">我很喜欢养宠物，但说实话，宠物需要很多照顾。比如，Lulu的毛又长又白，所以我们带它出去散步的时候，它很快就会弄脏。另外，我们去旅行的时候，总是要提前安排好。有时候我们把它交给信任的人照顾，有时候交给一个照顾狗的女生。她一个月收我们大约300欧元，但是普通的宠物寄养中心要贵一倍。</div>
+      </div>
+    </div>
+  </div>
+  <div class="passage">
+    <div class="passage-row">
+      <button class="play-btn" data-src="audio/lulu-popo-3.mp3" aria-label="play">▶</button>
+      <div class="passage-text">
+        <div class="es">También tenemos un gato que se llama Popo, pero ahora vive en Londres con mi hija. No sé si sabías que mi hija está en Londres: estudió cuatro años en Edimburgo, pero el máster lo hizo en Londres. A veces, cuando mi hija viene a Barcelona, Popo se queda con su compañera de piso, porque a ella también le gustan mucho los gatos. Pero esta vez mi hija va a traer a Popo a Barcelona con ella.</div>
+        <div class="zh-line">我们还有一只猫，叫Popo，但是它现在和我女儿住在伦敦。不知道你知不知道我女儿在伦敦：她在爱丁堡读了四年书，但在伦敦读了硕士。有时候，我女儿来巴塞罗那的时候，Popo会留在她的室友那里，因为她的室友也很喜欢猫。但是这次，我女儿会带Popo一起回巴塞罗那。</div>
+      </div>
+    </div>
+  </div>
+  <div class="day-label">Glosario<span class="en">key vocabulary</span></div>
+  <ul class="glossary">
+    <li class="term"><div class="term-row"><span class="term-es">Hace dos años y medio que...</span><span class="term-zh">已经两年半了……（表示某状态持续至今）</span></div></li>
+    <li class="term"><div class="term-row"><span class="term-es">Se ensucia muy rápido cuando...</span><span class="term-zh">……的时候很快就弄脏</span></div></li>
+    <li class="term"><div class="term-row"><span class="term-es">Siempre tenemos que organizarnos bien cuando...</span><span class="term-zh">……的时候，我们总是要提前安排好</span></div></li>
+    <li class="term"><div class="term-row"><span class="term-es">A veces..., y otras...</span><span class="term-zh">有时候……，有时候……</span></div></li>
+    <li class="term"><div class="term-row"><span class="term-es">Cuesta el doble.</span><span class="term-zh">贵一倍。</span></div></li>
+    <li class="term"><div class="term-row"><span class="term-es">No sé si sabías que...</span><span class="term-zh">不知道你知不知道……</span></div></li>
+    <li class="term"><div class="term-row"><span class="term-es">A ella también le gustan mucho los gatos.</span><span class="term-zh">她也很喜欢猫。</span></div></li>
+  </ul>
+
+  <div class="foot">西语 A1 课程 · archivo de repaso</div>
+
+</div>
+<script>
+(function () {
+  var current = null, currentBtn = null;
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('.play-btn');
+    if (!b) return;
+    if (currentBtn) currentBtn.classList.remove('playing');
+    if (current) { current.pause(); current.currentTime = 0; }
+    if (b === currentBtn) { current = null; currentBtn = null; return; }
+    current = new Audio(b.dataset.src);
+    currentBtn = b;
+    b.classList.add('playing');
+    current.addEventListener('ended', function () {
+      b.classList.remove('playing');
+      currentBtn = null;
+    });
+    current.play();
+  });
+})();
+</script>
+
+</body>
+</html>
