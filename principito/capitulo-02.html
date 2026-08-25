@@ -95,6 +95,8 @@ select.ui:hover{border-color:var(--gold)}
   font-size:1.15em; color:var(--accent);
 }
 .fig{margin:2rem 0; text-align:center}
+.fig.plate{margin-top:2.6rem}
+.fig.plate img{max-height:78vh; width:auto}
 .fig img{max-width:100%; height:auto; mix-blend-mode:multiply}
 
 /* ---------- palabras glosadas ---------- */
@@ -242,7 +244,7 @@ a.nav.off{color:var(--muted); pointer-events:none; opacity:.5}
       <button class="ui" id="bigger" aria-label="Letra más grande">A+</button>
     </div>
     <div class="spacer"></div>
-    <select class="ui" id="chsel" aria-label="Elegir capítulo"><option value="capitulo-01.html">I. El sombrero y la serpiente boa</option><option value="capitulo-02.html" selected>II. Dibújame un cordero</option></select>
+    <select class="ui" id="chsel" aria-label="Elegir capítulo"><option value="capitulo-01.html">I. El sombrero y la serpiente boa</option><option value="capitulo-02.html" selected>II. Dibújame un cordero</option><option value="capitulo-03.html">III. ¿De qué planeta eres?</option><option value="capitulo-04.html">IV. El asteroide B 612</option></select>
   </div>
 </nav>
 
@@ -290,6 +292,7 @@ a.nav.off{color:var(--muted); pointer-events:none; opacity:.5}
 <div class="row"><p>Miró otra vez mi dibujo:</p><aside class="marg"></aside></div>
 <div class="row"><p>—No tan pequeño… ¡Mira, se ha quedado dormido!</p><aside class="marg"></aside></div>
 <div class="row"><p>Así conocí al principito.</p><aside class="marg"></aside></div>
+
 </main>
 
 <nav class="pager">
@@ -297,7 +300,7 @@ a.nav.off{color:var(--muted); pointer-events:none; opacity:.5}
   <div class="spacer"></div>
   <a class="nav" href="index.html">Índice<span class="ar">·</span></a>
   <div class="spacer"></div>
-  <span class="nav off">—</span>
+  <a class="nav" href="capitulo-03.html">Capítulo III<span class="ar">→</span></a>
 </nav>
 
 <div id="pop" hidden role="dialog" aria-label="glosa"></div>
