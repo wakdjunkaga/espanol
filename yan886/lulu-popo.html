@@ -367,6 +367,10 @@
   <div class="listen">
     <div class="listen-top">
       <div class="listen-label">escuchar <span class="zh">· 听音频</span></div>
+      <div class="audio-toggle">
+        <button class="audio-src-btn active" data-src="audio/lulu-popo-tts.mp3">TTS</button>
+        <button class="audio-src-btn" data-src="audio/lulu-popo-mine.mp3">mi voz <span class="zh">· 我的录音</span></button>
+      </div>
     </div>
     <audio controls id="main-audio" src="audio/lulu-popo-tts.mp3"></audio>
   </div>
@@ -429,6 +433,19 @@
       currentBtn = null;
     });
     current.play();
+  });
+
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('.audio-src-btn');
+    if (!b) return;
+    document.querySelectorAll('.audio-src-btn').forEach(function (x) {
+      x.classList.remove('active');
+    });
+    b.classList.add('active');
+    var audio = document.getElementById('main-audio');
+    var wasPlaying = !audio.paused;
+    audio.src = b.dataset.src;
+    if (wasPlaying) audio.play();
   });
 })();
 </script>

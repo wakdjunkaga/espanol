@@ -152,12 +152,20 @@
     margin: 0 0 40px;
   }
 
+  .listen-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px 10px;
+    margin-bottom: 9px;
+  }
+
   .listen-label {
     font-size: 11.5px;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--muted);
-    margin-bottom: 9px;
   }
 
   .listen-label .zh {
@@ -170,6 +178,34 @@
     width: 100%;
     height: 32px;
   }
+
+  .audio-toggle {
+    display: inline-flex;
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .audio-src-btn {
+    border: none;
+    background: #fff;
+    color: var(--muted);
+    font-family: inherit;
+    font-size: 11.5px;
+    letter-spacing: 0.03em;
+    padding: 5px 13px;
+    cursor: pointer;
+  }
+
+  .audio-src-btn + .audio-src-btn { border-left: 1px solid var(--rule); }
+
+  .audio-src-btn.active {
+    background: var(--accent);
+    color: #fff;
+  }
+
+  .audio-src-btn .zh { font-family: "Noto Serif SC", serif; }
 
   /* passages */
   .passage {
@@ -309,11 +345,11 @@
   }
 </style>
 </head>
-<body>
+<body class="hide-zh">
 
 <div class="toggle-bar">
   <label class="toggle">
-    <input type="checkbox" id="zh-toggle" checked onchange="document.body.classList.toggle('hide-zh', !this.checked)">
+    <input type="checkbox" id="zh-toggle" onchange="document.body.classList.toggle('hide-zh', !this.checked)">
     <span class="switch"></span>
     <span class="toggle-label">translation <span class="zh">· 中文</span></span>
   </label>
@@ -329,8 +365,14 @@
   </div>
 
   <div class="listen">
-    <div class="listen-label">escuchar <span class="zh">· 听音频</span></div>
-    <audio controls src="audio/tren-londres-full.mp3"></audio>
+    <div class="listen-top">
+      <div class="listen-label">escuchar <span class="zh">· 听音频</span></div>
+      <div class="audio-toggle">
+        <button class="audio-src-btn active" data-src="audio/tren-londres-tts.mp3">TTS</button>
+        <button class="audio-src-btn" data-src="audio/tren-londres-mine.mp3">mi voz <span class="zh">· 我的录音</span></button>
+      </div>
+    </div>
+    <audio controls id="main-audio" src="audio/tren-londres-tts.mp3"></audio>
   </div>
 
   <div class="passage">
@@ -428,6 +470,19 @@
       currentBtn = null;
     });
     current.play();
+  });
+
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('.audio-src-btn');
+    if (!b) return;
+    document.querySelectorAll('.audio-src-btn').forEach(function (x) {
+      x.classList.remove('active');
+    });
+    b.classList.add('active');
+    var audio = document.getElementById('main-audio');
+    var wasPlaying = !audio.paused;
+    audio.src = b.dataset.src;
+    if (wasPlaying) audio.play();
   });
 })();
 </script>
