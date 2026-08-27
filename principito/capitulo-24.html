@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>El Principito · Capítulo XXIV</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Serif+SC:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#faf6ef; --card:#f5efe4; --ink:#2b2620; --muted:#8a7f6f;
+  --accent:#a8768c; --gold:#c9a56a; --rule:#e4dccb;
+  --reading:20px; --measure:34rem;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:"EB Garamond",Georgia,"Times New Roman",serif;
+  font-size:17px; line-height:1.6;
+}
+.zh{font-family:"Noto Serif SC","Songti SC",serif}
+.wrap{max-width:var(--measure); margin:0 auto; padding:0 1.25rem}
+
+/* ---------- portada ---------- */
+.masthead{padding:3.2rem 0 0; text-align:center}
+.kicker{
+  margin:0; font-size:.72rem; letter-spacing:.22em; text-transform:uppercase;
+  color:var(--muted);
+}
+.masthead h1{
+  font-family:"Cormorant Garamond",Georgia,serif; font-style:italic; font-weight:500;
+  font-size:clamp(2.4rem,7vw,3.4rem); line-height:1.05; margin:.5rem 0 .1rem;
+}
+.masthead .sub{margin:.35rem 0 0; color:var(--muted); font-size:1rem}
+.masthead .sub .zh{margin-left:.35em}
+.rule{
+  width:70px; height:0; margin:1.5rem auto 0;
+  border:0; border-top:1px solid var(--gold);
+}
+
+/* ---------- barra de herramientas ---------- */
+.bar{
+  position:sticky; top:0; z-index:30; margin-top:2rem;
+  background:color-mix(in srgb,var(--bg) 88%,transparent);
+  backdrop-filter:blur(8px);
+  border-top:1px solid var(--rule); border-bottom:1px solid var(--rule);
+}
+.bar .wrap{
+  display:flex; align-items:center; gap:.9rem; flex-wrap:wrap;
+  padding-top:.5rem; padding-bottom:.5rem; max-width:44rem;
+}
+.bar .spacer{flex:1}
+.sizer{display:flex; align-items:center; gap:.15rem}
+.sizer span{font-size:.7rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin-right:.4rem}
+button.ui{
+  font:inherit; color:var(--ink); background:transparent; cursor:pointer;
+  border:1px solid var(--rule); border-radius:999px; padding:.18rem .62rem; line-height:1.35;
+}
+button.ui:hover{border-color:var(--gold); background:var(--card)}
+button.ui:disabled{opacity:.35; cursor:default}
+select.ui{
+  font:inherit; font-size:.92rem; color:var(--ink); background:transparent;
+  border:1px solid var(--rule); border-radius:999px; padding:.2rem 1.6rem .2rem .7rem;
+  cursor:pointer; appearance:none;
+  background-image:linear-gradient(45deg,transparent 50%,var(--gold) 50%),linear-gradient(135deg,var(--gold) 50%,transparent 50%);
+  background-position:calc(100% - 15px) 55%,calc(100% - 10px) 55%;
+  background-size:5px 5px,5px 5px; background-repeat:no-repeat;
+}
+select.ui:hover{border-color:var(--gold)}
+
+/* ---------- leyenda ---------- */
+.legend{
+  max-width:44rem; margin:1.1rem auto .2rem; padding:0 1.25rem;
+  display:flex; gap:1.4rem; flex-wrap:wrap;
+  font-size:.78rem; color:var(--muted);
+}
+.legend b{font-weight:400; color:var(--ink)}
+.legend .sw{
+  display:inline-block; width:1.5em; vertical-align:middle; margin-right:.45em;
+  border-bottom:1.5px solid var(--accent);
+}
+.legend .sw.x{border-bottom:1.5px dotted var(--muted)}
+
+/* ---------- lectura ---------- */
+.reader{
+  padding:2.2rem 0 1rem; font-size:var(--reading); line-height:1.78;
+}
+.reader p{margin:0 0 1.05em; text-indent:1.4em; hyphens:auto}
+.reader p.lead{text-indent:0}
+.reader p.first::first-letter{
+  font-family:"Cormorant Garamond",Georgia,serif; font-style:italic;
+  font-size:1.15em; color:var(--accent);
+}
+.fig{margin:2rem 0; text-align:center}
+.fig.plate{margin-top:2.6rem}
+.fig.plate img{max-height:78vh; width:auto}
+.fig img{max-width:100%; height:auto; mix-blend-mode:multiply}
+
+/* ---------- palabras glosadas ---------- */
+button.gloss{
+  font:inherit; color:inherit; background:none; padding:0; margin:0; cursor:pointer;
+  border:0; border-bottom:1px solid; border-radius:2px;
+  text-indent:0;
+}
+button.gloss.core{border-bottom-color:color-mix(in srgb,var(--accent) 60%,transparent)}
+button.gloss.extra{border-bottom-style:dotted; border-bottom-color:color-mix(in srgb,var(--muted) 70%,transparent)}
+button.gloss:hover,button.gloss:focus-visible{
+  outline:none; background:color-mix(in srgb,var(--gold) 16%,transparent);
+}
+button.gloss[aria-expanded="true"]{background:color-mix(in srgb,var(--gold) 24%,transparent)}
+
+/* ---------- ventanita de glosa ---------- */
+#pop{
+  position:absolute; z-index:60; max-width:min(21rem,calc(100vw - 2rem));
+  background:var(--card); border:1px solid var(--rule);
+  border-top:2px solid var(--accent);
+  box-shadow:0 10px 30px -12px rgba(43,38,32,.35);
+  padding:.75rem .9rem .8rem; font-size:.98rem; line-height:1.55;
+}
+#pop[data-kind="extra"]{border-top-color:var(--muted)}
+#pop[hidden]{display:none}
+#pop .head{
+  font-size:1.06rem; font-weight:600; color:var(--accent);
+  display:flex; align-items:baseline; gap:.5rem; flex-wrap:wrap;
+  padding-right:1.1rem;
+}
+#pop[data-kind="extra"] .head{color:var(--muted)}
+#pop .tag{
+  font-size:.62rem; letter-spacing:.14em; text-transform:uppercase; font-weight:400;
+  border:1px solid currentColor; border-radius:999px; padding:.05em .5em; opacity:.8;
+}
+#pop .defn{margin-top:.3rem; font-size:1.02rem}
+#pop .note{
+  margin-top:.55rem; padding-top:.5rem; border-top:1px solid var(--rule);
+  font-size:.86rem; color:var(--muted);
+}
+#pop .arrow{
+  position:absolute; width:10px; height:10px; background:var(--card);
+  border-left:1px solid var(--rule); border-top:1px solid var(--rule);
+  transform:rotate(45deg);
+}
+#pop .close{
+  position:absolute; top:.25rem; right:.4rem; border:0; background:none; cursor:pointer;
+  color:var(--muted); font-size:1.1rem; line-height:1; padding:.2rem;
+}
+
+/* ---------- pie / navegación ---------- */
+.pager{
+  max-width:44rem; margin:1.5rem auto 4rem; padding:1.2rem 1.25rem 0;
+  border-top:1px solid var(--rule);
+  display:flex; align-items:center; gap:1rem;
+}
+.pager .spacer{flex:1}
+a.nav{
+  color:var(--ink); text-decoration:none; font-size:.95rem;
+  display:inline-flex; align-items:center; gap:.45rem;
+}
+a.nav .ar{color:var(--gold); opacity:0; transition:opacity .18s ease}
+a.nav:hover .ar,a.nav:focus-visible .ar{opacity:1}
+a.nav.off{color:var(--muted); pointer-events:none; opacity:.5}
+
+/* ---------- volver donde iba ---------- */
+#resume{
+  position:fixed; left:50%; transform:translateX(-50%); bottom:1.1rem; z-index:50;
+  background:var(--card); border:1px solid var(--gold); border-radius:999px;
+  padding:.45rem 1rem; font-size:.9rem; cursor:pointer; color:var(--ink);
+  box-shadow:0 8px 22px -14px rgba(43,38,32,.5);
+}
+#resume[hidden]{display:none}
+
+/* ---------- columna de glosas: sólo en papel ---------- */
+.marg{display:none}
+
+@media (max-width:520px){
+  .reader p{text-indent:1.1em}
+  .bar .wrap{gap:.5rem; flex-wrap:nowrap}
+  select.ui{max-width:46vw; text-overflow:ellipsis; font-size:.85rem}
+  .sizer span{display:none}
+  .legend{gap:.9rem; font-size:.74rem}
+}
+
+/* ---------- papel: apaisado, glosas a la derecha ---------- */
+@media print{
+  @page{size:A4 landscape; margin:1.3cm 1.5cm}
+  html,body{background:#fff; color:#141210}
+  .bar,.legend,.pager,#pop,#resume{display:none !important}
+
+  .masthead{padding:0; text-align:left}
+  .masthead .kicker{display:none}
+  .masthead h1{font-size:20pt; margin:0; line-height:1.1}
+  .masthead .sub{font-size:9.5pt; color:#555; margin:.08cm 0 0}
+  .rule{width:100%; margin:.28cm 0 0; border-top-color:#c9c2b4}
+
+  .wrap{max-width:none; padding:0}
+  .reader{padding:.45cm 0 0; font-size:10.5pt; line-height:1.52}
+
+  .row{
+    display:grid; grid-template-columns:56% 44%; column-gap:1.1cm;
+    break-inside:avoid; page-break-inside:avoid;
+  }
+  .row > p{margin:0 0 .42em}
+  .reader p.first::first-letter{font-size:1em; color:inherit; font-style:normal}
+
+  .fig{margin:.35cm 43% .35cm 0; text-align:center; break-inside:avoid}
+  .fig img{max-height:7.5cm; width:auto; max-width:100%; mix-blend-mode:normal}
+
+  /* las palabras glosadas, subrayadas y en negro */
+  button.gloss,button.gloss.core,button.gloss.extra{
+    color:#141210; background:none !important;
+    border-bottom:.6pt solid #141210;
+  }
+  button.gloss.extra{border-bottom-style:dotted; border-bottom-color:#8e8e8e}
+
+  /* la columna de la derecha */
+  .marg{display:block; font-size:9pt; line-height:1.42}
+  .gl{
+    margin:0 0 .12cm; padding-left:1.05em; text-indent:-1.05em;
+    break-inside:avoid;
+  }
+  .gl::before{content:"➢ "; color:#7a7a7a}
+  .gl b{font-weight:600}
+  .gl.extra,.gl.extra b{color:#8e8e8e}
+  .gl .n{display:block; margin-top:.04cm; color:#8e8e8e; font-size:8.4pt; text-indent:0}
+}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <p class="kicker">Lectura graduada · A2</p>
+  <h1>El Principito</h1>
+  <p class="sub">Capítulo XXIV · El pozo<span class="zh">水井</span></p>
+  <hr class="rule">
+</header>
+
+<nav class="bar">
+  <div class="wrap">
+    <div class="sizer">
+      <span>Letra</span>
+      <button class="ui" id="smaller" aria-label="Letra más pequeña">A−</button>
+      <button class="ui" id="bigger" aria-label="Letra más grande">A+</button>
+    </div>
+    <div class="spacer"></div>
+    <select class="ui" id="chsel" aria-label="Elegir capítulo"><option value="capitulo-01.html">I. El sombrero y la serpiente boa</option><option value="capitulo-02.html">II. Dibújame un cordero</option><option value="capitulo-03.html">III. ¿De qué planeta eres?</option><option value="capitulo-04.html">IV. El asteroide B 612</option><option value="capitulo-05.html">V. Los baobabs</option><option value="capitulo-06.html">VI. Las puestas de sol</option><option value="capitulo-07.html">VII. La flor y las espinas</option><option value="capitulo-08.html">VIII. La rosa</option><option value="capitulo-09.html">IX. La despedida</option><option value="capitulo-10.html">X. El rey</option><option value="capitulo-11.html">XI. El vanidoso</option><option value="capitulo-12.html">XII. El bebedor</option><option value="capitulo-13.html">XIII. El hombre de negocios</option><option value="capitulo-14.html">XIV. El farolero</option><option value="capitulo-15.html">XV. El geógrafo</option><option value="capitulo-16.html">XVI. La Tierra</option><option value="capitulo-17.html">XVII. La serpiente</option><option value="capitulo-18.html">XVIII. La flor de tres pétalos</option><option value="capitulo-19.html">XIX. La montaña y el eco</option><option value="capitulo-20.html">XX. El jardín de rosas</option><option value="capitulo-21.html">XXI. El zorro</option><option value="capitulo-22.html">XXII. El guardavía</option><option value="capitulo-23.html">XXIII. El comerciante de píldoras</option><option value="capitulo-24.html" selected>XXIV. El pozo</option><option value="capitulo-25.html">XXV. El agua del pozo</option><option value="capitulo-26.html">XXVI. El muro y la serpiente</option><option value="capitulo-27.html">XXVII. Seis años después</option></select>
+  </div>
+</nav>
+
+<p class="legend">
+  <span><span class="sw"></span><b>muy aprovechable</b> · 常见又实用</span>
+  <span><span class="sw x"></span>sin prisa · 暂不必记</span>
+</p>
+
+<main class="reader wrap">
+<div class="row"><p class="lead first">Ya era el octavo día de mi avería en el desierto. Escuché la historia del comerciante mientras bebía la última <button type="button" class="gloss core" data-g="0">gota</button> de agua que me quedaba.</p><aside class="marg"><div class="gl core"><b>gota</b>: <span class="zh">滴</span></div></aside></div>
+<div class="row"><p>—Tus recuerdos son muy bonitos —le dije al principito—, pero todavía no he <button type="button" class="gloss core" data-g="1">reparado</button> mi avión. Ya no tengo nada para beber. Yo también sería feliz si pudiera caminar despacio hacia una fuente.</p><aside class="marg"><div class="gl core"><b>reparar</b>: <span class="zh">修理</span></div></aside></div>
+<div class="row"><p>—Mi amigo el zorro… —empezó a decir.</p><aside class="marg"></aside></div>
+<div class="row"><p>—Mi pequeño amigo, ¡ahora no estamos hablando del zorro!</p><aside class="marg"></aside></div>
+<div class="row"><p>—¿Por qué?</p><aside class="marg"></aside></div>
+<div class="row"><p>—Porque vamos a morir de sed…</p><aside class="marg"></aside></div>
+<div class="row"><p>No comprendió mi razonamiento y respondió:</p><aside class="marg"></aside></div>
+<div class="row"><p>—Es bueno haber tenido un amigo, incluso si vamos a morir. Yo estoy muy contento de haber tenido un zorro como amigo…</p><aside class="marg"></aside></div>
+<div class="row"><p>«No comprende el peligro —pensé—. Nunca tiene hambre ni sed. Un poco de sol es suficiente para él…»</p><aside class="marg"></aside></div>
+<div class="row"><p>Pero el principito me miró y respondió a mi pensamiento:</p><aside class="marg"></aside></div>
+<div class="row"><p>—Yo también tengo sed… Busquemos un <button type="button" class="gloss core" data-g="2">pozo</button>.</p><aside class="marg"><div class="gl core"><b>pozo</b>: <span class="zh">井</span></div></aside></div>
+<div class="row"><p>Hice un <button type="button" class="gloss core" data-g="3">gesto</button> de cansancio. Buscar un pozo <button type="button" class="gloss extra" data-g="4">al azar</button> en la <button type="button" class="gloss core" data-g="5">inmensidad</button> del desierto parecía absurdo. Sin embargo, empezamos a caminar.</p><aside class="marg"><div class="gl core"><b>gesto</b>: <span class="zh">手势；表情</span></div><div class="gl extra"><b>al azar</b>: <span class="zh">随机地；随便地</span></div><div class="gl core"><b>inmensidad</b>: <span class="zh">辽阔；浩瀚</span></div></aside></div>
+<div class="row"><p>Caminamos durante horas en silencio. Cayó la noche y las estrellas empezaron a <button type="button" class="gloss core" data-g="7">brillar</button>. Yo tenía un poco de <button type="button" class="gloss core" data-g="6">fiebre</button> por la sed y las veía como en un sueño. Las palabras del principito bailaban en mi memoria.</p><aside class="marg"><div class="gl core"><b>brillar</b>: <span class="zh">发光；闪耀</span></div><div class="gl core"><b>fiebre</b>: <span class="zh">发烧</span></div></aside></div>
+<div class="row"><p>—Entonces, ¿tú también tienes sed? —le pregunté.</p><aside class="marg"></aside></div>
+<div class="row"><p>Pero no respondió a mi pregunta. Solo dijo:</p><aside class="marg"></aside></div>
+<div class="row"><p>—El agua también puede ser buena para el corazón…</p><aside class="marg"></aside></div>
+<div class="row"><p>No comprendí su respuesta, pero me quedé en silencio. Sabía que no debía hacerle más preguntas.</p><aside class="marg"></aside></div>
+<div class="row"><p>El principito estaba cansado y se sentó. Yo me senté a su lado. Después de un silencio, dijo:</p><aside class="marg"></aside></div>
+<div class="row"><p>—Las estrellas son bonitas porque hay una flor que no podemos ver…</p><aside class="marg"></aside></div>
+<div class="row"><p>—Claro —respondí.</p><aside class="marg"></aside></div>
+<div class="row"><p>Miré en silencio las formas que la arena hacía bajo la luna.</p><aside class="marg"></aside></div>
+<div class="row"><p>—El desierto es bonito —añadió.</p><aside class="marg"></aside></div>
+<div class="row"><p>Era verdad. Siempre me ha gustado el desierto. Te sientas sobre una <button type="button" class="gloss extra" data-g="8">duna</button>. No ves nada y no oyes nada. Y, sin embargo, sientes que el desierto esconde algo especial que brilla en su interior…</p><aside class="marg"><div class="gl extra"><b>duna</b>: <span class="zh">沙丘</span></div></aside></div>
+<div class="row"><p>—Lo que hace bonito al desierto —dijo el principito— es que esconde un pozo en algún lugar…</p><aside class="marg"></aside></div>
+<div class="row"><p>De repente comprendí por qué el desierto me parecía tan especial. Cuando yo era niño, vivía en una casa antigua. Una <button type="button" class="gloss core" data-g="9">leyenda</button> decía que había un tesoro escondido allí. Nadie lo encontró. Quizás nadie lo buscó. Pero el tesoro llenaba de magia toda la casa. Mi casa escondía un secreto en el fondo de su corazón…</p><aside class="marg"><div class="gl core"><b>leyenda</b>: <span class="zh">传说</span></div></aside></div>
+<div class="row"><p>—Sí —le dije al principito—. La belleza de la casa, las estrellas y el desierto viene de algo invisible.</p><aside class="marg"></aside></div>
+<div class="row"><p>—Me alegra que estés de acuerdo con mi zorro —respondió.</p><aside class="marg"></aside></div>
+<div class="row"><p>El principito se quedó dormido. Lo cogí en brazos y continué caminando. Estaba <button type="button" class="gloss core" data-g="10">emocionado</button>, porque sentía que llevaba un tesoro muy <button type="button" class="gloss core" data-g="11">frágil</button>. Me parecía que no había nada más frágil en la Tierra.</p><aside class="marg"><div class="gl core"><b>emocionado/a</b>: <span class="zh">激动的；感动的</span></div><div class="gl core"><b>frágil</b>: <span class="zh">脆弱的；易碎的</span></div></aside></div>
+<div class="row"><p>Bajo la luz de la luna miré su frente pálida, sus ojos cerrados y su pelo, que se movía con el viento. Pensé: «Lo que veo es solo lo que está por fuera. Lo más importante es invisible…»</p><aside class="marg"></aside></div>
+<div class="row"><p>Sus labios mostraban una pequeña sonrisa. Entonces pensé: «Este principito dormido me emociona porque es fiel a una flor. La imagen de una rosa brilla dentro de él como la <button type="button" class="gloss core" data-g="12">llama</button> de una lámpara, incluso cuando duerme…»</p><aside class="marg"><div class="gl core"><b>llama</b>: <span class="zh">火焰</span></div></aside></div>
+<div class="row"><p>Me pareció todavía más frágil. Hay que proteger bien las lámparas, porque una <button type="button" class="gloss extra" data-g="13">corriente de aire</button> puede apagarlas.</p><aside class="marg"><div class="gl extra"><b>corriente de aire</b>: <span class="zh">气流；穿堂风</span></div></aside></div>
+<div class="row"><p>Y, caminando así, descubrí el pozo al amanecer.</p><aside class="marg"></aside></div>
+
+</main>
+
+<nav class="pager">
+  <a class="nav" href="capitulo-23.html"><span class="ar">←</span>Capítulo XXIII</a>
+  <div class="spacer"></div>
+  <a class="nav" href="index.html">Índice<span class="ar">·</span></a>
+  <div class="spacer"></div>
+  <a class="nav" href="capitulo-25.html">Capítulo XXV<span class="ar">→</span></a>
+</nav>
+
+<div id="pop" hidden role="dialog" aria-label="glosa"></div>
+<button id="resume" hidden>Seguir donde lo dejaste · 继续阅读</button>
+
+<script>window.GLOSSES=[{"kind": "core", "head": "gota", "defn": "滴", "note": ""}, {"kind": "core", "head": "reparar", "defn": "修理", "note": ""}, {"kind": "core", "head": "pozo", "defn": "井", "note": ""}, {"kind": "core", "head": "gesto", "defn": "手势；表情", "note": ""}, {"kind": "extra", "head": "al azar", "defn": "随机地；随便地", "note": ""}, {"kind": "core", "head": "inmensidad", "defn": "辽阔；浩瀚", "note": ""}, {"kind": "core", "head": "fiebre", "defn": "发烧", "note": ""}, {"kind": "core", "head": "brillar", "defn": "发光；闪耀", "note": ""}, {"kind": "extra", "head": "duna", "defn": "沙丘", "note": ""}, {"kind": "core", "head": "leyenda", "defn": "传说", "note": ""}, {"kind": "core", "head": "emocionado/a", "defn": "激动的；感动的", "note": ""}, {"kind": "core", "head": "frágil", "defn": "脆弱的；易碎的", "note": ""}, {"kind": "core", "head": "llama", "defn": "火焰", "note": ""}, {"kind": "extra", "head": "corriente de aire", "defn": "气流；穿堂风", "note": ""}];window.CHAPTER={"slug": "capitulo-24", "roman": "XXIV"};</script>
+<script>
+(function(){
+  var G = window.GLOSSES || [], CH = window.CHAPTER || {};
+  var KEY_SIZE='ep:size', KEY_POS='ep:pos', KEY_LAST='ep:last';
+  var SIZES=[17,19,21,24,27];
+
+  /* ---- tamaño de letra ---- */
+  var idx = parseInt(localStorage.getItem(KEY_SIZE),10);
+  if(isNaN(idx)) idx = 1;
+  function applySize(){
+    idx = Math.max(0, Math.min(SIZES.length-1, idx));
+    document.documentElement.style.setProperty('--reading', SIZES[idx]+'px');
+    try{ localStorage.setItem(KEY_SIZE, idx); }catch(e){}
+    document.getElementById('smaller').disabled = idx===0;
+    document.getElementById('bigger').disabled = idx===SIZES.length-1;
+  }
+  document.getElementById('smaller').onclick=function(){idx--;applySize();hide();};
+  document.getElementById('bigger').onclick=function(){idx++;applySize();hide();};
+  applySize();
+
+  /* ---- glosas ---- */
+  var pop=document.getElementById('pop'), cur=null;
+  function hide(){
+    if(cur){cur.setAttribute('aria-expanded','false'); cur=null;}
+    pop.hidden=true;
+  }
+  function show(btn){
+    var g=G[+btn.dataset.g]; if(!g) return;
+    if(cur===btn){hide();return;}
+    if(cur) cur.setAttribute('aria-expanded','false');
+    cur=btn; btn.setAttribute('aria-expanded','true');
+    pop.dataset.kind=g.kind;
+    pop.innerHTML='<span class="arrow"></span>'+
+      '<button class="close" aria-label="cerrar">&times;</button>'+
+      '<div class="head"><span>'+g.head+'</span><span class="tag">'+
+        (g.kind==='core'?'muy aprovechable · 常见又实用':'sin prisa · 暂不必记')+'</span></div>'+
+      '<div class="defn zh">'+g.defn+'</div>'+
+      (g.note?'<div class="note zh">'+g.note+'</div>':'');
+    pop.querySelector('.close').onclick=function(e){e.stopPropagation();hide();btn.focus();};
+    pop.hidden=false;
+    place(btn);
+  }
+  function place(btn){
+    pop.style.left='0px'; pop.style.top='0px';
+    var r=btn.getBoundingClientRect(), pr=pop.getBoundingClientRect();
+    var sx=window.scrollX, sy=window.scrollY, m=8;
+    var left=r.left+sx+r.width/2-pr.width/2;
+    left=Math.max(sx+m, Math.min(left, sx+document.documentElement.clientWidth-pr.width-m));
+    var below = r.top < pr.height+70;           /* si no cabe arriba, va abajo */
+    var top = below ? r.bottom+sy+10 : r.top+sy-pr.height-10;
+    pop.style.left=left+'px'; pop.style.top=top+'px';
+    var ar=pop.querySelector('.arrow'), ax=r.left+sx+r.width/2-left-5;
+    ar.style.left=Math.max(10, Math.min(ax, pr.width-20))+'px';
+    ar.style.top = below ? '-6px' : (pr.height-5)+'px';
+    ar.style.transform = below ? 'rotate(45deg)' : 'rotate(225deg)';
+  }
+  document.querySelectorAll('button.gloss').forEach(function(b){
+    b.setAttribute('aria-expanded','false');
+    b.onclick=function(e){e.stopPropagation();show(b);};
+  });
+  document.addEventListener('click',function(e){ if(!pop.contains(e.target)) hide(); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape'){var c=cur;hide();if(c)c.focus();} });
+  window.addEventListener('resize',function(){ if(cur) place(cur); });
+  window.addEventListener('scroll',function(){ if(cur) place(cur); }, {passive:true});
+
+  /* ---- por dónde iba ---- */
+  function positions(){ try{ return JSON.parse(localStorage.getItem(KEY_POS)||'{}'); }catch(e){ return {}; } }
+  var saved=positions()[CH.slug];
+  var resume=document.getElementById('resume');
+  if(saved && saved>120 && saved > window.scrollY+200){
+    resume.hidden=false;
+    resume.onclick=function(){ window.scrollTo({top:saved,behavior:'smooth'}); resume.hidden=true; };
+    setTimeout(function(){ resume.hidden=true; }, 12000);
+  }
+  var t=null;
+  window.addEventListener('scroll',function(){
+    clearTimeout(t);
+    t=setTimeout(function(){
+      try{
+        var p=positions(); p[CH.slug]=Math.round(window.scrollY);
+        localStorage.setItem(KEY_POS, JSON.stringify(p));
+        localStorage.setItem(KEY_LAST, CH.slug);
+      }catch(e){}
+    },400);
+  },{passive:true});
+  try{ localStorage.setItem(KEY_LAST, CH.slug); }catch(e){}
+
+  /* ---- selector de capítulo ---- */
+  var sel=document.getElementById('chsel');
+  if(sel) sel.onchange=function(){ if(sel.value) location.href=sel.value; };
+})();
+</script>
+</body>
+</html>

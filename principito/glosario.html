@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>El Principito · Glosario recurrente</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Serif+SC:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#faf6ef; --card:#f5efe4; --ink:#2b2620; --muted:#8a7f6f;
+  --accent:#a8768c; --gold:#c9a56a; --rule:#e4dccb;
+  --reading:20px; --measure:34rem;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:"EB Garamond",Georgia,"Times New Roman",serif;
+  font-size:17px; line-height:1.6;
+}
+.zh{font-family:"Noto Serif SC","Songti SC",serif}
+.wrap{max-width:var(--measure); margin:0 auto; padding:0 1.25rem}
+
+/* ---------- portada ---------- */
+.masthead{padding:3.2rem 0 0; text-align:center}
+.kicker{
+  margin:0; font-size:.72rem; letter-spacing:.22em; text-transform:uppercase;
+  color:var(--muted);
+}
+.masthead h1{
+  font-family:"Cormorant Garamond",Georgia,serif; font-style:italic; font-weight:500;
+  font-size:clamp(2.4rem,7vw,3.4rem); line-height:1.05; margin:.5rem 0 .1rem;
+}
+.masthead .sub{margin:.35rem 0 0; color:var(--muted); font-size:1rem}
+.masthead .sub .zh{margin-left:.35em}
+.rule{
+  width:70px; height:0; margin:1.5rem auto 0;
+  border:0; border-top:1px solid var(--gold);
+}
+
+/* ---------- barra de herramientas ---------- */
+.bar{
+  position:sticky; top:0; z-index:30; margin-top:2rem;
+  background:color-mix(in srgb,var(--bg) 88%,transparent);
+  backdrop-filter:blur(8px);
+  border-top:1px solid var(--rule); border-bottom:1px solid var(--rule);
+}
+.bar .wrap{
+  display:flex; align-items:center; gap:.9rem; flex-wrap:wrap;
+  padding-top:.5rem; padding-bottom:.5rem; max-width:44rem;
+}
+.bar .spacer{flex:1}
+.sizer{display:flex; align-items:center; gap:.15rem}
+.sizer span{font-size:.7rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin-right:.4rem}
+button.ui{
+  font:inherit; color:var(--ink); background:transparent; cursor:pointer;
+  border:1px solid var(--rule); border-radius:999px; padding:.18rem .62rem; line-height:1.35;
+}
+button.ui:hover{border-color:var(--gold); background:var(--card)}
+button.ui:disabled{opacity:.35; cursor:default}
+select.ui{
+  font:inherit; font-size:.92rem; color:var(--ink); background:transparent;
+  border:1px solid var(--rule); border-radius:999px; padding:.2rem 1.6rem .2rem .7rem;
+  cursor:pointer; appearance:none;
+  background-image:linear-gradient(45deg,transparent 50%,var(--gold) 50%),linear-gradient(135deg,var(--gold) 50%,transparent 50%);
+  background-position:calc(100% - 15px) 55%,calc(100% - 10px) 55%;
+  background-size:5px 5px,5px 5px; background-repeat:no-repeat;
+}
+select.ui:hover{border-color:var(--gold)}
+
+/* ---------- leyenda ---------- */
+.legend{
+  max-width:44rem; margin:1.1rem auto .2rem; padding:0 1.25rem;
+  display:flex; gap:1.4rem; flex-wrap:wrap;
+  font-size:.78rem; color:var(--muted);
+}
+.legend b{font-weight:400; color:var(--ink)}
+.legend .sw{
+  display:inline-block; width:1.5em; vertical-align:middle; margin-right:.45em;
+  border-bottom:1.5px solid var(--accent);
+}
+.legend .sw.x{border-bottom:1.5px dotted var(--muted)}
+
+/* ---------- lectura ---------- */
+.reader{
+  padding:2.2rem 0 1rem; font-size:var(--reading); line-height:1.78;
+}
+.reader p{margin:0 0 1.05em; text-indent:1.4em; hyphens:auto}
+.reader p.lead{text-indent:0}
+.reader p.first::first-letter{
+  font-family:"Cormorant Garamond",Georgia,serif; font-style:italic;
+  font-size:1.15em; color:var(--accent);
+}
+.fig{margin:2rem 0; text-align:center}
+.fig.plate{margin-top:2.6rem}
+.fig.plate img{max-height:78vh; width:auto}
+.fig img{max-width:100%; height:auto; mix-blend-mode:multiply}
+
+/* ---------- palabras glosadas ---------- */
+button.gloss{
+  font:inherit; color:inherit; background:none; padding:0; margin:0; cursor:pointer;
+  border:0; border-bottom:1px solid; border-radius:2px;
+  text-indent:0;
+}
+button.gloss.core{border-bottom-color:color-mix(in srgb,var(--accent) 60%,transparent)}
+button.gloss.extra{border-bottom-style:dotted; border-bottom-color:color-mix(in srgb,var(--muted) 70%,transparent)}
+button.gloss:hover,button.gloss:focus-visible{
+  outline:none; background:color-mix(in srgb,var(--gold) 16%,transparent);
+}
+button.gloss[aria-expanded="true"]{background:color-mix(in srgb,var(--gold) 24%,transparent)}
+
+/* ---------- ventanita de glosa ---------- */
+#pop{
+  position:absolute; z-index:60; max-width:min(21rem,calc(100vw - 2rem));
+  background:var(--card); border:1px solid var(--rule);
+  border-top:2px solid var(--accent);
+  box-shadow:0 10px 30px -12px rgba(43,38,32,.35);
+  padding:.75rem .9rem .8rem; font-size:.98rem; line-height:1.55;
+}
+#pop[data-kind="extra"]{border-top-color:var(--muted)}
+#pop[hidden]{display:none}
+#pop .head{
+  font-size:1.06rem; font-weight:600; color:var(--accent);
+  display:flex; align-items:baseline; gap:.5rem; flex-wrap:wrap;
+  padding-right:1.1rem;
+}
+#pop[data-kind="extra"] .head{color:var(--muted)}
+#pop .tag{
+  font-size:.62rem; letter-spacing:.14em; text-transform:uppercase; font-weight:400;
+  border:1px solid currentColor; border-radius:999px; padding:.05em .5em; opacity:.8;
+}
+#pop .defn{margin-top:.3rem; font-size:1.02rem}
+#pop .note{
+  margin-top:.55rem; padding-top:.5rem; border-top:1px solid var(--rule);
+  font-size:.86rem; color:var(--muted);
+}
+#pop .arrow{
+  position:absolute; width:10px; height:10px; background:var(--card);
+  border-left:1px solid var(--rule); border-top:1px solid var(--rule);
+  transform:rotate(45deg);
+}
+#pop .close{
+  position:absolute; top:.25rem; right:.4rem; border:0; background:none; cursor:pointer;
+  color:var(--muted); font-size:1.1rem; line-height:1; padding:.2rem;
+}
+
+/* ---------- pie / navegación ---------- */
+.pager{
+  max-width:44rem; margin:1.5rem auto 4rem; padding:1.2rem 1.25rem 0;
+  border-top:1px solid var(--rule);
+  display:flex; align-items:center; gap:1rem;
+}
+.pager .spacer{flex:1}
+a.nav{
+  color:var(--ink); text-decoration:none; font-size:.95rem;
+  display:inline-flex; align-items:center; gap:.45rem;
+}
+a.nav .ar{color:var(--gold); opacity:0; transition:opacity .18s ease}
+a.nav:hover .ar,a.nav:focus-visible .ar{opacity:1}
+a.nav.off{color:var(--muted); pointer-events:none; opacity:.5}
+
+/* ---------- volver donde iba ---------- */
+#resume{
+  position:fixed; left:50%; transform:translateX(-50%); bottom:1.1rem; z-index:50;
+  background:var(--card); border:1px solid var(--gold); border-radius:999px;
+  padding:.45rem 1rem; font-size:.9rem; cursor:pointer; color:var(--ink);
+  box-shadow:0 8px 22px -14px rgba(43,38,32,.5);
+}
+#resume[hidden]{display:none}
+
+/* ---------- columna de glosas: sólo en papel ---------- */
+.marg{display:none}
+
+@media (max-width:520px){
+  .reader p{text-indent:1.1em}
+  .bar .wrap{gap:.5rem; flex-wrap:nowrap}
+  select.ui{max-width:46vw; text-overflow:ellipsis; font-size:.85rem}
+  .sizer span{display:none}
+  .legend{gap:.9rem; font-size:.74rem}
+}
+
+/* ---------- papel: apaisado, glosas a la derecha ---------- */
+@media print{
+  @page{size:A4 landscape; margin:1.3cm 1.5cm}
+  html,body{background:#fff; color:#141210}
+  .bar,.legend,.pager,#pop,#resume{display:none !important}
+
+  .masthead{padding:0; text-align:left}
+  .masthead .kicker{display:none}
+  .masthead h1{font-size:20pt; margin:0; line-height:1.1}
+  .masthead .sub{font-size:9.5pt; color:#555; margin:.08cm 0 0}
+  .rule{width:100%; margin:.28cm 0 0; border-top-color:#c9c2b4}
+
+  .wrap{max-width:none; padding:0}
+  .reader{padding:.45cm 0 0; font-size:10.5pt; line-height:1.52}
+
+  .row{
+    display:grid; grid-template-columns:56% 44%; column-gap:1.1cm;
+    break-inside:avoid; page-break-inside:avoid;
+  }
+  .row > p{margin:0 0 .42em}
+  .reader p.first::first-letter{font-size:1em; color:inherit; font-style:normal}
+
+  .fig{margin:.35cm 43% .35cm 0; text-align:center; break-inside:avoid}
+  .fig img{max-height:7.5cm; width:auto; max-width:100%; mix-blend-mode:normal}
+
+  /* las palabras glosadas, subrayadas y en negro */
+  button.gloss,button.gloss.core,button.gloss.extra{
+    color:#141210; background:none !important;
+    border-bottom:.6pt solid #141210;
+  }
+  button.gloss.extra{border-bottom-style:dotted; border-bottom-color:#8e8e8e}
+
+  /* la columna de la derecha */
+  .marg{display:block; font-size:9pt; line-height:1.42}
+  .gl{
+    margin:0 0 .12cm; padding-left:1.05em; text-indent:-1.05em;
+    break-inside:avoid;
+  }
+  .gl::before{content:"➢ "; color:#7a7a7a}
+  .gl b{font-weight:600}
+  .gl.extra,.gl.extra b{color:#8e8e8e}
+  .gl .n{display:block; margin-top:.04cm; color:#8e8e8e; font-size:8.4pt; text-indent:0}
+}
+
+.hint{
+  max-width:44rem; margin:1.2rem auto 0; padding:0 1.25rem;
+  font-size:.82rem; color:var(--muted);
+}
+.camps{max-width:44rem; margin:1.4rem auto 4rem; padding:0 1.25rem}
+.camp{
+  background:var(--card); border:1px solid var(--rule);
+  padding:.5rem .9rem; margin:0 0 1rem;
+}
+.camp .en{
+  display:grid; grid-template-columns:1fr 1fr; gap:1rem; align-items:baseline;
+  width:100%; text-align:left; font:inherit; color:var(--ink);
+  background:none; border:0; border-bottom:1px solid var(--rule);
+  padding:.5rem .35rem; cursor:pointer;
+  font-size:var(--reading); line-height:1.45;
+  -webkit-tap-highlight-color:transparent; -webkit-user-select:none; user-select:none;
+}
+.camp .en:last-child{border-bottom:0}
+.camp .en:hover{background:color-mix(in srgb,var(--gold) 10%,transparent)}
+.camp .en:focus-visible{outline:1px solid var(--gold); outline-offset:-1px}
+.en .zh{
+  color:var(--muted); font-size:.94em;
+  opacity:0; transition:opacity .12s ease;
+}
+.en.on .zh, body.all .en .zh{opacity:1}
+.en.on{background:color-mix(in srgb,var(--gold) 18%,transparent)}
+.en .note{
+  display:block; margin-top:.25rem; font-size:.8em; color:var(--muted);
+  opacity:0; transition:opacity .12s ease;
+}
+.en.on .note, body.all .en .note{opacity:.95}
+
+/* interruptor de traducciones */
+.sw{display:inline-flex; align-items:center; gap:.5rem; cursor:pointer; font-size:.9rem}
+.sw input{position:absolute; opacity:0; width:0; height:0}
+.sw .track{
+  width:2.1rem; height:1.15rem; border-radius:999px; position:relative;
+  background:var(--card); border:1px solid var(--rule); transition:all .15s ease;
+}
+.sw .track::after{
+  content:""; position:absolute; top:1px; left:1px; width:.95rem; height:.95rem;
+  border-radius:50%; background:var(--muted); transition:all .15s ease;
+}
+.sw input:checked + .track{border-color:var(--gold); background:color-mix(in srgb,var(--gold) 22%,transparent)}
+.sw input:checked + .track::after{left:calc(100% - 1.05rem); background:var(--accent)}
+.sw input:focus-visible + .track{outline:1px solid var(--gold); outline-offset:2px}
+
+@media (max-width:520px){
+  .camp .en{grid-template-columns:1fr; gap:.15rem}
+  .en .zh{font-size:.9em}
+}
+@media print{
+  .camps{max-width:none; padding:0; columns:2; column-gap:1.4cm}
+  .camp{break-inside:avoid; background:none; border:0; border-top:.6pt solid #c9c2b4; padding:.2cm 0}
+  .camp .en{font-size:10pt; padding:.06cm 0; border-bottom:0; display:grid;
+            grid-template-columns:1fr 1fr; gap:.6cm}
+  .en .zh,.en .note{opacity:1 !important; color:#444}
+  .hint,.bar{display:none !important}
+}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <p class="kicker">Lectura graduada · A2</p>
+  <h1>Glosario recurrente</h1>
+  <p class="sub">El Principito<span class="zh">常用词汇</span></p>
+  <hr class="rule">
+</header>
+
+<nav class="bar">
+  <div class="wrap">
+    <div class="sizer">
+      <span>Letra</span>
+      <button class="ui" id="smaller" aria-label="Letra más pequeña">A−</button>
+      <button class="ui" id="bigger" aria-label="Letra más grande">A+</button>
+    </div>
+    <div class="spacer"></div>
+    <label class="sw"><input type="checkbox" id="always"><span class="track"></span>
+      <span>Traducciones fijas<span class="zh"> · 一直显示</span></span></label>
+    <div class="spacer"></div>
+    <a class="nav" href="index.html">Índice<span class="ar">·</span></a>
+  </div>
+</nav>
+
+<p class="hint">Pulsa y mantén una palabra para ver la traducción; al soltar, desaparece.
+<span class="zh">按住单词即可看到中文，松开就隐藏。</span></p>
+
+<section class="camps">
+<div class="camp"><button type="button" class="en"><span class="es">los mayores</span><span><span class="zh">大人；成年人</span></span></button><button type="button" class="en"><span class="es">cordero</span><span><span class="zh">小羊</span></span></button><button type="button" class="en"><span class="es">rosa</span><span><span class="zh">玫瑰</span></span></button><button type="button" class="en"><span class="es">zorro</span><span><span class="zh">狐狸</span></span></button></div><div class="camp"><button type="button" class="en"><span class="es">planeta</span><span><span class="zh">星球</span></span></button><button type="button" class="en"><span class="es">estrella</span><span><span class="zh">星星</span></span></button><button type="button" class="en"><span class="es">desierto</span><span><span class="zh">沙漠</span></span></button><button type="button" class="en"><span class="es">volcán</span><span><span class="zh">火山</span></span></button><button type="button" class="en"><span class="es">amanecer</span><span><span class="zh">黎明；天亮</span></span></button><button type="button" class="en"><span class="es">atardecer / puesta de sol</span><span><span class="zh">黄昏；日落／日落</span></span></button></div><div class="camp"><button type="button" class="en"><span class="es">avería</span><span><span class="zh">故障</span></span></button><button type="button" class="en"><span class="es">estropearse</span><span><span class="zh">坏掉；出故障</span></span></button><button type="button" class="en"><span class="es">reparar</span><span><span class="zh">修理；修复</span></span></button><button type="button" class="en"><span class="es">arreglar</span><span><span class="zh">修理；弄好 （比reparar范围更广）</span></span></button><button type="button" class="en"><span class="es">motor</span><span><span class="zh">发动机</span></span></button><button type="button" class="en"><span class="es">desmontar</span><span><span class="zh">拆开；拆卸</span></span></button><button type="button" class="en"><span class="es">herramienta</span><span><span class="zh">工具</span></span></button></div><div class="camp"><button type="button" class="en"><span class="es">baobab</span><span><span class="zh">猴面包树</span></span></button><button type="button" class="en"><span class="es">semilla</span><span><span class="zh">种子</span></span></button><button type="button" class="en"><span class="es">arbusto</span><span><span class="zh">灌木</span></span></button><button type="button" class="en"><span class="es">raíz</span><span><span class="zh">根</span></span></button><button type="button" class="en"><span class="es">regar</span><span><span class="zh">浇水</span></span></button><button type="button" class="en"><span class="es">arrancar</span><span><span class="zh">拔掉；连根拔起</span></span></button></div><div class="camp"><button type="button" class="en"><span class="es">de repente</span><span><span class="zh">突然</span></span></button><button type="button" class="en"><span class="es">incluso</span><span><span class="zh">甚至；连……都</span></span></button><button type="button" class="en"><span class="es">ni siquiera</span><span><span class="zh">甚至不；连……都不</span></span></button><button type="button" class="en"><span class="es">por si acaso</span><span><span class="zh">以防万一</span></span></button><button type="button" class="en"><span class="es">culpa / por culpa de</span><span><span class="zh">过错；责任／因为……（表示负面原因）</span></span></button><button type="button" class="en"><span class="es">proteger(se)</span><span><span class="zh">保护（自己）</span></span></button></div><div class="camp"><button type="button" class="en"><span class="es">bostezar</span><span><span class="zh">打哈欠</span></span></button><button type="button" class="en"><span class="es">toser</span><span><span class="zh">咳嗽</span></span></button><button type="button" class="en"><span class="es">suspirar</span><span><span class="zh">叹气</span></span></button></div><div class="camp"><button type="button" class="en"><span class="es">brillar</span><span><span class="zh">发光；闪耀</span></span></button><button type="button" class="en"><span class="es">invisible</span><span><span class="zh">看不见的；隐形的</span></span></button><button type="button" class="en"><span class="es">esfuerzo</span><span><span class="zh">努力</span></span></button><button type="button" class="en"><span class="es">débil</span><span><span class="zh">弱的；弱小的</span></span></button><button type="button" class="en"><span class="es">frágil</span><span><span class="zh">脆弱的；易碎的</span></span></button><button type="button" class="en"><span class="es">razonable</span><span><span class="zh">合理的；讲道理的</span></span></button><button type="button" class="en"><span class="es">fiel</span><span><span class="zh">忠诚的；尽职的</span></span></button><button type="button" class="en"><span class="es">promesa</span><span><span class="zh">承诺</span></span></button></div>
+</section>
+
+<script>
+(function(){
+  var SIZES=[17,19,21,24,27], KEY='ep:size';
+  var idx=parseInt(localStorage.getItem(KEY),10); if(isNaN(idx)) idx=1;
+  function applySize(){
+    idx=Math.max(0,Math.min(SIZES.length-1,idx));
+    document.documentElement.style.setProperty('--reading',SIZES[idx]+'px');
+    try{ localStorage.setItem(KEY,idx); }catch(e){}
+    document.getElementById('smaller').disabled=idx===0;
+    document.getElementById('bigger').disabled=idx===SIZES.length-1;
+  }
+  document.getElementById('smaller').onclick=function(){idx--;applySize();};
+  document.getElementById('bigger').onclick=function(){idx++;applySize();};
+  applySize();
+
+  /* pulsar y mantener para ver la traducción */
+  var cur=null;
+  function show(el){ if(cur&&cur!==el) cur.classList.remove('on'); cur=el; el.classList.add('on'); }
+  function hide(){ if(cur){ cur.classList.remove('on'); cur=null; } }
+  document.querySelectorAll('.en').forEach(function(el){
+    el.addEventListener('pointerdown',function(e){ e.preventDefault(); show(el); });
+    el.addEventListener('pointerup',hide);
+    el.addEventListener('pointerleave',hide);
+    el.addEventListener('pointercancel',hide);
+    el.addEventListener('contextmenu',function(e){ e.preventDefault(); });
+    el.addEventListener('keydown',function(e){
+      if(e.key===' '||e.key==='Enter'){ e.preventDefault(); show(el); }
+    });
+    el.addEventListener('keyup',function(e){
+      if(e.key===' '||e.key==='Enter') hide();
+    });
+    el.addEventListener('blur',hide);
+  });
+  window.addEventListener('pointerup',hide);
+
+  /* interruptor: dejarlas fijas */
+  var sw=document.getElementById('always');
+  sw.onchange=function(){ document.body.classList.toggle('all', sw.checked); hide(); };
+})();
+</script>
+</body>
+</html>
