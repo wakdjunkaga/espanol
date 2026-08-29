@@ -1,45 +1,195 @@
 <!doctype html><html lang='es'><head><meta charset='utf-8'>
 <meta name='viewport' content='width=device-width,initial-scale=1'>
 <meta name='robots' content='noindex,nofollow'>
-<title>连读练习</title><style>
-:root{--ink:#1a1a1a;--dim:#6b6b6b;--line:#e2e2e2;--hit:#f5c26b}
+<title>连读练习</title><link rel='preconnect' href='https://fonts.googleapis.com'><link rel='preconnect' href='https://fonts.gstatic.com' crossorigin><link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&amp;family=Noto+Serif+SC:wght@400;500&amp;display=swap'><style>
+:root{
+  --es-bg:#faf6ef;          /* paper */
+  --es-card:#f5efe4;        /* raised paper — instruction blocks, asides */
+  --es-panel:#fffdf9;       /* button face, one step above paper */
+  --es-instrument:#fff;     /* the cool surface an instrument needs */
+  --es-ink:#2b2620;
+  --es-soft:#5b5346;        /* secondary prose */
+  --es-muted:#8a7f6f;       /* labels, status, locked controls */
+  --es-rule:#e4dccb;
+  --es-gold:#c9a56a;        /* numerals, hairlines, emphasis wash */
+  --es-accent:#a8768c;      /* reveals — the colour of asking for help */
+  --es-deep:#8a5c70;        /* accent dark enough to carry white text */
+  --es-rec:#b0554c;         /* recording */
+  --es-go:#4a6b4e;          /* done, and sending */
+  --es-measure:640px;       /* modules widen this when they need to */
+  /* Native fallbacks first among the fallbacks: iOS ships Iowan Old Style and
+     Songti SC, so a page that never reaches Google Fonts still reads as
+     intended rather than dropping to Times. */
+  --es-serif:"EB Garamond","Iowan Old Style","Palatino Linotype",Palatino,
+             Georgia,serif;
+  --es-han:"Noto Serif SC","Songti SC",STSong,SimSun,serif;
+  --es-sans:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue",
+            "Hiragino Sans GB",Arial,sans-serif;
+}
+
 *{box-sizing:border-box}
-body{margin:0;padding:24px 18px 60px;font-family:-apple-system,BlinkMacSystemFont,
- "PingFang SC","Helvetica Neue",Arial,sans-serif;color:var(--ink);background:#fff;
- max-width:820px;margin-inline:auto;line-height:1.6}
-h1{font-size:19px;font-weight:600;margin:0 0 4px}
-.sub{font-size:14px;color:var(--dim);margin:0 0 28px}
-.item{padding:20px 0;border-top:1px solid var(--line)}
-.zh{font-size:15px;color:var(--dim);margin:0 0 12px}
-.flow{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
- font-size:26px;line-height:1.9;white-space:pre-wrap;word-break:break-word;margin:0 0 10px}
-.flow span{padding:6px 1px;border-radius:2px}
-.flow span.a{background:rgba(120,120,120,.30)}
-.flow span.b{background:rgba(120,120,120,.13)}
-.flow span.on{background:var(--hit)}
-.strip{display:flex;flex-wrap:wrap;font-family:ui-monospace,SFMono-Regular,Menlo,
- Consolas,monospace;font-size:15px;margin:0 0 14px}
-.strip span{min-width:52px;text-align:center;padding:8px 6px}
-.strip span.a{background:#f0f0ee}
-.strip span.b{background:#f8f8f7}
-.strip span.on{background:var(--hit)}
-.btns{display:flex;gap:8px;flex-wrap:wrap}
-button{font:inherit;font-size:14px;padding:8px 16px;border:1px solid #cfcfcf;
- background:#fff;border-radius:6px;cursor:pointer;color:var(--ink)}
-button:hover{background:#f6f6f5}
-button.playing{background:var(--hit);border-color:#d9a63f}
-.note{font-size:13px;color:var(--dim);margin:26px 0 0;padding-top:16px;
- border-top:1px solid var(--line)}
-.cal{font-size:12px;color:#a9a9a9;border:none;background:none;padding:4px 0;
- text-decoration:underline;cursor:pointer}
-.calbar{display:none;margin:10px 0 0;font-size:13px;color:#8a6d1f;
- background:#fdf6e3;border:1px solid #efe0b8;border-radius:6px;padding:10px 12px}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0 auto;padding:30px 20px 90px;max-width:var(--es-measure);
+  background:var(--es-bg);color:var(--es-ink);
+  font-family:var(--es-sans);font-size:16px;line-height:1.65;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+}
+
+/* ---- masthead ----------------------------------------------------------- */
+.kicker{font-family:var(--es-serif);font-size:12px;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--es-muted);margin:0 0 7px}
+h1{font-family:var(--es-han);font-weight:500;font-size:26px;letter-spacing:.02em;
+  line-height:1.3;margin:0}
+.sub{font-size:14px;color:var(--es-muted);margin:6px 0 0}
+.rule{border:0;height:1px;margin:18px 0 24px;
+  background:linear-gradient(90deg,var(--es-gold),var(--es-rule) 55%,transparent)}
+
+/* ---- how it works ------------------------------------------------------- */
+.how{background:var(--es-card);border:0;border-radius:12px;padding:17px 19px;
+  margin:0 0 8px;font-size:14.5px;line-height:1.85;color:var(--es-soft)}
+.how p{margin:0 0 7px}
+.how p:last-child{margin:0}
+.how .lead{font-size:16px;color:var(--es-ink);margin-bottom:9px}
+/* A wash rather than a colour: emphasis has to survive being read on a bright
+   phone screen outdoors, and bold alone does not. */
+.how strong{font-weight:600;color:var(--es-ink);
+  box-shadow:inset 0 -.3em 0 rgba(201,165,106,.32)}
+
+/* ---- buttons ------------------------------------------------------------ */
+/* Base is (0,2,1) so that every state rule below, written at the same or
+   higher specificity and declared after it, actually wins. Getting this wrong
+   once shipped a recording button with white text on a white fill. */
+button{font:inherit;color:var(--es-ink);cursor:pointer}
+button:not(.ghost):not(.cal){
+  font-size:15px;min-height:46px;padding:0 18px;border-radius:9px;
+  border:1px solid var(--es-rule);background:var(--es-panel);
+  box-shadow:0 1px 0 rgba(43,38,32,.04);
+  transition:background .15s ease,border-color .15s ease,color .15s ease}
+button:not(.ghost):active{background:var(--es-card)}
+button:not(.ghost):disabled{opacity:.38;cursor:default;box-shadow:none}
+/* Amber is the instrument's colour, so chrome only borrows a wash of gold for
+   "this button is playing" — never the amber itself. */
+button.playing:not(.ghost){border-color:var(--es-gold);
+  background:rgba(201,165,106,.2);color:var(--es-ink)}
+
+/* Quieter than the actions: these are the ladder, not the exercise. */
+button.ghost{border:0;background:none;border-radius:0;padding:6px 1px;
+  font-size:14px;color:var(--es-accent);min-height:0;
+  border-bottom:1px dotted currentColor;text-decoration:none}
+button.ghost:disabled{color:var(--es-muted);opacity:.45;cursor:default}
+button.ghost.on{color:var(--es-ink);border-bottom-style:solid;
+  border-bottom-color:var(--es-gold)}
+
+/* ---- instrument surface ------------------------------------------------- */
+/* See the module docstring: the beat lines and the skeleton are tuned against
+   near-white, so they get near-white, and the paper stays around them. */
+.items{display:flex;flex-direction:column;gap:14px;margin-top:18px}
+.items>.item{background:var(--es-instrument);border:1px solid var(--es-rule);
+  border-radius:12px;padding:18px 18px 16px;border-top:1px solid var(--es-rule)}
+.n{font-family:var(--es-serif);font-size:15px;letter-spacing:.12em;
+  color:var(--es-gold);margin:0 0 13px}
+
+/* ---- footnote ----------------------------------------------------------- */
+.note{font-size:13px;color:var(--es-muted);line-height:1.85;
+  margin:26px 0 0;padding-top:18px;border-top:1px solid var(--es-rule)}
+
+/* ---- 连读练习 only. Shared chrome lives in design.py. ---------------------
+   The --sd-* block above is the *semantic* system and the re-skin does not
+   touch it: blue is the sentence, grey is the ruler, terracotta marks a beat
+   that has welded two words together, and amber — only amber — means "this is
+   being said now". Those were chosen against a near-white ground, and the
+   reasoning was explicit: keeping the base cool is what protects amber.
+
+   So the page went warm and the instrument did not. Each item is a white card
+   on the paper. That is the whole adaptation; every colour inside the card is
+   where it was. */
+/* The semantic palette. Blue is the sentence: line 1 carries the text, so it
+   carries the colour. Grey is the ruler: line 2 measures beats, it is an
+   instrument, not text. Terracotta marks the one thing worth pointing at — a
+   beat that has welded two words together. Amber, and only amber, means "this
+   is being said now". Prefixed because this stylesheet is injected whole into
+   the Gradio preview, where unprefixed names would collide. */
+:root{
+ --sd-ink:#1c2230;--sd-dim:#8a7f6f;--sd-line:#e4dccb;
+ --sd-tint:45,105,170;--sd-a:.22;--sd-b:.085;      /* line 1, alternating */
+ --sd-rule:120,120,120;--sd-ra:.19;--sd-rb:.08;    /* line 2, alternating */
+ --sd-hit:#ffcb57;--sd-hitline:#e0a831;            /* the beat being spoken */
+ --sd-acc:#c25b33;                                 /* cross-word marks */
+}
+
+body{--es-measure:820px;color:var(--sd-ink)}
+
+.item{background:var(--es-instrument);border:1px solid var(--es-rule);
+ border-radius:12px;padding:20px 20px 18px;margin:0 0 14px}
+.zh{font-size:15px;color:var(--es-muted);margin:0 0 14px}
+
+/* Each line sits in a labelled row. The gutter labels are what stop the beat
+   strip from reading as a second, stranger sentence. */
+.row{display:grid;grid-template-columns:46px 1fr;align-items:baseline}
+.row+.row{margin-top:18px}
+.lab{font-family:var(--es-sans);font-size:11px;color:var(--es-muted);
+ letter-spacing:.06em;user-select:none}
+
+/* Line 1 — the sentence in text type, beats continuous, so a beat that
+   straddles a word boundary visibly contains the space. Nothing is drawn on
+   top of it: this line has to read as ordinary Spanish. All cross-word
+   marking lives on line 2. Serif since the re-skin, for the same reason the
+   answering page sets Spanish in serif — this line is material, not
+   interface, and proportional serif reads more like real Spanish than the UI
+   sans it used to borrow. */
+.flow{font-family:var(--es-serif);font-size:31px;line-height:1.85;
+ white-space:pre-wrap;word-break:break-word;margin:0}
+.flow span{padding:6px 1px;border-radius:2px;position:relative}
+.flow span.a{background:rgba(var(--sd-tint),var(--sd-a))}
+.flow span.b{background:rgba(var(--sd-tint),var(--sd-b))}
+.flow span.on{background:var(--sd-hit)}
+
+/* Line 2 — the same beats at equal width, so their length is comparable.
+   Monospace and greyscale on purpose: it is a measuring device, and saying so
+   without a caption is what keeps it from reading as a second sentence. */
+.strip{display:flex;flex-wrap:wrap;gap:3px;font-family:ui-monospace,
+ SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;margin:0}
+.strip span{min-width:52px;text-align:center;padding:8px 6px;border-radius:4px;
+ position:relative}
+.strip span.a{background:rgba(var(--sd-rule),var(--sd-ra))}
+.strip span.b{background:rgba(var(--sd-rule),var(--sd-rb))}
+/* a welded beat: underlined, with a hairline standing where the seam was */
+.strip span.x{box-shadow:inset 0 -2.5px 0 0 var(--sd-acc)}
+.seam{display:inline-block;width:1px;height:0;margin:0 .5px;position:relative}
+.seam::after{content:"";position:absolute;left:0;top:-.85em;height:1.15em;
+ border-left:1.5px dotted var(--sd-acc);opacity:.6}
+.strip span.on{background:var(--sd-hit);box-shadow:none}
+.strip span.on .seam::after{border-color:rgba(0,0,0,.5);opacity:.35}
+
+.btns{display:flex;gap:9px;flex-wrap:wrap;margin-top:20px}
+/* Amber, not the chrome's gold wash: inside the card the instrument's own
+   signal applies, and it has to match the beat that lights up with it. */
+button.playing:not(.ghost){background:var(--sd-hit);
+ border-color:var(--sd-hitline)}
+
+.cal{font-size:12px;color:var(--es-muted);border:none;background:none;
+ padding:4px 0;text-decoration:underline;cursor:pointer}
+.calbar{display:none;margin:12px 0 0;font-size:13px;color:#7a5a2a;
+ background:rgba(201,165,106,.14);border:1px solid rgba(201,165,106,.5);
+ border-radius:8px;padding:10px 12px}
 .item.calibrating .calbar{display:block}
-.item.calibrating .flow span.next{outline:2px solid #d9a63f;outline-offset:1px}
+.item.calibrating .flow span.next{outline:2px solid var(--sd-hitline);
+ outline-offset:1px}
 #save{position:sticky;bottom:12px;display:none;margin:20px 0 0}
-@media(max-width:600px){.flow{font-size:21px}.strip span{min-width:44px}}
+
+@media(max-width:600px){
+ .item{padding:16px 14px 14px}
+ .flow{font-size:23px}
+ .row{grid-template-columns:34px 1fr}
+ .lab{font-size:10px}
+ .strip span{min-width:44px}
+}
 </style></head><body>
+<p class='kicker'>Español · A1</p>
 <h1>连读练习</h1>
+<p class='sub'>8月7日</p>
+<hr class='rule'>
 <div class='item'>
 <div class='flow'><span class='a' data-i='0'>No</span><span class='b' data-i='1'> quie</span><span class='a' data-i='2'>ro es</span><span class='b' data-i='3'>pe</span><span class='a' data-i='4'>rar.</span></div>
 <div class='strip'><span class='a' data-i='0'>No</span><span class='b' data-i='1'>quie</span><span class='a' data-i='2'>roes</span><span class='b' data-i='3'>pe</span><span class='a' data-i='4'>rar</span></div>

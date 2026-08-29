@@ -3,32 +3,21 @@
 <meta name='robots' content='noindex,nofollow'>
 <title>回答练习</title>
 <link rel='preconnect' href='https://fonts.googleapis.com'><link rel='preconnect' href='https://fonts.gstatic.com' crossorigin><link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&amp;family=Noto+Serif+SC:wght@400;500&amp;display=swap'><style>
-/* ---------------------------------------------------------------------------
-   Course design system, first expression. The index pages and the lyrics
-   sheet already had a warm literary look; the exercise pages did not, so the
-   site read as two different projects. This is the reconciliation, and it is
-   meant to be lifted into sandhi.py and dictation.py verbatim.
-
-   The split: the *material* is serif — Spanish sentences, numerals, the page
-   title — because that is the thing being read. The *interface* is sans —
-   Chinese instructions, button labels, status lines — because that is the
-   thing being operated, on a phone, often in a hurry. Tokens are `--es-`
-   prefixed because PAGE_CSS is injected whole into the Gradio preview, where
-   bare names collide with Gradio's own variables.
---------------------------------------------------------------------------- */
 :root{
   --es-bg:#faf6ef;          /* paper */
-  --es-card:#f5efe4;        /* raised paper */
+  --es-card:#f5efe4;        /* raised paper — instruction blocks, asides */
   --es-panel:#fffdf9;       /* button face, one step above paper */
+  --es-instrument:#fff;     /* the cool surface an instrument needs */
   --es-ink:#2b2620;
   --es-soft:#5b5346;        /* secondary prose */
-  --es-muted:#8a7f6f;       /* labels, status */
+  --es-muted:#8a7f6f;       /* labels, status, locked controls */
   --es-rule:#e4dccb;
   --es-gold:#c9a56a;        /* numerals, hairlines, emphasis wash */
-  --es-accent:#a8768c;      /* reveals — asking for help */
+  --es-accent:#a8768c;      /* reveals — the colour of asking for help */
   --es-deep:#8a5c70;        /* accent dark enough to carry white text */
   --es-rec:#b0554c;         /* recording */
   --es-go:#4a6b4e;          /* done, and sending */
+  --es-measure:640px;       /* modules widen this when they need to */
   /* Native fallbacks first among the fallbacks: iOS ships Iowan Old Style and
      Songti SC, so a page that never reaches Google Fonts still reads as
      intended rather than dropping to Times. */
@@ -38,10 +27,11 @@
   --es-sans:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue",
             "Hiragino Sans GB",Arial,sans-serif;
 }
+
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{
-  margin:0 auto;padding:30px 20px 110px;max-width:640px;
+  margin:0 auto;padding:30px 20px 90px;max-width:var(--es-measure);
   background:var(--es-bg);color:var(--es-ink);
   font-family:var(--es-sans);font-size:16px;line-height:1.65;
   -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
@@ -57,57 +47,74 @@ h1{font-family:var(--es-han);font-weight:500;font-size:26px;letter-spacing:.02em
   background:linear-gradient(90deg,var(--es-gold),var(--es-rule) 55%,transparent)}
 
 /* ---- how it works ------------------------------------------------------- */
-.how{background:var(--es-card);border-radius:12px;padding:17px 19px;
+.how{background:var(--es-card);border:0;border-radius:12px;padding:17px 19px;
   margin:0 0 8px;font-size:14.5px;line-height:1.85;color:var(--es-soft)}
 .how p{margin:0 0 7px}
 .how p:last-child{margin:0}
 .how .lead{font-size:16px;color:var(--es-ink);margin-bottom:9px}
-/* A wash rather than a colour: the emphasis has to survive being read on a
-   bright phone screen outdoors, and bold alone does not. */
+/* A wash rather than a colour: emphasis has to survive being read on a bright
+   phone screen outdoors, and bold alone does not. */
 .how strong{font-weight:600;color:var(--es-ink);
   box-shadow:inset 0 -.3em 0 rgba(201,165,106,.32)}
 
-/* ---- one question ------------------------------------------------------- */
-.item{padding:24px 0 22px;border-top:1px solid var(--es-rule)}
+/* ---- buttons ------------------------------------------------------------ */
+/* Base is (0,2,1) so that every state rule below, written at the same or
+   higher specificity and declared after it, actually wins. Getting this wrong
+   once shipped a recording button with white text on a white fill. */
+button{font:inherit;color:var(--es-ink);cursor:pointer}
+button:not(.ghost):not(.cal){
+  font-size:15px;min-height:46px;padding:0 18px;border-radius:9px;
+  border:1px solid var(--es-rule);background:var(--es-panel);
+  box-shadow:0 1px 0 rgba(43,38,32,.04);
+  transition:background .15s ease,border-color .15s ease,color .15s ease}
+button:not(.ghost):active{background:var(--es-card)}
+button:not(.ghost):disabled{opacity:.38;cursor:default;box-shadow:none}
+/* Amber is the instrument's colour, so chrome only borrows a wash of gold for
+   "this button is playing" — never the amber itself. */
+button.playing:not(.ghost){border-color:var(--es-gold);
+  background:rgba(201,165,106,.2);color:var(--es-ink)}
+
+/* Quieter than the actions: these are the ladder, not the exercise. */
+button.ghost{border:0;background:none;border-radius:0;padding:6px 1px;
+  font-size:14px;color:var(--es-accent);min-height:0;
+  border-bottom:1px dotted currentColor;text-decoration:none}
+button.ghost:disabled{color:var(--es-muted);opacity:.45;cursor:default}
+button.ghost.on{color:var(--es-ink);border-bottom-style:solid;
+  border-bottom-color:var(--es-gold)}
+
+/* ---- instrument surface ------------------------------------------------- */
+/* See the module docstring: the beat lines and the skeleton are tuned against
+   near-white, so they get near-white, and the paper stays around them. */
+.items{display:flex;flex-direction:column;gap:14px;margin-top:18px}
+.items>.item{background:var(--es-instrument);border:1px solid var(--es-rule);
+  border-radius:12px;padding:18px 18px 16px;border-top:1px solid var(--es-rule)}
 .n{font-family:var(--es-serif);font-size:15px;letter-spacing:.12em;
   color:var(--es-gold);margin:0 0 13px}
+
+/* ---- footnote ----------------------------------------------------------- */
+.note{font-size:13px;color:var(--es-muted);line-height:1.85;
+  margin:26px 0 0;padding-top:18px;border-top:1px solid var(--es-rule)}
+
+/* ---- 回答练习 only. Shared chrome lives in design.py. ---------------------
+   No instrument here — nothing on this page is measuring anything — so the
+   items sit straight on the paper, separated by a hairline, rather than on the
+   white cards the liaison and dictation pages need. */
+.item{padding:24px 0 22px;border-top:1px solid var(--es-rule)}
 
 .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 .row.reveals{margin-top:13px;gap:16px}
 .reveals .lbl{font-size:12.5px;letter-spacing:.08em;color:var(--es-muted)}
 
-button{font:inherit;color:var(--es-ink);cursor:pointer}
-
-/* Primary actions: 46px minimum so they are reliably tappable with a thumb. */
-.row button:not(.ghost),.bar button:not(.ghost){
-  font-size:15px;min-height:46px;padding:0 18px;border-radius:9px;
-  border:1px solid var(--es-rule);background:var(--es-panel);
-  box-shadow:0 1px 0 rgba(43,38,32,.04);
-  transition:background .15s ease,border-color .15s ease,color .15s ease}
-.row button:not(.ghost):active{background:var(--es-card)}
-.row button:not(.ghost):disabled{opacity:.38;cursor:default;box-shadow:none}
-/* These must out-specify `.row button:not(.ghost)` above, hence the redundant
-   `button` in the selector — without it the recording state lost its fill and
-   went white-on-white. */
-.row button.play.playing{border-color:var(--es-gold);
-  background:rgba(201,165,106,.2);color:var(--es-ink)}
-.row button.rec{color:var(--es-rec);border-color:rgba(176,85,76,.38)}
-.row button.rec.on{background:var(--es-rec);border-color:var(--es-rec);
+button.rec:not(.ghost){color:var(--es-rec);border-color:rgba(176,85,76,.38)}
+button.rec.on:not(.ghost){background:var(--es-rec);border-color:var(--es-rec);
   color:#fff;animation:es-pulse 1.7s ease-out infinite}
 @keyframes es-pulse{
   0%,100%{box-shadow:0 0 0 0 rgba(176,85,76,.4)}
   50%{box-shadow:0 0 0 7px rgba(176,85,76,0)}
 }
-@media (prefers-reduced-motion:reduce){.row button.rec.on{animation:none}}
-
-/* Reveals are deliberately quieter than the actions — they are the ladder,
-   not the exercise. Dotted underline while unused, solid once open. */
-button.ghost{border:0;background:none;border-radius:0;padding:6px 1px;
-  font-size:14px;color:var(--es-accent);
-  border-bottom:1px dotted currentColor}
-button.ghost:disabled{color:var(--es-muted);opacity:.45;cursor:default}
-button.ghost.on{color:var(--es-ink);border-bottom-style:solid;
-  border-bottom-color:var(--es-gold)}
+@media (prefers-reduced-motion:reduce){
+  button.rec.on:not(.ghost){animation:none}
+}
 
 /* ---- what the reveals reveal -------------------------------------------- */
 .es{display:none;font-family:var(--es-serif);font-size:22px;line-height:1.45;
@@ -135,8 +142,10 @@ button.ghost.on{color:var(--es-ink);border-bottom-style:solid;
   color:var(--es-muted);opacity:1;box-shadow:none;cursor:default}
 #out{font-size:13px;color:var(--es-muted);margin:11px 0 0;line-height:1.7}
 </style></head><body>
+<p class='kicker'>Español · A1</p>
 <h1>回答练习</h1>
 <p class='sub'>8月16日</p>
+<hr class='rule'>
 <p class='how'>听问题，然后<strong>用西班牙语回答你自己的真实情况</strong>。不用翻译，想说什么就说什么，一两个词也可以。录完不满意可以重录，多录几遍反而更好。最后按最下面的按钮，把录音打包发给老师。</p>
 <div class='item'><p class='n'>1</p>
 <div class='row'><button class='play'>▶ 问题</button><button class='rec'>● 录音</button><button class='back' disabled>▶ 听我的</button>
