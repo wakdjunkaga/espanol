@@ -3,9 +3,6 @@
 # Newest lesson appears first on the index. Pages not listed here are
 # still linked, grouped under 其他 at the bottom.
 
-2026-08-29 | block9listen.html
-2026-08-29 | block9-10answers.html
-
 2026-08-23 | block8.html
 2026-08-23 | block8listen.html
 2026-08-23 | block9.html
