@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trabajo en Madrid — letra y traducción</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Noto+Serif+SC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #faf6ef;
+    --card: #f5efe4;
+    --ink: #2b2620;
+    --muted: #8a7f6f;
+    --accent: #a8768c;
+    --gold: #c9a56a;
+    --rule: #e4dccb;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--ink);
+  }
+
+  body {
+    font-family: "EB Garamond", "Noto Serif SC", serif;
+    line-height: 1.4;
+    padding: 10vh 20px 14vh;
+  }
+
+  .sheet {
+    max-width: 620px;
+    margin: 0 auto;
+  }
+
+  /* --- toggle switch --- */
+  .toggle-bar {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    padding: 14px 0 10px;
+    margin: -10vh -20px 6vh;
+    background: linear-gradient(var(--bg) 70%, transparent);
+  }
+
+  .toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--card);
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    padding: 6px 16px 6px 6px;
+    cursor: pointer;
+    user-select: none;
+    box-shadow: 0 2px 10px rgba(43,38,32,0.05);
+  }
+
+  .switch {
+    position: relative;
+    width: 38px;
+    height: 22px;
+    border-radius: 999px;
+    background: var(--rule);
+    transition: background 0.2s ease;
+    flex-shrink: 0;
+  }
+
+  .switch::after {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #fff;
+    transition: transform 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  }
+
+  #zh-toggle { display: none; }
+  #zh-toggle:checked ~ .toggle-bar .switch,
+  .toggle input:checked ~ .switch { background: var(--accent); }
+  .toggle input:checked ~ .switch::after { transform: translateX(16px); }
+
+  .toggle-label {
+    font-size: 13.5px;
+    letter-spacing: 0.02em;
+    color: var(--muted);
+  }
+
+  .toggle-label .zh {
+    font-family: "Noto Serif SC", serif;
+    color: var(--ink);
+  }
+
+  /* --- title --- */
+  .titlepage {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+
+  .kicker {
+    font-size: 11px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 18px;
+  }
+
+  .kicker .zh { font-family: "Noto Serif SC", serif; text-transform: none; letter-spacing: 0.1em; }
+
+  h1.title {
+    font-family: "Cormorant Garamond", "Noto Serif SC", serif;
+    font-size: 56px;
+    font-weight: 500;
+    font-style: italic;
+    margin: 0;
+    color: var(--ink);
+  }
+
+  .subtitle {
+    margin-top: 16px;
+    font-size: 14.5px;
+    color: var(--muted);
+  }
+
+  .subtitle .zh { font-family: "Noto Serif SC", serif; }
+
+  .rule {
+    width: 60px;
+    height: 1px;
+    background: var(--gold);
+    margin: 22px auto;
+  }
+
+  /* --- sections --- */
+  .section {
+    margin: 0 0 34px 0;
+  }
+
+  .section-label {
+    font-family: "Noto Serif SC", serif;
+    font-size: 13px;
+    letter-spacing: 0.16em;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+
+  .direction {
+    font-style: italic;
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+
+  .line-pair {
+    margin-bottom: 12px;
+  }
+
+  .es {
+    font-size: 20px;
+    line-height: 1.35;
+    color: var(--ink);
+  }
+
+  .zh-line {
+    font-family: "Noto Serif SC", serif;
+    font-size: 14.5px;
+    font-weight: 300;
+    color: var(--muted);
+    margin-top: 3px;
+    line-height: 1.4;
+    max-height: 40px;
+    opacity: 1;
+    overflow: hidden;
+    transition: max-height 0.25s ease, opacity 0.2s ease, margin 0.25s ease;
+  }
+
+  body.hide-zh .zh-line {
+    max-height: 0;
+    opacity: 0;
+    margin-top: 0;
+  }
+
+  .credits {
+    margin-top: 50px;
+    padding-top: 22px;
+    border-top: 1px solid var(--rule);
+    text-align: center;
+    font-size: 12px;
+    color: #a79c8c;
+    letter-spacing: 0.03em;
+    line-height: 1.7;
+  }
+
+  .credits .zh { font-family: "Noto Serif SC", serif; }
+
+  @media (max-width: 480px) {
+    h1.title { font-size: 44px; }
+    .es { font-size: 18px; }
+  }
+</style>
+</head>
+<body class="hide-zh">
+
+<div class="toggle-bar">
+  <label class="toggle">
+    <input type="checkbox" id="zh-toggle" onchange="document.body.classList.toggle('hide-zh', !this.checked)">
+    <span class="switch"></span>
+    <span class="toggle-label">translation <span class="zh">· 中文翻译</span></span>
+  </label>
+</div>
+
+<div class="sheet">
+
+  <div class="titlepage">
+    <div class="kicker">letra &amp; traducción <span class="zh">· 歌词与翻译</span></div>
+    <h1 class="title">Trabajo en Madrid</h1>
+    <div class="subtitle">una canción de repaso <span class="zh">· 复习歌曲</span></div>
+    <div class="rule"></div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">主歌一</div>
+    <div class="direction">(voz masculina, barítono)</div>
+    <div class="line-pair"><div class="es">Trabajo en Madrid</div><div class="zh-line">我在马德里工作</div></div>
+    <div class="line-pair"><div class="es">Trabajo en Madrid</div><div class="zh-line">我在马德里工作</div></div>
+    <div class="line-pair"><div class="es">Trabajo en Madrid y vivo en Madrid</div><div class="zh-line">我在马德里工作，也住在马德里</div></div>
+    <div class="line-pair"><div class="es">No vivo en Pekín</div><div class="zh-line">我不住在北京</div></div>
+    <div class="line-pair"><div class="es">No vivo en Pekín</div><div class="zh-line">我不住在北京</div></div>
+    <div class="line-pair"><div class="es">Vivo en Madrid y trabajo en Madrid</div><div class="zh-line">我住在马德里，也在马德里工作</div></div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">间奏</div>
+    <div class="line-pair"><div class="es">¿Y tu pareja?</div><div class="zh-line">那你的伴侣呢？</div></div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">主歌二</div>
+    <div class="line-pair"><div class="es">Trabaja en Chongching</div><div class="zh-line">在重庆工作</div></div>
+    <div class="line-pair"><div class="es">Trabaja en Chongching</div><div class="zh-line">在重庆工作</div></div>
+    <div class="line-pair"><div class="es">Trabaja en Chongching pero vive en Chengdu</div><div class="zh-line">在重庆工作，但住在成都</div></div>
+    <div class="line-pair"><div class="es">No vive en Chongching</div><div class="zh-line">不住在重庆</div></div>
+    <div class="line-pair"><div class="es">No vive en Chongching</div><div class="zh-line">不住在重庆</div></div>
+    <div class="line-pair"><div class="es">Vive en Chengdu y trabaja en Chongching</div><div class="zh-line">住在成都，在重庆工作</div></div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">间奏</div>
+    <div class="line-pair"><div class="es">¿Y tu hermano?</div><div class="zh-line">那你的兄弟呢？</div></div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">主歌三</div>
+    <div class="line-pair"><div class="es">Vive en Barcelona</div><div class="zh-line">住在巴塞罗那</div></div>
+    <div class="line-pair"><div class="es">Vive en Barcelona</div><div class="zh-line">住在巴塞罗那</div></div>
+    <div class="line-pair"><div class="es">Vive en Barcelona y trabaja en casa</div><div class="zh-line">住在巴塞罗那，在家工作</div></div>
+    <div class="line-pair"><div class="es">Trabaja aquí</div><div class="zh-line">在这儿工作</div></div>
+    <div class="line-pair"><div class="es">Trabaja en la cocina</div><div class="zh-line">在厨房工作</div></div>
+    <div class="line-pair"><div class="es">Trabaja allí</div><div class="zh-line">在那儿工作</div></div>
+    <div class="line-pair"><div class="es">Trabaja en el baño</div><div class="zh-line">在浴室工作</div></div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">间奏</div>
+    <div class="line-pair"><div class="es">¿Y tú?</div><div class="zh-line">那你呢？</div></div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">主歌四</div>
+    <div class="line-pair"><div class="es">Trabajo en Madrid</div><div class="zh-line">我在马德里工作</div></div>
+    <div class="line-pair"><div class="es">Trabajo en Madrid</div><div class="zh-line">我在马德里工作</div></div>
+    <div class="line-pair"><div class="es">Trabajo demasiado pero quiero descansar</div><div class="zh-line">我工作太多了，但是我想休息</div></div>
+    <div class="line-pair"><div class="es">No quiero trabajar</div><div class="zh-line">我不想工作</div></div>
+    <div class="line-pair"><div class="es">No quiero trabajar</div><div class="zh-line">我不想工作</div></div>
+    <div class="line-pair"><div class="es">Trabajo cada día pero hoy no</div><div class="zh-line">我每天都工作，但是今天不工作</div></div>
+  </div>
+
+  <div class="credits">
+    letra original de práctica · vivir y trabajar<br>
+    <span class="zh">原创练习歌曲 · 表达居住与工作地点</span>
+  </div>
+
+</div>
+
+</body>
+</html>
