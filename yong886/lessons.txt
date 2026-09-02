@@ -3,6 +3,8 @@
 # Newest lesson appears first on the index. Pages not listed here are
 # still linked, grouped under 其他 at the bottom.
 
+2026-09-01 | quiero-comer-aqui.html
+
 2026-08-23 | block8.html
 2026-08-23 | block8listen.html
 2026-08-23 | block9.html

@@ -1,0 +1,1068 @@
+<!doctype html><html lang='zh'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><meta name='robots' content='noindex,nofollow'><title>Quiero comer aquí — 合唱练习</title><link rel='preconnect' href='https://fonts.googleapis.com'><link rel='preconnect' href='https://fonts.gstatic.com' crossorigin><link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&amp;family=Noto+Serif+SC:wght@400;500&amp;display=swap'><style>
+:root{
+  --es-bg:#faf6ef;          /* paper */
+  --es-card:#f5efe4;        /* raised paper — instruction blocks, asides */
+  --es-panel:#fffdf9;       /* button face, one step above paper */
+  --es-instrument:#fff;     /* the cool surface an instrument needs */
+  --es-ink:#2b2620;
+  --es-soft:#5b5346;        /* secondary prose */
+  --es-muted:#8a7f6f;       /* labels, status, locked controls */
+  --es-rule:#e4dccb;
+  --es-gold:#c9a56a;        /* numerals, hairlines, emphasis wash */
+  --es-accent:#a8768c;      /* reveals — the colour of asking for help */
+  --es-deep:#8a5c70;        /* accent dark enough to carry white text */
+  --es-rec:#b0554c;         /* recording */
+  --es-go:#4a6b4e;          /* done, and sending */
+  --es-measure:640px;       /* modules widen this when they need to */
+  /* Native fallbacks first among the fallbacks: iOS ships Iowan Old Style and
+     Songti SC, so a page that never reaches Google Fonts still reads as
+     intended rather than dropping to Times. */
+  --es-serif:"EB Garamond","Iowan Old Style","Palatino Linotype",Palatino,
+             Georgia,serif;
+  --es-han:"Noto Serif SC","Songti SC",STSong,SimSun,serif;
+  --es-sans:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue",
+            "Hiragino Sans GB",Arial,sans-serif;
+}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0 auto;padding:30px 20px 90px;max-width:var(--es-measure);
+  background:var(--es-bg);color:var(--es-ink);
+  font-family:var(--es-sans);font-size:16px;line-height:1.65;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+}
+
+/* ---- masthead ----------------------------------------------------------- */
+.kicker{font-family:var(--es-serif);font-size:12px;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--es-muted);margin:0 0 7px}
+h1{font-family:var(--es-han);font-weight:500;font-size:26px;letter-spacing:.02em;
+  line-height:1.3;margin:0}
+.sub{font-size:14px;color:var(--es-muted);margin:6px 0 0}
+.rule{border:0;height:1px;margin:18px 0 24px;
+  background:linear-gradient(90deg,var(--es-gold),var(--es-rule) 55%,transparent)}
+
+/* ---- how it works ------------------------------------------------------- */
+.how{background:var(--es-card);border:0;border-radius:12px;padding:17px 19px;
+  margin:0 0 8px;font-size:14.5px;line-height:1.85;color:var(--es-soft)}
+.how p{margin:0 0 7px}
+.how p:last-child{margin:0}
+.how .lead{font-size:16px;color:var(--es-ink);margin-bottom:9px}
+/* A wash rather than a colour: emphasis has to survive being read on a bright
+   phone screen outdoors, and bold alone does not. */
+.how strong{font-weight:600;color:var(--es-ink);
+  box-shadow:inset 0 -.3em 0 rgba(201,165,106,.32)}
+
+/* ---- buttons ------------------------------------------------------------ */
+/* Base is (0,2,1) so that every state rule below, written at the same or
+   higher specificity and declared after it, actually wins. Getting this wrong
+   once shipped a recording button with white text on a white fill. */
+button{font:inherit;color:var(--es-ink);cursor:pointer}
+button:not(.ghost):not(.cal){
+  font-size:15px;min-height:46px;padding:0 18px;border-radius:9px;
+  border:1px solid var(--es-rule);background:var(--es-panel);
+  box-shadow:0 1px 0 rgba(43,38,32,.04);
+  transition:background .15s ease,border-color .15s ease,color .15s ease}
+button:not(.ghost):active{background:var(--es-card)}
+button:not(.ghost):disabled{opacity:.38;cursor:default;box-shadow:none}
+/* Amber is the instrument's colour, so chrome only borrows a wash of gold for
+   "this button is playing" — never the amber itself. */
+button.playing:not(.ghost){border-color:var(--es-gold);
+  background:rgba(201,165,106,.2);color:var(--es-ink)}
+
+/* Quieter than the actions: these are the ladder, not the exercise. */
+button.ghost{border:0;background:none;border-radius:0;padding:6px 1px;
+  font-size:14px;color:var(--es-accent);min-height:0;
+  border-bottom:1px dotted currentColor;text-decoration:none}
+button.ghost:disabled{color:var(--es-muted);opacity:.45;cursor:default}
+button.ghost.on{color:var(--es-ink);border-bottom-style:solid;
+  border-bottom-color:var(--es-gold)}
+
+/* ---- instrument surface ------------------------------------------------- */
+/* See the module docstring: the beat lines and the skeleton are tuned against
+   near-white, so they get near-white, and the paper stays around them. */
+.items{display:flex;flex-direction:column;gap:14px;margin-top:18px}
+.items>.item{background:var(--es-instrument);border:1px solid var(--es-rule);
+  border-radius:12px;padding:18px 18px 16px;border-top:1px solid var(--es-rule)}
+.n{font-family:var(--es-serif);font-size:15px;letter-spacing:.12em;
+  color:var(--es-gold);margin:0 0 13px}
+
+/* ---- footnote ----------------------------------------------------------- */
+.note{font-size:13px;color:var(--es-muted);line-height:1.85;
+  margin:26px 0 0;padding-top:18px;border-top:1px solid var(--es-rule)}
+
+/* ---- 连读练习 only. Shared chrome lives in design.py. ---------------------
+   The --sd-* block above is the *semantic* system and the re-skin does not
+   touch it: blue is the sentence, grey is the ruler, terracotta marks a beat
+   that has welded two words together, and amber — only amber — means "this is
+   being said now". Those were chosen against a near-white ground, and the
+   reasoning was explicit: keeping the base cool is what protects amber.
+
+   So the page went warm and the instrument did not. Each item is a white card
+   on the paper. That is the whole adaptation; every colour inside the card is
+   where it was. */
+/* The semantic palette. Blue is the sentence: line 1 carries the text, so it
+   carries the colour. Grey is the ruler: line 2 measures beats, it is an
+   instrument, not text. Terracotta marks the one thing worth pointing at — a
+   beat that has welded two words together. Amber, and only amber, means "this
+   is being said now". Prefixed because this stylesheet is injected whole into
+   the Gradio preview, where unprefixed names would collide. */
+:root{
+ --sd-ink:#1c2230;--sd-dim:#8a7f6f;--sd-line:#e4dccb;
+ --sd-tint:45,105,170;--sd-a:.22;--sd-b:.085;      /* line 1, alternating */
+ --sd-rule:120,120,120;--sd-ra:.19;--sd-rb:.08;    /* line 2, alternating */
+ --sd-hit:#ffcb57;--sd-hitline:#e0a831;            /* the beat being spoken */
+ --sd-acc:#c25b33;                                 /* cross-word marks */
+}
+
+body{--es-measure:820px;color:var(--sd-ink)}
+
+.item{background:var(--es-instrument);border:1px solid var(--es-rule);
+ border-radius:12px;padding:20px 20px 18px;margin:0 0 14px}
+.zh{font-size:15px;color:var(--es-muted);margin:0 0 14px}
+
+/* Each line sits in a labelled row. The gutter labels are what stop the beat
+   strip from reading as a second, stranger sentence. */
+.row{display:grid;grid-template-columns:46px 1fr;align-items:baseline}
+.row+.row{margin-top:18px}
+.lab{font-family:var(--es-sans);font-size:11px;color:var(--es-muted);
+ letter-spacing:.06em;user-select:none}
+
+/* Line 1 — the sentence in text type, beats continuous, so a beat that
+   straddles a word boundary visibly contains the space. Nothing is drawn on
+   top of it: this line has to read as ordinary Spanish. All cross-word
+   marking lives on line 2. Serif since the re-skin, for the same reason the
+   answering page sets Spanish in serif — this line is material, not
+   interface, and proportional serif reads more like real Spanish than the UI
+   sans it used to borrow. */
+.flow{font-family:var(--es-serif);font-size:31px;line-height:1.85;
+ white-space:pre-wrap;word-break:break-word;margin:0}
+.flow span{padding:6px 1px;border-radius:2px;position:relative}
+.flow span.a{background:rgba(var(--sd-tint),var(--sd-a))}
+.flow span.b{background:rgba(var(--sd-tint),var(--sd-b))}
+.flow span.on{background:var(--sd-hit)}
+
+/* Line 2 — the same beats at equal width, so their length is comparable.
+   Monospace and greyscale on purpose: it is a measuring device, and saying so
+   without a caption is what keeps it from reading as a second sentence. */
+.strip{display:flex;flex-wrap:wrap;gap:3px;font-family:ui-monospace,
+ SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;margin:0}
+.strip span{min-width:52px;text-align:center;padding:8px 6px;border-radius:4px;
+ position:relative}
+.strip span.a{background:rgba(var(--sd-rule),var(--sd-ra))}
+.strip span.b{background:rgba(var(--sd-rule),var(--sd-rb))}
+/* a welded beat: underlined, with a hairline standing where the seam was */
+.strip span.x{box-shadow:inset 0 -2.5px 0 0 var(--sd-acc)}
+.seam{display:inline-block;width:1px;height:0;margin:0 .5px;position:relative}
+.seam::after{content:"";position:absolute;left:0;top:-.85em;height:1.15em;
+ border-left:1.5px dotted var(--sd-acc);opacity:.6}
+.strip span.on{background:var(--sd-hit);box-shadow:none}
+.strip span.on .seam::after{border-color:rgba(0,0,0,.5);opacity:.35}
+
+.btns{display:flex;gap:9px;flex-wrap:wrap;margin-top:20px}
+/* Amber, not the chrome's gold wash: inside the card the instrument's own
+   signal applies, and it has to match the beat that lights up with it. */
+button.playing:not(.ghost){background:var(--sd-hit);
+ border-color:var(--sd-hitline)}
+
+.cal{font-size:12px;color:var(--es-muted);border:none;background:none;
+ padding:4px 0;text-decoration:underline;cursor:pointer}
+.calbar{display:none;margin:12px 0 0;font-size:13px;color:#7a5a2a;
+ background:rgba(201,165,106,.14);border:1px solid rgba(201,165,106,.5);
+ border-radius:8px;padding:10px 12px}
+.item.calibrating .calbar{display:block}
+.item.calibrating .flow span.next{outline:2px solid var(--sd-hitline);
+ outline-offset:1px}
+#save{position:sticky;bottom:12px;display:none;margin:20px 0 0}
+
+@media(max-width:600px){
+ .item{padding:16px 14px 14px}
+ .flow{font-size:23px}
+ .row{grid-template-columns:34px 1fr}
+ .lab{font-size:10px}
+ .strip span{min-width:44px}
+}
+
+/* ---- 合唱练习 only. -------------------------------------------------------
+   Two surfaces on one page, and the rule from design.py decides which is
+   which: part 2 holds an instrument, so its items stay white cards; parts 1
+   and 3 hold *material* — a lyric sheet — so they sit on the paper with a
+   hairline, like the answering page. The lyric type is the serif at song
+   size, because on this page the words are the object, not the interface. */
+
+body{--es-measure:680px}
+.item{max-width:100%}
+
+/* ---- part headings ------------------------------------------------------ */
+.part{margin:0 0 12px;padding:44px 0 0}
+.part:first-of-type{padding-top:8px}
+.part h2{font-family:var(--es-han);font-size:19px;font-weight:500;
+ letter-spacing:.04em;margin:0;display:flex;align-items:baseline;gap:11px}
+.part h2 .num{font-family:var(--es-serif);font-size:13px;letter-spacing:.16em;
+ color:var(--es-gold);text-transform:uppercase}
+.part hr{border:0;height:1px;margin:11px 0 16px;
+ background:linear-gradient(90deg,var(--es-gold),var(--es-rule) 45%,transparent)}
+
+/* ---- part 1: the sheet -------------------------------------------------- */
+.player{display:block;width:100%;margin:2px 0 20px;height:38px}
+
+/* The toggle is a button that happens to look like a switch. It is the only
+   control on the sheet, so it gets to be the only warm thing on it. */
+.tbar{display:flex;justify-content:flex-end;margin:0 0 14px}
+.toggle{display:inline-flex;align-items:center;gap:9px;cursor:pointer;
+ user-select:none;background:var(--es-panel);border:1px solid var(--es-rule);
+ border-radius:999px;padding:5px 15px 5px 5px}
+.toggle input{position:absolute;opacity:0;width:0;height:0}
+.sw{position:relative;width:36px;height:21px;border-radius:999px;
+ background:var(--es-rule);transition:background .18s ease;flex-shrink:0}
+.sw::after{content:"";position:absolute;top:2px;left:2px;width:17px;height:17px;
+ border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.22);
+ transition:transform .18s ease}
+.toggle input:checked~.sw{background:var(--es-accent)}
+.toggle input:checked~.sw::after{transform:translateX(15px)}
+.toggle .lb{font-size:13px;color:var(--es-muted)}
+
+.sheet{margin:0}
+.stanza{margin:0 0 26px}
+.ln{margin:0 0 9px}
+.ln .es{font-family:var(--es-serif);font-size:22px;line-height:1.4;
+ color:var(--es-ink)}
+.ln .zh{font-family:var(--es-han);font-size:14px;font-weight:400;
+ color:var(--es-muted);line-height:1.45;margin-top:2px;
+ max-height:44px;opacity:1;overflow:hidden;
+ transition:max-height .22s ease,opacity .18s ease,margin-top .22s ease}
+body.hide-zh .ln .zh{max-height:0;opacity:0;margin-top:0}
+
+/* ---- part 1: the notes -------------------------------------------------- */
+.note-card{background:var(--es-card);border-radius:12px;padding:16px 18px;
+ margin:0 0 12px;font-size:14.5px;line-height:1.85;color:var(--es-soft)}
+.note-card h3{font-family:var(--es-serif);font-size:19px;font-weight:500;
+ font-style:italic;margin:0 0 2px;color:var(--es-ink)}
+.note-card h3 .gl{font-family:var(--es-han);font-style:normal;font-size:15px;
+ color:var(--es-deep);margin-left:10px}
+.note-card p{margin:8px 0 0}
+/* The word map. One column per word, Spanish over Chinese, so the *position*
+   of aquí against 在这里 is the whole point and needs no sentence to make it. */
+.map{display:flex;flex-wrap:wrap;gap:0 6px;margin:13px 0 2px}
+.map .col{text-align:center;padding:7px 10px;border-radius:7px;
+ background:var(--es-panel);border:1px solid var(--es-rule)}
+.map .col .a{font-family:var(--es-serif);font-size:18px;color:var(--es-ink)}
+.map .col .b{font-family:var(--es-han);font-size:13px;color:var(--es-deep);
+ margin-top:3px}
+.map .dot{align-self:center;color:var(--es-gold);font-size:13px}
+
+/* ---- part 3: the stage -------------------------------------------------- */
+.stage{margin:4px 0 0}
+.kline{position:relative;padding:7px 12px 7px 20px;border-radius:8px;
+ font-family:var(--es-serif);font-size:21px;line-height:1.35;
+ color:var(--es-muted);transition:background .18s ease,color .18s ease}
+.kline.join{color:var(--es-ink)}
+/* The tick is the only thing that says "this one is yours" before the music
+   starts. It has to be readable cold, sitting still. */
+.kline.join::before{content:"";position:absolute;left:6px;top:12px;bottom:12px;
+ width:3px;border-radius:2px;background:var(--es-gold);opacity:.55}
+.kbreak{height:16px}
+.kline.soon{background:rgba(201,165,106,.16);color:var(--es-ink)}
+.kline.now{background:var(--sd-hit);color:#2b2620}
+.kline.now::before{opacity:1;background:var(--sd-hitline)}
+
+/* Fixed, not sticky: during a take the student is looking at the words, and a
+   cue that scrolls with the sheet is a cue he can lose. */
+.cueban{position:fixed;left:0;right:0;bottom:0;z-index:40;display:none;
+ padding:13px 16px calc(13px + env(safe-area-inset-bottom));text-align:center;
+ font-family:var(--es-han);font-size:19px;letter-spacing:.08em;
+ background:var(--sd-hit);color:#2b2620;
+ box-shadow:0 -2px 18px rgba(43,38,32,.16)}
+.cueban.soon{background:rgba(201,165,106,.95)}
+.cueban.on{display:block}
+
+.tape{display:flex;gap:10px;flex-wrap:wrap;margin:20px 0 0}
+.tape button.go{background:var(--es-rec);border-color:var(--es-rec);color:#fff}
+.tape button.go.rec{background:#8e433c;border-color:#8e433c}
+.status{font-size:14px;color:var(--es-muted);margin:12px 0 0;min-height:1.4em}
+.status.done{color:var(--es-go)}
+.result{display:flex;flex-direction:column;gap:11px;margin:16px 0 0}
+.result:empty{display:none}
+.result audio{width:100%}
+.btnlink{display:block;font:inherit;font-size:16px;min-height:50px;
+ padding:13px 20px;border:1px solid var(--es-rule);border-radius:9px;
+ text-decoration:none;color:var(--es-ink);background:var(--es-panel);
+ text-align:center}
+.big{font-size:16px;min-height:50px;padding:13px 20px;border-radius:9px;
+ background:var(--es-go);border:1px solid var(--es-go);color:#fff;width:100%;
+ letter-spacing:.03em}
+.hint{font-size:13px;color:var(--es-muted);margin:0;line-height:1.75}
+.warn{background:rgba(201,165,106,.14);border:1px solid rgba(201,165,106,.5);
+ border-radius:10px;padding:13px 16px;margin:0 0 18px;font-size:14px;
+ line-height:1.8;color:#7a5a2a}
+.warn b{color:#5f4318;font-weight:600}
+.diag{font-size:11.5px;color:var(--es-muted);white-space:pre-wrap;
+ word-break:break-word;margin:10px 0 0;line-height:1.65;
+ font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+
+/* ---- calibration (teacher only, behind #calibrate) ---------------------- */
+#cal{display:none;background:#2b2620;color:#f5efe4;border-radius:12px;
+ padding:16px 18px;margin:0 0 18px;font-size:14px;line-height:1.75}
+body.calibrating #cal{display:block}
+#cal h3{margin:0 0 6px;font-size:15px;color:#fff}
+#cal code{display:block;background:rgba(255,255,255,.09);border-radius:7px;
+ padding:10px 12px;margin:10px 0 0;font-size:12.5px;word-break:break-all;
+ font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+#cal button{margin:10px 8px 0 0}
+#caltap{width:100%;min-height:74px;font-size:17px;margin-top:12px;
+ background:var(--es-gold);border-color:var(--es-gold)}
+
+@media(max-width:600px){
+ .ln .es{font-size:20px}
+ .kline{font-size:19px}
+ .part h2{font-size:17px}
+}
+</style></head><body>
+<p class='kicker'>Español · A1</p>
+<h1>Quiero comer aquí</h1>
+<p class='sub'>9月1日</p>
+<hr class='rule'>
+<section class='part'><h2><span class='num'>Uno</span>听懂这首歌</h2><hr></section>
+<div class='how'><p class='lead'>先<strong>听一遍</strong>，一边听一边看歌词。</p><p>不用马上全听懂。听完以后，如果有不明白的地方，打开右上角的<strong>中文</strong>，再听一遍。</p><p>最后把中文关掉，再听第三遍 —— 这一遍要能直接看着西班牙语听懂。</p></div>
+<audio class='player' controls preload='none'><source src='quiero-comer-aqui.mp3' type='audio/mpeg'></audio>
+<div class='tbar'><label class='toggle'><input type='checkbox' id='zh'><span class='sw'></span><span class='lb'>中文</span></label></div>
+<div class='sheet'>
+<div class='stanza'>
+<div class='ln'><div class='es'>Quiero comer,</div><div class='zh'>我想吃，</div></div>
+<div class='ln'><div class='es'>quiero comer,</div><div class='zh'>我想吃，</div></div>
+<div class='ln'><div class='es'>quiero comer aquí.</div><div class='zh'>我想在这里吃。</div></div>
+</div>
+<div class='stanza'>
+<div class='ln'><div class='es'>Siempre como en casa.</div><div class='zh'>我总是在家吃。</div></div>
+<div class='ln'><div class='es'>Siempre como en casa.</div><div class='zh'>我总是在家吃。</div></div>
+<div class='ln'><div class='es'>Hoy quiero comer aquí.</div><div class='zh'>今天我想在这里吃。</div></div>
+<div class='ln'><div class='es'>Hoy quiero comer aquí.</div><div class='zh'>今天我想在这里吃。</div></div>
+</div>
+<div class='stanza'>
+<div class='ln'><div class='es'>No quiero cocinar.</div><div class='zh'>我不想做菜。</div></div>
+<div class='ln'><div class='es'>Hoy quiero descansar.</div><div class='zh'>今天我想休息。</div></div>
+<div class='ln'><div class='es'>Quiero comer aquí.</div><div class='zh'>我想在这里吃。</div></div>
+</div>
+<div class='stanza'>
+<div class='ln'><div class='es'>¿Quieres comer en casa</div><div class='zh'>你想在家吃，</div></div>
+<div class='ln'><div class='es'>¿Quieres comer en casa</div><div class='zh'>你想在家吃，</div></div>
+<div class='ln'><div class='es'>o quieres comer aquí?</div><div class='zh'>还是想在这里吃？</div></div>
+<div class='ln'><div class='es'>o quieres comer aquí?</div><div class='zh'>还是想在这里吃？</div></div>
+</div>
+<div class='stanza'>
+<div class='ln'><div class='es'>Quiero comer,</div><div class='zh'>我想吃，</div></div>
+<div class='ln'><div class='es'>quiero comer,</div><div class='zh'>我想吃，</div></div>
+<div class='ln'><div class='es'>quiero comer aquí.</div><div class='zh'>我想在这里吃。</div></div>
+</div>
+<div class='stanza'>
+<div class='ln'><div class='es'>¿Quieres cenar conmigo?</div><div class='zh'>你想跟我一起吃晚饭吗？</div></div>
+<div class='ln'><div class='es'>¿Quieres cenar conmigo?</div><div class='zh'>你想跟我一起吃晚饭吗？</div></div>
+<div class='ln'><div class='es'>Hoy puedo cenar aquí.</div><div class='zh'>今天我可以在这里吃晚饭。</div></div>
+<div class='ln'><div class='es'>Hoy puedo cenar aquí.</div><div class='zh'>今天我可以在这里吃晚饭。</div></div>
+</div>
+<div class='stanza'>
+<div class='ln'><div class='es'>Quiero cenar,</div><div class='zh'>我想吃晚饭，</div></div>
+<div class='ln'><div class='es'>quiero ir contigo,</div><div class='zh'>我想跟你一起去，</div></div>
+<div class='ln'><div class='es'>quiero cenar aquí.</div><div class='zh'>我想在这里吃晚饭。</div></div>
+</div>
+</div>
+<div class='note-card'>
+<h3>aquí<span class='gl'>在这里</span></h3>
+<p>跟英语的 here 一样。位置也跟英语一样：中文说「在这里吃」，把「在这里」放在动词前面；西班牙语跟英语一样，放在最后。</p>
+<div class='map'><div class='col'><div class='a'>Quiero</div><div class='b'>我想</div></div><span class='dot'>·</span><div class='col'><div class='a'>comer</div><div class='b'>吃</div></div><span class='dot'>·</span><div class='col'><div class='a'>aquí</div><div class='b'>在这里</div></div></div>
+</div>
+<div class='note-card'>
+<h3>cocinar<span class='gl'>做菜</span></h3>
+<p>是自己动手做饭的那个「做菜」，不是「吃饭」。所以 No quiero cocinar, quiero comer aquí. 就是「我不想做菜，我想在这里吃」。</p>
+</div>
+<section class='part'><h2><span class='num'>Dos</span>把句子念顺</h2><hr></section>
+<div class='how'><p class='lead'>下面这几句是歌里的句子，现在<strong>用说的，不要唱</strong>。</p><p>深浅交替的是一个个音节。西班牙语说起来词和词不分开，所以有的音节是<strong>跨词</strong>的 —— 下面一行画红线的就是。</p><p>每句<strong>念十遍以上</strong>，念到不用想就出得来。这一部分不用录音。</p></div>
+<div class='items'>
+<div class='item'>
+<p class='zh'>我总是在家吃。</p>
+<div class='row'><span class='lab'>写法</span><div class='flow'><span class='a' data-i='0'>Siem</span><span class='b' data-i='1'>pre</span><span class='a' data-i='2'> co</span><span class='b' data-i='3'>mo en</span><span class='a' data-i='4'> ca</span><span class='b' data-i='5'>sa.</span></div></div>
+<div class='row'><span class='lab'>节拍</span><div class='strip'><span class='a' data-i='0'>Siem</span><span class='b' data-i='1'>pre</span><span class='a' data-i='2'>co</span><span class='b x' data-i='3'>mo<i class='seam'></i>en</span><span class='a' data-i='4'>ca</span><span class='b' data-i='5'>sa</span></div></div>
+</div>
+<div class='item'>
+<p class='zh'>今天我想在这里吃。</p>
+<div class='row'><span class='lab'>写法</span><div class='flow'><span class='a' data-i='0'>Hoy</span><span class='b' data-i='1'> quie</span><span class='a' data-i='2'>ro</span><span class='b' data-i='3'> co</span><span class='a' data-i='4'>me</span><span class='b' data-i='5'>r a</span><span class='a' data-i='6'>quí.</span></div></div>
+<div class='row'><span class='lab'>节拍</span><div class='strip'><span class='a' data-i='0'>Hoy</span><span class='b' data-i='1'>quie</span><span class='a' data-i='2'>ro</span><span class='b' data-i='3'>co</span><span class='a' data-i='4'>me</span><span class='b x' data-i='5'>r<i class='seam'></i>a</span><span class='a' data-i='6'>quí</span></div></div>
+</div>
+<div class='item'>
+<p class='zh'>你想在家吃，还是想在这里吃？</p>
+<div class='row'><span class='lab'>写法</span><div class='flow'><span class='a' data-i='0'>¿Quie</span><span class='b' data-i='1'>res</span><span class='a' data-i='2'> co</span><span class='b' data-i='3'>me</span><span class='a' data-i='4'>r en</span><span class='b' data-i='5'> ca</span><span class='a' data-i='6'>sa o</span><span class='b' data-i='7'> quie</span><span class='a' data-i='8'>res</span><span class='b' data-i='9'> co</span><span class='a' data-i='10'>me</span><span class='b' data-i='11'>r a</span><span class='a' data-i='12'>quí?</span></div></div>
+<div class='row'><span class='lab'>节拍</span><div class='strip'><span class='a' data-i='0'>Quie</span><span class='b' data-i='1'>res</span><span class='a' data-i='2'>co</span><span class='b' data-i='3'>me</span><span class='a x' data-i='4'>r<i class='seam'></i>en</span><span class='b' data-i='5'>ca</span><span class='a x' data-i='6'>sa<i class='seam'></i>o</span><span class='b' data-i='7'>quie</span><span class='a' data-i='8'>res</span><span class='b' data-i='9'>co</span><span class='a' data-i='10'>me</span><span class='b x' data-i='11'>r<i class='seam'></i>a</span><span class='a' data-i='12'>quí</span></div></div>
+</div>
+<div class='item'>
+<p class='zh'>今天我可以在这里吃晚饭。</p>
+<div class='row'><span class='lab'>写法</span><div class='flow'><span class='a' data-i='0'>Hoy</span><span class='b' data-i='1'> pue</span><span class='a' data-i='2'>do</span><span class='b' data-i='3'> ce</span><span class='a' data-i='4'>na</span><span class='b' data-i='5'>r a</span><span class='a' data-i='6'>quí.</span></div></div>
+<div class='row'><span class='lab'>节拍</span><div class='strip'><span class='a' data-i='0'>Hoy</span><span class='b' data-i='1'>pue</span><span class='a' data-i='2'>do</span><span class='b' data-i='3'>ce</span><span class='a' data-i='4'>na</span><span class='b x' data-i='5'>r<i class='seam'></i>a</span><span class='a' data-i='6'>quí</span></div></div>
+</div>
+<div class='item'>
+<p class='zh'>我想跟你一起去。</p>
+<div class='row'><span class='lab'>写法</span><div class='flow'><span class='a' data-i='0'>Quie</span><span class='b' data-i='1'>ro ir</span><span class='a' data-i='2'> con</span><span class='b' data-i='3'>ti</span><span class='a' data-i='4'>go.</span></div></div>
+<div class='row'><span class='lab'>节拍</span><div class='strip'><span class='a' data-i='0'>Quie</span><span class='b x' data-i='1'>ro<i class='seam'></i>ir</span><span class='a' data-i='2'>con</span><span class='b' data-i='3'>ti</span><span class='a' data-i='4'>go</span></div></div>
+</div>
+</div>
+<p class='note'>深浅交替表示一个音节。有些音节是跨词的 —— 西班牙语说话时词和词之间不停顿，前一个词的最后一个音会变成下一个词的开头。这种音节在下面一行画了红线，红色虚线就是原来的词界。下面一行把每个音节拉成同样宽度，可以看出它们的长度其实一样。</p>
+<section class='part'><h2><span class='num'>Tres</span>跟着唱，录下来</h2><hr></section>
+<div class='how' id='p3how'><p class='lead'>现在<strong>一边放音乐，一边录音</strong>。先<strong>戴上耳机</strong> —— 发给老师的只有你的声音，戴耳机才录得干净。</p><p>按「开始」，音乐就放起来了。看着歌词唱；轮到你的时候，那一句会<strong>亮起来</strong>，下面会写「一起唱！」。</p><p>录完按「听一遍」，会连着音乐放给你听。不满意就再录一次；满意了就发给老师。</p></div>
+
+<div id='cal'>
+  <h3>校准「一起唱」的时间（学生看不到这一块）</h3>
+  <div>按「放音乐」，然后<b>学生该唱的时候按住空格</b>（手机上按住下面的大按钮），
+  唱完松开。放完以后按「试一遍」检查一下 —— 亮的时机对了，再把下面这一行贴回
+  .txt 的 <code style='display:inline;padding:1px 5px'>@cues</code>，
+  <b>重新生成页面</b>。不重新生成，学生打开的还是旧的。</div>
+  <button id='calplay' class='ghost'>▶ 放音乐，开始打拍</button>
+  <button id='caltry' class='ghost' disabled>▶ 试一遍</button>
+  <button id='calreset' class='ghost'>清空</button>
+  <button id='caltap'>按住 —— 学生唱的时候按住</button>
+  <code id='calout'></code>
+</div>
+
+<div class='stage' id='stage'>
+<div class='kline'>Quiero comer,</div>
+<div class='kline'>quiero comer,</div>
+<div class='kline'>quiero comer aquí.</div>
+<div class='kbreak'></div>
+<div class='kline'>Siempre como en casa.</div>
+<div class='kline join'>Siempre como en casa.</div>
+<div class='kline'>Hoy quiero comer aquí.</div>
+<div class='kline join'>Hoy quiero comer aquí.</div>
+<div class='kbreak'></div>
+<div class='kline'>No quiero cocinar.</div>
+<div class='kline'>Hoy quiero descansar.</div>
+<div class='kline'>Quiero comer aquí.</div>
+<div class='kbreak'></div>
+<div class='kline'>¿Quieres comer en casa</div>
+<div class='kline join'>¿Quieres comer en casa</div>
+<div class='kline'>o quieres comer aquí?</div>
+<div class='kline join'>o quieres comer aquí?</div>
+<div class='kbreak'></div>
+<div class='kline'>Quiero comer,</div>
+<div class='kline'>quiero comer,</div>
+<div class='kline'>quiero comer aquí.</div>
+<div class='kbreak'></div>
+<div class='kline'>¿Quieres cenar conmigo?</div>
+<div class='kline join'>¿Quieres cenar conmigo?</div>
+<div class='kline'>Hoy puedo cenar aquí.</div>
+<div class='kline join'>Hoy puedo cenar aquí.</div>
+<div class='kbreak'></div>
+<div class='kline'>Quiero cenar,</div>
+<div class='kline'>quiero ir contigo,</div>
+<div class='kline'>quiero cenar aquí.</div>
+</div>
+<audio id='chant3' preload='auto' src='quiero-comer-aqui.mp3'></audio>
+<div class='tape'><button id='go' class='go'>● 开始</button><button id='listen' disabled>▶ 听一遍</button></div>
+<p class='status' id='recstatus'></p>
+<div class='result' id='result'></div>
+<div style='padding:22px 0 0'><button class='ghost' id='diag'>技术信息</button><div id='diagout'></div></div>
+<div class='cueban' id='cueban'></div>
+<script>window.__chant={"cues": [[12.09, 14.28], [16.71, 19.08], [26.23, 28.65], [31.01, 33.41], [40.65, 43.09], [45.38, 47.97]]};</script>
+<script>(function(){var b=document.body,t=document.getElementById('zh');b.classList.add('hide-zh');t.addEventListener('change',function(){b.classList.toggle('hide-zh',!this.checked);});})();</script>
+<script>
+document.querySelectorAll('.item').forEach(function(item){
+  var marks=item.querySelectorAll('.flow span, .strip span'), raf=null;
+  function paint(i){
+    marks.forEach(function(el){
+      el.classList.toggle('on', parseInt(el.dataset.i,10)===i);
+    });
+  }
+  function follow(a, times){
+    (function step(){
+      var t=a.currentTime, hit=-1;
+      for(var i=0;i<times.length;i++){
+        if(t>=times[i][0] && t<times[i][1]){ hit=i; break; }
+      }
+      paint(hit);
+      if(!a.paused) raf=requestAnimationFrame(step);
+    })();
+  }
+  item.querySelectorAll('.btns button').forEach(function(btn){
+    var a=item.querySelector("audio.trk[data-t='"+btn.dataset.t+"']");
+    var times=a.dataset.times?JSON.parse(a.dataset.times):null;
+    btn.addEventListener('click',function(){
+      item.querySelectorAll('audio.trk').forEach(function(x){
+        if(x!==a){ x.pause(); x.currentTime=0; }
+      });
+      item.querySelectorAll('.btns button').forEach(function(b){
+        if(b!==btn) b.classList.remove('playing');
+      });
+      cancelAnimationFrame(raf);
+      if(!a.paused){ a.pause(); a.currentTime=0;
+        btn.classList.remove('playing'); paint(-1); return; }
+      btn.classList.add('playing'); a.currentTime=0; a.play();
+      if(times) follow(a, times);
+    });
+    a.addEventListener('ended',function(){
+      btn.classList.remove('playing'); cancelAnimationFrame(raf); paint(-1);
+    });
+  });
+});
+</script>
+<script>
+(function(){
+'use strict';
+
+var CUES = (window.__chant && window.__chant.cues) || [];
+var LEAD = 1.4;            /* seconds of 准备…… before a cue opens */
+/* Speech only, so the same rate the answering track uses. /s/ lives mostly in
+   4-8 kHz and survives an 11 kHz ceiling; the file halves. */
+var VOICERATE = 22050;
+
+var UA = navigator.userAgent || '';
+var IS_WECHAT = /MicroMessenger/i.test(UA);
+var LOG = [];
+function log(s){ LOG.push(s); }
+function el(t,c,x){ var e=document.createElement(t); if(c)e.className=c;
+  if(x!=null)e.textContent=x; return e; }
+function tick(){ return new Promise(function(r){ setTimeout(r,0); }); }
+
+var chant  = document.getElementById('chant3');
+var lines  = [].slice.call(document.querySelectorAll('#stage .kline'));
+var joins  = lines.filter(function(l){ return l.classList.contains('join'); });
+var ban    = document.getElementById('cueban');
+var goBtn  = document.getElementById('go');
+var status = document.getElementById('recstatus');
+var result = document.getElementById('result');
+var listen = document.getElementById('listen');
+
+/* One thing at a time. Every element that can make noise registers here, so a
+   take never plays on top of the backing track or on top of itself. */
+var playing = [];
+function stopAll(){
+  playing.forEach(function(a){ try{ a.pause(); }catch(e){} });
+  try{ chant.pause(); }catch(e){}
+}
+
+/* ---- can this browser do it at all? ------------------------------------- */
+function banner(h){
+  var b=el('div','warn'); b.innerHTML=h;
+  var host=document.getElementById('p3how');
+  if(host&&host.parentNode) host.parentNode.insertBefore(b,host.nextSibling);
+}
+var canRecord=true;
+if(IS_WECHAT){
+  canRecord=false;
+  banner('<b>请用 Safari 打开这一页。</b><br>微信自带的浏览器不能录音。' +
+         '点右上角的「…」，选「在浏览器中打开」，就可以正常录了。');
+}else if(!window.isSecureContext){
+  canRecord=false;
+  banner('<b>这个地址不能录音。</b><br>请用老师给的 https:// 链接打开。');
+}else if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia||
+         !window.MediaRecorder){
+  canRecord=false;
+  banner('<b>这个浏览器不能录音。</b><br>请用 Safari 打开这一页；' +
+         '如果还是不行，把手机系统更新一下。');
+}
+
+/* A page with response lines and no cue times looks, to the student, exactly
+   like a page whose cues never fire. Say so, rather than let "nothing lights
+   up" be a mystery — it is the one build step that cannot be automated, so it
+   is the one most likely to be forgotten. */
+if(joins.length && !CUES.length){
+  banner('<b>这一页还没设好「一起唱」的提示时间。</b><br>' +
+         '现在可以照常录音，只是不会有句子亮起来。');
+}
+
+/* ---- cue painting -------------------------------------------------------- */
+var lastPainted = -2, lastSoon = -2;
+function paint(now, soon){
+  if(now===lastPainted && soon===lastSoon) return;
+  lastPainted=now; lastSoon=soon;
+  joins.forEach(function(l,i){
+    l.classList.toggle('now', i===now);
+    l.classList.toggle('soon', i===soon && now<0);
+  });
+  if(now>=0){
+    ban.className='cueban on'; ban.textContent='一起唱！';
+    scrollTo_(joins[now]);
+  }else if(soon>=0){
+    ban.className='cueban on soon'; ban.textContent='准备……';
+    scrollTo_(joins[soon]);
+  }else{
+    ban.className='cueban'; ban.textContent='';
+  }
+}
+var lastScrolled=null;
+function scrollTo_(node){
+  if(node===lastScrolled) return;
+  lastScrolled=node;
+  try{ node.scrollIntoView({block:'center',behavior:'smooth'}); }
+  catch(e){ try{ node.scrollIntoView(); }catch(e2){} }
+}
+var raf=null;
+/* Driven off the `playing` event, never called straight after mr.start(): the
+   recorder is armed before the audio has begun, so a loop whose continue
+   condition is `!chant.paused` runs exactly one frame and stops. That failure
+   is silent — recording works, the mix works, and no line ever lights up. */
+function follow(){
+  cancelAnimationFrame(raf);
+  (function step(){
+    var t=chant.currentTime, now=-1, soon=-1;
+    for(var i=0;i<CUES.length && i<joins.length;i++){
+      if(t>=CUES[i][0] && t<CUES[i][1]){ now=i; break; }
+      if(t>=CUES[i][0]-LEAD && t<CUES[i][0]){ soon=i; break; }
+    }
+    paint(now,soon);
+    if(!chant.paused) raf=requestAnimationFrame(step);
+    else paint(-1,-1);
+  })();
+}
+function clearCues(){
+  cancelAnimationFrame(raf); lastPainted=-2; lastSoon=-2; lastScrolled=null;
+  paint(-1,-1);
+}
+
+/* ---- the take ------------------------------------------------------------ */
+var ac=null, stream=null, mr=null, chunks=[], voice=null, lag=0, t0=0;
+var outUrl=null, recording=false;
+
+function release(){
+  if(stream){ try{ stream.getTracks().forEach(function(t){ t.stop(); }); }
+              catch(e){} stream=null; }
+}
+function pickMime(){
+  if(!window.MediaRecorder||!window.MediaRecorder.isTypeSupported) return '';
+  var c=['audio/mp4','audio/mp4;codecs=mp4a.40.2','audio/webm;codecs=opus',
+         'audio/webm','audio/ogg;codecs=opus'];
+  for(var i=0;i<c.length;i++){
+    try{ if(MediaRecorder.isTypeSupported(c[i])) return c[i]; }catch(e){}
+  }
+  return '';
+}
+function idle(msg,done){
+  goBtn.classList.remove('rec');
+  goBtn.textContent = voice ? '● 再录一次' : '● 开始';
+  goBtn.disabled=false;
+  status.textContent=msg||'';
+  status.classList.toggle('done',!!done);
+}
+
+goBtn.addEventListener('click', function(){
+  if(recording){ stop(); return; }
+  start();
+});
+
+function start(){
+  stopAll();
+  if(!canRecord){
+    status.textContent = IS_WECHAT
+      ? '在微信里打不开麦克风。请点右上角的「…」，选「在浏览器中打开」。'
+      : '这个浏览器不能录音，请用 Safari 打开。';
+    return;
+  }
+  result.innerHTML='';
+  if(outUrl){ URL.revokeObjectURL(outUrl); outUrl=null; }
+  voice=null; listen.disabled=true;
+  goBtn.disabled=true;
+  status.classList.remove('done');
+  status.textContent='正在打开麦克风……';
+
+  /* Created and resumed inside the tap. An AudioContext that is resumed later
+     stays suspended on iOS, and a suspended context never calls
+     decodeAudioData back — which is a mix that hangs forever, not one that
+     fails. Same failure answering.py hit on the student's phone. */
+  try{
+    var C=window.AudioContext||window.webkitAudioContext;
+    if(C && !ac){ ac=new C(); }
+    if(ac && ac.state==='suspended' && ac.resume) ac.resume();
+  }catch(e){ log('ac: '+e); }
+
+  var gum;
+  /* echoCancellation on, deliberately: the export mixes a clean copy of the
+     chant back in, so the leaked copy coming through the microphone is pure
+     loss. autoGainControl is left at the browser default here — the objection
+     to it in the liaison tooling is that it skews loudness alignment, and
+     nothing on this page is aligned by loudness. */
+  try{
+    gum=navigator.mediaDevices.getUserMedia(
+      {audio:{echoCancellation:true, noiseSuppression:false}});
+  }catch(e){ gum=null; }
+  if(!gum||!gum.then){
+    try{ gum=navigator.mediaDevices.getUserMedia({audio:true}); }
+    catch(e){ idle('打不开麦克风：'+(e&&e.message||e)); return; }
+  }
+
+  var settled=false;
+  var nudge=setTimeout(function(){
+    if(!settled) status.textContent='请在弹出的窗口里点「允许」。'; },6000);
+  var giveup=setTimeout(function(){
+    if(settled) return; settled=true;
+    idle('麦克风没有反应。请确认用 Safari 打开，并在 设置 → Safari → 麦克风 里选「允许」。');
+    log('mic: timed out');
+  },30000);
+
+  gum.then(function(s){
+    clearTimeout(nudge); clearTimeout(giveup);
+    if(settled){ try{ s.getTracks().forEach(function(t){t.stop();}); }catch(e){} return; }
+    settled=true; stream=s; armed();
+  },function(e){
+    clearTimeout(nudge); clearTimeout(giveup);
+    if(settled) return; settled=true;
+    var n=(e&&e.name)||'';
+    if(n==='NotAllowedError'||n==='SecurityError')
+      idle('麦克风被拒绝了。iPhone：设置 → Safari → 麦克风 → 允许，然后刷新这一页。');
+    else if(n==='NotFoundError'||n==='NotReadableError')
+      idle('找不到麦克风，或者别的 App 正在占用它。关掉其他 App 再试。');
+    else idle('打不开麦克风：'+((e&&e.message)||e));
+    log('mic: '+n+' '+((e&&e.message)||e));
+  });
+}
+
+function armed(){
+  chunks=[];
+  var m=pickMime();
+  try{ mr=new MediaRecorder(stream, m?{mimeType:m}:{}); }
+  catch(e){
+    try{ mr=new MediaRecorder(stream); }
+    catch(e2){ release(); idle('录不了：'+((e2&&e2.message)||e2)); return; }
+  }
+  log('rec: '+(mr.mimeType||'?'));
+  mr.ondataavailable=function(e){ if(e.data&&e.data.size) chunks.push(e.data); };
+  mr.onerror=function(e){ log('rec err: '+(e&&e.error)); };
+  mr.onstop=finish;
+  mr.onstart=function(){
+    t0=(performance&&performance.now)?performance.now():Date.now();
+    try{ chant.currentTime=0; }catch(e){}
+    var p; try{ p=chant.play(); }catch(e){ p=Promise.reject(e); }
+    if(p&&p.catch) p.catch(function(err){
+      log('play: '+err);
+      try{ mr.stop(); }catch(e){}
+      idle('音乐放不出来：'+((err&&err.message)||err));
+    });
+  };
+  /* A timeslice matters: on iOS a recorder stopped without one has handed
+     back an empty blob. */
+  try{ mr.start(1000); }catch(e){ try{ mr.start(); }catch(e2){
+    release(); idle('录不了：'+((e2&&e2.message)||e2)); return; } }
+
+  recording=true;
+  goBtn.disabled=false;
+  goBtn.classList.add('rec');
+  goBtn.textContent='■ 停止';
+  status.textContent='正在录…… 跟着唱，亮起来的那一句是你的。';
+}
+
+chant.addEventListener('playing', function(){
+  if(recording){
+    var now=(performance&&performance.now)?performance.now():Date.now();
+    lag=Math.min(1.5, Math.max(0,(now-t0)/1000));
+    log('lag '+lag.toFixed(3)+'s');
+  }
+  follow();
+});
+chant.addEventListener('pause', clearCues);
+chant.addEventListener('ended', function(){ if(recording) stop(); });
+
+function stop(){
+  recording=false;
+  try{ chant.pause(); }catch(e){}
+  clearCues();
+  goBtn.disabled=true;
+  goBtn.classList.remove('rec');
+  status.textContent='正在处理……';
+  try{ if(mr && mr.state!=='inactive') mr.stop(); }
+  catch(e){ idle('停不下来：'+((e&&e.message)||e)); }
+}
+
+function finish(){
+  var type=(mr&&mr.mimeType)||(chunks[0]&&chunks[0].type)||'audio/mp4';
+  var blob=new Blob(chunks,{type:type});
+  release();
+  if(!blob.size){
+    idle('没有录到声音，请再按一次「开始」。');
+    log('empty blob'); return;
+  }
+  voice=blob;
+  render();
+}
+
+/* ---- the mix ------------------------------------------------------------- */
+function blobBuf(b){
+  if(b.arrayBuffer) return b.arrayBuffer();
+  return new Promise(function(res,rej){
+    var r=new FileReader();
+    r.onload=function(){ res(r.result); };
+    r.onerror=function(){ rej(r.error||new Error('读不出录音')); };
+    r.readAsArrayBuffer(b);
+  });
+}
+/* The ceiling exists for the iOS failure where decodeAudioData simply never
+   calls back: without it the page sits on 正在处理 forever. */
+function decode(buf,label){
+  return new Promise(function(res,rej){
+    var done=false;
+    var t=setTimeout(function(){
+      if(done) return; done=true;
+      var e=new Error(label+' 解码超时'); e.timeout=true; rej(e);
+    },20000);
+    function ok(b){ if(done)return; done=true; clearTimeout(t); res(b); }
+    function no(e){ if(done)return; done=true; clearTimeout(t);
+      rej(e||new Error(label+' 解码失败')); }
+    var p;
+    try{ p=ac.decodeAudioData(buf,ok,no); }catch(e){ no(e); return; }
+    if(p&&p.then) p.then(ok,no);
+  });
+}
+function mono(b){
+  if(b.numberOfChannels===1) return b.getChannelData(0);
+  var a=b.getChannelData(0), c=b.getChannelData(1);
+  var o=new Float32Array(a.length);
+  for(var i=0;i<a.length;i++) o[i]=(a[i]+c[i])/2;
+  return o;
+}
+/* Box-averaged, so it low-passes before decimating. The final -s lives in
+   exactly the band naive decimation folds back on itself. */
+function resample(d,from,to){
+  if(!(to<from)) return {data:d,rate:from};
+  var ratio=from/to, len=Math.floor(d.length/ratio);
+  var o=new Float32Array(len), w=Math.max(1,Math.round(ratio));
+  for(var i=0;i<len;i++){
+    var s0=Math.floor(i*ratio), s=0, c=0;
+    for(var k=0;k<w;k++){ var j=s0+k; if(j<d.length){ s+=d[j]; c++; } }
+    o[i]=c?s/c:0;
+  }
+  return {data:o,rate:to};
+}
+function wav(s,rate){
+  var buf=new ArrayBuffer(44+s.length*2), v=new DataView(buf);
+  function w(off,str){ for(var i=0;i<str.length;i++) v.setUint8(off+i,str.charCodeAt(i)); }
+  w(0,'RIFF'); v.setUint32(4,36+s.length*2,true); w(8,'WAVEfmt ');
+  v.setUint32(16,16,true); v.setUint16(20,1,true); v.setUint16(22,1,true);
+  v.setUint32(24,rate,true); v.setUint32(28,rate*2,true);
+  v.setUint16(32,2,true); v.setUint16(34,16,true);
+  w(36,'data'); v.setUint32(40,s.length*2,true);
+  for(var i=0;i<s.length;i++){
+    var x=Math.max(-1,Math.min(1,s[i]));
+    v.setInt16(44+i*2, x<0?x*0x8000:x*0x7FFF, true);
+  }
+  return new Blob([buf],{type:'audio/wav'});
+}
+function mb(b){ return Math.round(b.size/1024/1024*10)/10+' MB'; }
+/* The page's own filename, which is already an ASCII slug. Deriving it from
+   the title instead put `aquí` in the filename, and an accented name is the
+   kind of thing that arrives at the far end of WeChat as mojibake. */
+function baseName(){
+  var f=(location.pathname||'').split('/').pop().replace(/\.html?$/i,'');
+  if(/^[A-Za-z0-9._-]+$/.test(f) && f) return f;
+  return (document.title||'chant').split('—')[0].trim()
+    .replace(/[^A-Za-z0-9]+/g,'-').replace(/^-|-$/g,'') || 'chant';
+}
+
+/* Voice only. An earlier version summed the chant back in so the take sounded
+   like a real sing-along, which is nicer to listen back to — but the file's job
+   is to let someone other than the singer hear the final `-s`, and music over
+   the top is the one thing that stops it doing that. The satisfying version is
+   still available: 听一遍 plays the take against the music without either
+   touching the file. This also deletes the fetch-and-decode of the backing
+   track, which was the most fragile step on the page. */
+async function render(){
+  try{
+    if(!ac) throw new Error('这个浏览器不支持音频处理');
+    status.textContent='正在处理……';
+    await tick();
+    var v = mono(await decode(await blobBuf(voice), '录音'));
+    var rs = resample(v, ac.sampleRate, VOICERATE);
+    var blob = wav(rs.data, rs.rate);
+    v=null; rs=null;
+    deliver(blob, '好了 —— '+mb(blob)+'。听一遍，不满意就再录。');
+  }catch(e){
+    log('render: '+e);
+    /* The raw take is still a perfectly good file, just in whatever format the
+       browser recorded — worth handing over rather than losing. */
+    var ext=/mp4/.test(voice.type)?'.m4a':(/webm/.test(voice.type)?'.webm':'.bin');
+    deliver(voice, '转换格式没成功（'+((e&&e.message)||e)+
+            '），不过录音还在，可以直接发给老师。', ext);
+  }
+}
+
+function deliver(blob, msg, ext){
+  result.innerHTML='';
+  if(outUrl) URL.revokeObjectURL(outUrl);
+  outUrl=URL.createObjectURL(blob);
+
+  result.appendChild(el('p','hint','要发给老师的就是这一段 —— 只有你的声音。'));
+  var pl=el('audio'); pl.controls=true; pl.src=outUrl; pl.preload='metadata';
+  result.appendChild(pl);
+  playing.push(pl);
+
+  /* 听一遍 puts the music back without it ever entering the file: this element
+     and the backing track started together, offset by the measured recording
+     lag, rather than one mixed buffer. The cue highlighting runs along with it,
+     which is what shows him where he came in late.
+
+     It reuses the visible player rather than a second, detached element. A
+     detached <audio> plays in Chrome and is unreliable on iOS Safari, and this
+     page's whole audience is one student on a phone. */
+  pl.addEventListener('pause', function(){
+    try{ chant.pause(); }catch(e){}
+  });
+  listen.disabled=false;
+  listen.onclick=function(){
+    stopAll();
+    try{ pl.currentTime=lag; }catch(e){}
+    try{ chant.currentTime=0; }catch(e){}
+    var p; try{ p=pl.play(); }catch(e){ p=null; }
+    try{ chant.play(); }catch(e){}
+    if(p&&p.catch) p.catch(function(e){ log('listen: '+e); });
+    try{ pl.scrollIntoView({block:'center',behavior:'smooth'}); }catch(e){}
+  };
+
+  var name=baseName()+(ext||'.wav');
+  var file=null;
+  try{ file=new File([blob],name,{type:blob.type||'audio/wav'}); }catch(e){}
+  /* Nothing is downloaded by a synthetic click: iOS drops an a.click() that
+     happens several awaits away from the tap. The file is handed over through
+     buttons the student presses himself. */
+  if(file && navigator.share && navigator.canShare &&
+     navigator.canShare({files:[file]})){
+    var b=el('button','big','发给老师');
+    b.addEventListener('click',function(){
+      var p; try{ p=navigator.share({files:[file],title:name}); }
+      catch(e){ p=Promise.reject(e); }
+      if(p&&p.catch) p.catch(function(e){
+        if(e&&e.name==='AbortError') return;
+        result.appendChild(el('p','hint',
+          '发送没成功，请用下面的「保存文件」，再在微信里发这个文件。'));
+        log('share: '+e);
+      });
+    });
+    result.appendChild(b);
+    result.appendChild(el('p','hint',
+      '按「发给老师」，在微信里选老师就行。如果没反应，先「保存文件」，' +
+      '再到微信里把这个文件发过去。'));
+  }else{
+    result.appendChild(el('p','hint',
+      '按「保存文件」存下来，再到微信里把这个文件发给老师。'));
+  }
+  var a=el('a','btnlink','保存文件（'+mb(blob)+'）');
+  a.href=outUrl; a.download=name;
+  result.appendChild(a);
+
+  idle(msg, true);
+  try{ result.scrollIntoView({block:'center',behavior:'smooth'}); }catch(e){}
+}
+
+/* ---- diagnostics --------------------------------------------------------- */
+var diagBtn=document.getElementById('diag');
+if(diagBtn) diagBtn.addEventListener('click',function(){
+  var d=document.getElementById('diagout');
+  if(d.firstChild){ d.innerHTML=''; return; }
+  var C=window.AudioContext||window.webkitAudioContext;
+  d.appendChild(el('div','diag',[
+    UA,
+    '安全上下文 '+!!window.isSecureContext+
+      ' · mediaDevices '+!!(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia)+
+      ' · MediaRecorder '+!!window.MediaRecorder+
+      ' · AudioContext '+!!C+
+      ' · share '+!!(navigator.share),
+    '录音格式 '+(pickMime()||'默认')+' · 提示 '+CUES.length+'/'+joins.length+
+      ' · lag '+lag.toFixed(3)+'s',
+    LOG.slice(-12).join('\n')
+  ].join('\n')));
+});
+
+/* ---- calibration, teacher only ------------------------------------------ */
+/* Reachable only at #calibrate. Hold the space bar (or the button) through
+   each response line; press and release are the two edges of one cue. */
+if(/(^|#|&)calibrate\b/.test(location.hash)){
+  document.body.classList.add('calibrating');
+  var pane=document.getElementById('cal');
+  var out=document.getElementById('calout');
+  var playBtn=document.getElementById('calplay');
+  var resetBtn=document.getElementById('calreset');
+  var tapBtn=document.getElementById('caltap');
+  var tryBtn=document.getElementById('caltry');
+  var taps=[], open=null, live=[];
+
+  try{
+    var saved=localStorage.getItem('chantcues:'+location.pathname);
+    if(saved && !CUES.length){
+      CUES=JSON.parse(saved); render();
+      setTimeout(function(){ tryBtn.disabled=false; },0);
+    }
+  }catch(e){}
+
+  function render(){
+    out.textContent='@cues '+CUES.map(function(c){
+      return c[0].toFixed(2)+'-'+c[1].toFixed(2); }).join(', ');
+  }
+  render();
+
+  function down(){
+    if(chant.paused||open!==null) return;
+    open=chant.currentTime;
+    tapBtn.textContent='松开 —— 第 '+(live.length+1)+' 句正在进行';
+  }
+  function up(){
+    if(open===null) return;
+    var a=open, b=chant.currentTime; open=null;
+    if(b>a+0.15) live.push([+a.toFixed(2), +b.toFixed(2)]);
+    tapBtn.textContent='按住 —— 学生唱的时候按住（已记 '+live.length+' 句）';
+    out.textContent='@cues '+live.map(function(c){
+      return c[0].toFixed(2)+'-'+c[1].toFixed(2); }).join(', ');
+  }
+  /* Committed on stop as well as on `ended`. Only committing at the end meant
+     a 55-second track had to be sat through in full before anything was kept,
+     and stopping halfway silently threw the taps away. */
+  function commit(){
+    playBtn.textContent='▶ 放音乐，开始打拍';
+    if(!live.length) return;
+    CUES=live.slice();
+    try{ localStorage.setItem('chantcues:'+location.pathname,
+                              JSON.stringify(CUES)); }catch(e){}
+    render();
+    /* The previous wording said the cues were live "now", which was true only
+       while you stayed on #calibrate — so the obvious next move, opening the
+       normal page to check, showed nothing lighting up and looked like a bug.
+       Say what actually has to happen, and give a way to check first. */
+    out.textContent += '\n\n（还没有写进页面。先点「试一遍」看对不对，'+
+      '再把上面这一行贴回 .txt，重新生成页面 —— 那才算固定下来。）';
+    tryBtn.disabled=false;
+  }
+  playBtn.addEventListener('click',function(){
+    if(!chant.paused){ chant.pause(); up(); commit(); return; }
+    live=[]; open=null;
+    try{ chant.currentTime=0; }catch(e){}
+    chant.play(); playBtn.textContent='■ 停';
+    tapBtn.textContent='按住 —— 学生唱的时候按住（已记 0 句）';
+  });
+  chant.addEventListener('ended',function(){
+    if(document.body.classList.contains('calibrating')) commit();
+  });
+  /* Plays the whole track with the just-tapped times driving the highlighting,
+     and records nothing. This is the step that used to be missing: it is how
+     you find out a cue is a beat late before pasting it anywhere. */
+  tryBtn.addEventListener('click',function(){
+    if(!chant.paused){ chant.pause(); tryBtn.textContent='▶ 试一遍'; return; }
+    stopAll();
+    try{ chant.currentTime=0; }catch(e){}
+    chant.play(); tryBtn.textContent='■ 停';
+  });
+  chant.addEventListener('ended',function(){ tryBtn.textContent='▶ 试一遍'; });
+
+  resetBtn.addEventListener('click',function(){
+    live=[]; CUES=[];
+    tryBtn.disabled=true;
+    try{ localStorage.removeItem('chantcues:'+location.pathname); }catch(e){}
+    out.textContent='@cues ';
+  });
+  document.addEventListener('keydown',function(e){
+    if(e.code!=='Space'&&e.key!==' ') return;
+    if(e.repeat) return;
+    e.preventDefault(); down();
+  },true);
+  document.addEventListener('keyup',function(e){
+    if(e.code!=='Space'&&e.key!==' ') return;
+    e.preventDefault(); up();
+  },true);
+  tapBtn.addEventListener('pointerdown',function(e){ e.preventDefault(); down(); });
+  tapBtn.addEventListener('pointerup',function(e){ e.preventDefault(); up(); });
+  tapBtn.addEventListener('pointercancel',function(){ up(); });
+}
+
+idle('');
+})();
+</script></body></html>
