@@ -1,0 +1,594 @@
+<!doctype html><html lang='zh'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><meta name='robots' content='noindex,nofollow'><title>Ducharse por la mañana o por la noche</title><link rel='preconnect' href='https://fonts.googleapis.com'><link rel='preconnect' href='https://fonts.gstatic.com' crossorigin><link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400;1,8..60,600&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=Noto+Serif+SC:wght@400;500;700&amp;family=Noto+Sans+SC:wght@400;500&amp;display=swap'><style>:root{
+  --paper:#e9e7e1;--card:#f4f3ef;--ink:#1a1916;--ink2:#43413b;--muted:#78756c;
+  --rule:#cfcbc1;--rule-soft:#dcd8ce;
+  --red:#bb392a;--blue:#2b5378;--blue-rgb:43,83,120;
+  --tint-rgb:34,94,156;--tint-a:.175;--tint-b:.07;
+  --graph:#6e6f72;--graph-rgb:110,111,114;
+  --deep:#20303a;--deep-ink:#ebe8e1;--deep-dim:#93a1a8;--deep-rule:#3b4c57;
+  --deep-red:#e07a63;
+  --now:#20303a;--now-ink:#ebe8e1;
+  --hl:#d9b45e;--hl-ink:#1a1916;
+
+  --rhythm:30rem;      /* max width of a measure — an instrument, not a console */
+  --measure:47rem;     /* the page column */
+  --reading:19px;      /* reader pages override this from localStorage */
+  --read:"Source Serif 4",Georgia,serif;
+  --app:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  --hans:"Noto Serif SC","Songti SC",STSong,SimSun,serif;
+  --hanx:"Noto Sans SC","PingFang SC","Hiragino Sans GB",sans-serif;
+
+  --es-bg:var(--paper);        --es-card:var(--card);
+  --es-panel:var(--card);      --es-instrument:var(--card);
+  --es-ink:var(--ink);         --es-soft:var(--ink2);
+  --es-muted:var(--muted);     --es-rule:var(--rule);
+  --es-gold:var(--hl);         --es-accent:var(--blue);
+  --es-deep:var(--deep);       --es-rec:var(--deep);
+  --es-go:var(--blue);         --es-measure:var(--measure);
+  --es-serif:var(--read);      --es-han:var(--hans);
+  --es-sans:var(--hanx);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#16161a;--card:#1e1e24;--ink:#e8e6e0;--ink2:#c2bfb7;--muted:#8b887f;
+  --rule:#33333c;--rule-soft:#282830;
+  --red:#e77a67;--blue:#87afd6;--blue-rgb:135,175,214;
+  --tint-rgb:120,168,214;--tint-a:.20;--tint-b:.085;
+  --graph:#9b9ca0;--graph-rgb:155,156,160;
+  --deep:#242b33;--deep-ink:#e8e6e0;--deep-dim:#98a4ac;--deep-rule:#3a444d;
+  --deep-red:#e77a67;
+  --now:#cfd4d9;--now-ink:#14181c;
+  --hl:#d9b45e;--hl-ink:#14181c;
+}}
+:root[data-theme="dark"]{
+  --paper:#16161a;--card:#1e1e24;--ink:#e8e6e0;--ink2:#c2bfb7;--muted:#8b887f;
+  --rule:#33333c;--rule-soft:#282830;
+  --red:#e77a67;--blue:#87afd6;--blue-rgb:135,175,214;
+  --tint-rgb:120,168,214;--tint-a:.20;--tint-b:.085;
+  --graph:#9b9ca0;--graph-rgb:155,156,160;
+  --deep:#242b33;--deep-ink:#e8e6e0;--deep-dim:#98a4ac;--deep-rule:#3a444d;
+  --deep-red:#e77a67;
+  --now:#cfd4d9;--now-ink:#14181c;
+  --hl:#d9b45e;--hl-ink:#14181c;
+}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--read);font-size:17px;line-height:1.6;padding:0 0 4.5rem;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.wrap,.doc{max-width:var(--measure);margin:0 auto;padding:0 1.4rem}
+
+/* ---- the hand ----------------------------------------------------------- */
+.mk{display:inline-block;background-color:currentColor;vertical-align:middle;
+  pointer-events:none;-webkit-mask-image:var(--m);mask-image:var(--m);
+  -webkit-mask-size:100% 100%;mask-size:100% 100%;
+  -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.hand{color:var(--red)}
+.field .hand{color:var(--deep-red)}
+.sig{color:var(--blue);line-height:1}
+
+/* ---- masthead ----------------------------------------------------------- */
+.mstrip{background:var(--deep);color:var(--deep-ink);display:flex;
+  justify-content:space-between;gap:1rem;padding:.5rem 1.4rem;
+  font-family:var(--app);font-size:10px;letter-spacing:.16em;
+  text-transform:uppercase}
+.mstrip .zh{font-family:var(--hanx);letter-spacing:.2em;text-transform:none}
+.kicker{font-family:var(--hanx);font-size:.78rem;letter-spacing:.22em;
+  color:var(--muted);margin:2.4rem 0 .9rem}
+h1{font-family:var(--hans);font-weight:500;font-size:clamp(1.9rem,7vw,2.5rem);
+  line-height:1.15;letter-spacing:.02em;margin:0;
+  display:flex;align-items:center;gap:.85rem;flex-wrap:wrap}
+.sub{font-family:var(--hanx);font-size:.85rem;color:var(--muted);margin:.7rem 0 0}
+.rule{border:0;height:1px;background:var(--rule);margin:1.6rem 0 0}
+
+/* ---- movement heads. Arabic, with the count, because a student has to
+       count them and I·II·III reads as a chapter number. ------------------ */
+.mvh{display:flex;align-items:baseline;gap:1.1rem;border-top:2px solid var(--ink);
+  padding-top:.9rem;margin:4.2rem 0 0}
+.mvn{font-family:var(--read);font-variation-settings:"opsz" 60;font-weight:600;
+  font-size:clamp(2.4rem,8vw,3.2rem);line-height:.9;color:var(--ink);
+  letter-spacing:-.02em}
+.mvn .of{font-family:var(--app);font-weight:400;font-size:.85rem;
+  letter-spacing:.04em;color:var(--graph);margin-left:.18rem;vertical-align:super}
+.mvt{font-family:var(--hans);font-weight:700;font-size:clamp(1.5rem,5.4vw,2rem);
+  line-height:1.3;color:var(--ink)}
+
+/* ---- instructions ------------------------------------------------------- */
+/* No card. Generic containment is what made nine exercises look like nine
+   identical homework rows. */
+.how{font-family:var(--hanx);font-size:.95rem;line-height:2.05;color:var(--ink2);
+  max-width:32rem;margin:1.5rem 0 0}
+.how p{margin:0 0 .5rem}
+.how p:last-child{margin:0}
+.how .lead{color:var(--ink)}
+.how b,.how strong{font-weight:500;color:var(--ink);
+  box-shadow:inset 0 -.32em 0 rgba(var(--tint-rgb),.3)}
+.note,.legend{font-family:var(--hanx);font-size:.8rem;line-height:1.95;
+  color:var(--muted);margin:2.2rem 0 0;padding-top:1rem;
+  border-top:1px solid var(--rule);max-width:30rem}
+
+/* ---- controls: square, hairline, never a rounded pill ------------------- */
+button{font:inherit;color:var(--ink);cursor:pointer}
+button:not(.ghost):not(.cal){font-family:var(--hanx);font-size:.9rem;
+  min-height:44px;padding:0 1.1rem;border-radius:2px;
+  border:1px solid var(--rule);background:none;color:var(--ink2);
+  transition:border-color .15s ease,color .15s ease,background .15s ease}
+button:not(.ghost):hover:not(:disabled){border-color:var(--ink2);color:var(--ink)}
+button:not(.ghost):disabled{opacity:.38;cursor:default}
+button:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+/* yellow means live audio, playing or capturing — and nothing else */
+button.playing:not(.ghost),button.rec:not(.ghost){
+  background:var(--hl);border-color:var(--hl);color:var(--hl-ink)}
+button.ghost{border:0;background:none;border-radius:0;padding:.35rem 1px;
+  font-family:var(--hanx);font-size:.85rem;color:var(--blue);min-height:0;
+  border-bottom:1px dotted currentColor}
+button.ghost:disabled{color:var(--muted);opacity:.45;cursor:default}
+button.ghost.on{color:var(--ink);border-bottom-style:solid;
+  border-bottom-color:var(--blue)}
+.btns,.tp{display:flex;gap:.55rem;flex-wrap:wrap;margin:1.4rem 0 0}
+
+/* ---- items -------------------------------------------------------------- */
+.items{margin:2.2rem 0 0}
+.items>.item{padding:1.9rem 0 0;border-top:1px solid var(--rule);
+  background:none;border-radius:0;position:relative}
+.items>.item:first-child{border-top:0;padding-top:1rem}
+.ihd{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;
+  margin:0 0 .8rem}
+.n,.inum{font-family:var(--app);font-size:10.5px;letter-spacing:.16em;
+  color:var(--graph);margin:0}
+.izh,.item>.zh{font-family:var(--hanx);font-size:.82rem;color:var(--muted);
+  margin:0 0 .6rem}
+
+/* ---- the foot ----------------------------------------------------------- */
+.foot,.colophon{margin:3.4rem 0 0;padding-top:1.2rem;
+  border-top:1px solid var(--rule);display:flex;justify-content:space-between;
+  align-items:flex-end;gap:1.5rem;flex-wrap:wrap}
+.foot .who,.colophon .who{font-family:var(--hanx);font-size:.82rem;
+  letter-spacing:.16em;color:var(--muted)}
+.foot .who span,.colophon .who span{display:block;font-family:var(--app);
+  font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--graph);margin-top:.45rem}
+
+/* ---- family marks ------------------------------------------------------- */
+.fmw{display:inline-block;height:1.4em;line-height:1.4em}
+.fm{display:inline-flex;width:30px;height:14px;position:relative;
+  vertical-align:middle;color:var(--graph);gap:1.5px}
+.fm i{background:currentColor}
+.f-pron{align-items:flex-start}
+.f-pron i.c{flex:1;height:8px}
+.f-pron i.tie{position:absolute;left:24%;right:26%;bottom:1px;height:5px;
+  background:none;border:1px solid currentColor;border-top:0;border-radius:0 0 6px 6px}
+.f-song{align-items:flex-end}
+.f-song i.c{flex:1}
+.f-song i.h1{height:14px}.f-song i.h2{height:7px}
+.f-song i.h3{height:10.5px}.f-song i.h4{height:4px}
+.f-talk{flex-direction:column;justify-content:center;gap:3.5px}
+.f-talk i{height:4px;flex:none}
+.f-talk i.t1{width:55%}.f-talk i.t2{width:74%;margin-left:auto}
+.f-read{flex-direction:column;justify-content:center;gap:3px}
+.f-read i{height:2px;flex:none;width:100%;opacity:.85}
+.f-read i.s{width:58%}
+.f-grid{flex-wrap:wrap;gap:1.5px;align-content:center}
+.f-grid i.g{width:6.4px;height:6px;background:none;
+  box-shadow:inset 0 0 0 1px currentColor;opacity:.75}
+.f-grid i.g.on{background:currentColor;box-shadow:none;opacity:1}
+
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+/* The controls are sticky and they must be: they act on the sentence you are
+   reading. But at 390px the bar was landing across the text -- the same fault
+   as Pilot 5's #resume card and the illustrated reader's send bar. The reading
+   reserves the bar's height instead, so the bar is always reachable AND never
+   covers a line. */
+.recall{padding-bottom:4rem}
+.reading{padding-bottom:9rem}
+@media(max-width:560px){.reading{padding-bottom:12rem}}
+.recall h1{font-family:var(--read);font-style:italic;letter-spacing:0;
+  overflow-wrap:anywhere;word-break:normal;min-width:0}
+.recall .intro{font-family:var(--hanx);color:var(--muted);font-size:.96rem;
+  line-height:1.85;margin:0 0 2.4rem;white-space:pre-line}
+.reading{margin-top:1rem}
+.para{margin:0 0 1.65rem;overflow-wrap:anywhere}
+.sent{font-size:1.2rem;line-height:1.9;color:var(--ink2);transition:color .2s ease,opacity .2s ease}
+.sent.done{color:var(--muted);opacity:.64}
+.sent.revealed{color:var(--muted);opacity:.72;font-style:italic}
+.sent.active{display:block;color:var(--ink);font-size:1.28rem;margin:.35rem 0 .15rem;
+  padding:.42rem 0 .42rem 1rem;border-left:3px solid var(--blue);opacity:1}
+.sent.future{color:var(--ink2)}
+.active-zh{font-family:var(--hans);font-size:1rem;line-height:1.8;color:var(--blue);
+  margin:.3rem 0 1.15rem 1.05rem;padding:.42rem .72rem;background:rgba(var(--blue-rgb),.07)}
+.gap{display:inline-block;font:inherit;font-size:1em;line-height:1.55;min-width:2.4ch;max-width:100%;
+  border:0;border-bottom:1.5px solid var(--graph);border-radius:0;background:rgba(var(--graph-rgb),.07);
+  color:var(--ink);padding:.12rem .22rem .16rem;text-align:center;outline:none;vertical-align:baseline;
+  transition:border-color .16s ease,background .16s ease,box-shadow .16s ease}
+.gap:focus{border-color:var(--blue);background:rgba(var(--blue-rgb),.08)}
+.gap.err{border-color:var(--graph);background:rgba(var(--graph-rgb),.16);
+  box-shadow:0 1px 0 var(--graph)}
+/* was #5f7f55. The system has no green: correct is BLUE, the same colour
+   the answer and the gloss are handed over in. dictation.py and answering.py
+   each lost a green for this reason (STATE §16.6, §16.7). */
+.gap.ok{border-color:var(--blue);background:rgba(var(--blue-rgb),.16);
+  animation:pop .26s ease}
+@keyframes pop{50%{transform:translateY(-1px) scale(1.035)}}
+.controls{position:sticky;bottom:0;z-index:5;margin:2rem 0 0;padding:.8rem 1.4rem 1rem;
+  background:var(--card);border-top:2px solid var(--blue)}
+.controls-inner{max-width:var(--measure);margin:0 auto;display:flex;flex-wrap:wrap;gap:.65rem;align-items:center}
+.controls-lbl{font-family:var(--hanx);font-size:.78rem;font-weight:500;
+  letter-spacing:.12em;color:var(--blue);width:100%;margin:0}
+/* was a bare `button{...}` here, which also caught every .ghost button and
+   pushed it from .85rem to 1rem. A page layer should name the buttons it
+   means. */
+.controls button:not(.ghost),.finish-actions button:not(.ghost){
+  font-family:var(--hanx);font-size:1rem}
+.controls button{padding:.62rem .95rem}
+.hint-btn{background:var(--deep);border-color:var(--deep);color:var(--deep-ink)}
+.hint-btn[aria-pressed=true]{background:var(--deep);border-color:var(--deep);color:var(--deep-ink)}
+.answer-btn.confirm{background:var(--deep);border-color:var(--deep);color:var(--deep-ink)}
+/* --mono has never existed; the mono token is --app. This counter has been
+   silently falling back to the reading serif since the page was written. */
+.progress{margin-left:auto;font-family:var(--app);font-size:.78rem;
+  letter-spacing:.1em;color:var(--muted)}
+.peek{display:none;position:fixed;left:50%;bottom:5.2rem;z-index:20;transform:translateX(-50%);
+  width:min(34rem,calc(100vw - 2rem));background:var(--deep);color:var(--deep-ink);
+  border:1px solid var(--deep-rule);padding:1rem 1.1rem;font-size:1.1rem;
+  line-height:1.75}
+body.peeking .peek{display:block}
+.burst{pointer-events:none;position:fixed;inset:0;z-index:30;overflow:hidden}
+.burst::before{content:"很好";position:absolute;left:50%;top:38%;transform:translate(-50%,-50%);
+  font-family:var(--hans);font-size:1.65rem;color:var(--blue);background:var(--card);
+  border:1px solid rgba(var(--blue-rgb),.35);padding:.25rem .85rem;
+  animation:praise 1.05s ease forwards}
+.spark{position:absolute;width:9px;height:9px;border-radius:50%;background:var(--blue);
+  left:50%;top:42%;animation:spark 1.05s ease forwards}
+@keyframes praise{0%{opacity:0;transform:translate(-50%,-42%) scale(.92)}
+  20%,70%{opacity:1;transform:translate(-50%,-50%) scale(1)}
+  100%{opacity:0;transform:translate(-50%,-58%) scale(.98)}}
+@keyframes spark{0%{opacity:0;transform:translate(0,0) scale(.3)}
+  18%{opacity:1}to{transform:translate(var(--x),var(--y)) scale(.15);opacity:0}}
+.finish{display:none;margin-top:2.8rem;padding-top:2rem;border-top:1px solid var(--rule)}
+.finish.show{display:block}
+.finish h2{font-family:var(--hans);font-size:1.75rem;margin:0 0 .75rem}
+.stats{font-family:var(--hanx);color:var(--ink2);line-height:1.9;margin:0 0 1.4rem}
+.finish-actions{display:flex;flex-wrap:wrap;gap:.6rem}
+.copied{font-family:var(--hanx);font-size:.9rem;color:var(--blue);min-height:1.5rem;margin:.65rem 0 0}
+.gloss{margin-top:2.7rem}
+.gloss h2{font-family:var(--hanx);font-size:.78rem;letter-spacing:.16em;color:var(--muted);
+  font-weight:500;text-transform:uppercase;margin:0 0 .7rem}
+.gloss ul{list-style:none;margin:0;padding:0;border-top:1px solid var(--rule)}
+.gloss li{display:flex;gap:1rem;justify-content:space-between;border-bottom:1px solid var(--rule);
+  padding:.65rem .2rem}
+.gloss .zh{font-family:var(--hans);color:var(--muted);text-align:right}
+@media(max-width:560px){
+  .sent{font-size:1.08rem}.sent.active{font-size:1.16rem}
+  .active-zh{font-size:.96rem}
+  .controls-inner{align-items:stretch}.controls button{flex:1 1 auto}.progress{width:100%;margin-left:0}
+  .peek{bottom:7.3rem}
+}
+</style></head><body>
+<body class='recall'>
+<div class='mstrip'><span class='zh'>阿弟西语研究社</span><span>demo</span></div>
+<main class='doc'>
+<p class='kicker'>翻译回忆</p>
+<h1>Ducharse por la mañana o por la noche<span class="fmw"><span class="fm f-read"><i class="l"></i><i class="l"></i><i class="l s"></i></span></span></h1>
+<p class='sub'>示例 · 翻译和填空</p>
+<hr class='rule'>
+<p class='intro'>看中文意思，把西班牙语句子里的空格补出来。答对一个空格会自动跳到下一个。
+真的想不起来时，可以按住「按住查看原文」看整段原文；松手以后马上消失。</p>
+<section id='reading' class='reading' aria-live='polite'></section>
+<section class='gloss'><h2>参考</h2><ul><li><span>ducharse</span><span class='zh'>洗澡</span></li><li><span>darse cuenta de</span><span class='zh'>注意到</span></li><li><span>oler mal</span><span class='zh'>闻起来不好，有臭味</span></li><li><span>olor corporal</span><span class='zh'>体味</span></li><li><span>sudar</span><span class='zh'>出汗</span></li><li><span>la adolescencia</span><span class='zh'>青春期</span></li></ul></section>
+<section id='finish' class='finish'>
+<h2>完成了</h2>
+<div id='stats' class='stats'></div>
+<div class='finish-actions'>
+<button id='againBtn'>再练一次</button>
+<button id='hardBtn' hidden>只练困难句</button>
+<button id='copyBtn'>复制学习记录，发给老师</button>
+</div><p id='copied' class='copied'></p>
+</section>
+<div class='colophon'><span class='who'>阿弟西语研究社<span>翻译回忆</span></span><span class="sig"><i class="mk" style="--m:url(data:image/png;base64,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);width:60.9px;height:46px;"></i></span></div>
+</main>
+<div class='controls'><div class='controls-inner'>
+<p class='controls-lbl'>当前句子</p>
+<button id='hintBtn' class='hint-btn' aria-pressed='false'>按住查看原文</button>
+<button id='answerBtn' class='answer-btn'>想不起来？显示答案</button>
+<span id='progress' class='progress'></span>
+</div></div>
+<div id='peek' class='peek'></div>
+<script>
+var DATA = {"paragraphs":[{"sentences":[{"zh":"如果你在中国和西班牙都生活过，你肯定已经注意到一件事：一般来说，在中国晚上洗澡很常见，而在西班牙，大多数人早上洗澡。","parts":[{"type":"text","text":"Si "},{"type":"cloze","answer":"has"},{"type":"text","text":" "},{"type":"cloze","answer":"vivido"},{"type":"text","text":" en China y en España, seguro que "},{"type":"cloze","answer":"te"},{"type":"text","text":" "},{"type":"cloze","answer":"has"},{"type":"text","text":" "},{"type":"cloze","answer":"dado"},{"type":"text","text":" "},{"type":"cloze","answer":"cuenta"},{"type":"text","text":" "},{"type":"cloze","answer":"de"},{"type":"text","text":" una cosa: en general, en China es muy común "},{"type":"cloze","answer":"ducharse"},{"type":"text","text":" "},{"type":"cloze","answer":"por"},{"type":"text","text":" "},{"type":"cloze","answer":"la"},{"type":"text","text":" "},{"type":"cloze","answer":"noche"},{"type":"text","text":" y en España "},{"type":"cloze","answer":"la"},{"type":"text","text":" "},{"type":"cloze","answer":"mayoría"},{"type":"text","text":" "},{"type":"cloze","answer":"se"},{"type":"text","text":" "},{"type":"cloze","answer":"ducha"},{"type":"text","text":" por la mañana."}],"text":"Si has vivido en China y en España, seguro que te has dado cuenta de una cosa: en general, en China es muy común ducharse por la noche y en España la mayoría se ducha por la mañana.","clozeCount":15},{"zh":"为什么呢？","parts":[{"type":"text","text":"¿Por qué?"}],"text":"¿Por qué?","clozeCount":0},{"zh":"很多人会告诉你，这只是文化原因，但其实还有一个他们不敢说的更重要的原因：西班牙人味道更重！","parts":[{"type":"text","text":"Muchos te dirán que es solo "},{"type":"cloze","answer":"por"},{"type":"text","text":" "},{"type":"cloze","answer":"motivos"},{"type":"text","text":" "},{"type":"cloze","answer":"culturales"},{"type":"text","text":", pero hay "},{"type":"cloze","answer":"una"},{"type":"text","text":" "},{"type":"cloze","answer":"razón"},{"type":"text","text":" "},{"type":"cloze","answer":"más"},{"type":"text","text":" "},{"type":"cloze","answer":"importante"},{"type":"text","text":" que no se atreven a decir: "},{"type":"text","text":"¡"},{"type":"cloze","answer":"los"},{"type":"text","text":" "},{"type":"cloze","answer":"españoles"},{"type":"text","text":" "},{"type":"cloze","answer":"huelen"},{"type":"text","text":" "},{"type":"cloze","answer":"peor"},{"type":"text","text":"!"}],"text":"Muchos te dirán que es solo por motivos culturales, pero hay una razón más importante que no se atreven a decir: ¡los españoles huelen peor!","clozeCount":11}],"original":"Si has vivido en China y en España, seguro que te has dado cuenta de una cosa: en general, en China es muy común ducharse por la noche y en España la mayoría se ducha por la mañana. ¿Por qué? Muchos te dirán que es solo por motivos culturales, pero hay una razón más importante que no se atreven a decir: ¡los españoles huelen peor!"},{"sentences":[{"zh":"事实是，在中国，就像在东亚很多地区一样，人们的体味要轻得多。","parts":[{"type":"text","text":"La verdad es que en China, como en gran parte de Asia oriental, la gente tiene "},{"type":"cloze","answer":"mucho"},{"type":"text","text":" "},{"type":"cloze","answer":"menos"},{"type":"text","text":" "},{"type":"cloze","answer":"olor"},{"type":"text","text":" "},{"type":"cloze","answer":"corporal"},{"type":"text","text":"."}],"text":"La verdad es que en China, como en gran parte de Asia oriental, la gente tiene mucho menos olor corporal.","clozeCount":4},{"zh":"原因主要是基因。","parts":[{"type":"text","text":"La razón es "},{"type":"cloze","answer":"sobre"},{"type":"text","text":" "},{"type":"cloze","answer":"todo"},{"type":"text","text":" "},{"type":"cloze","answer":"genética"},{"type":"text","text":"."}],"text":"La razón es sobre todo genética.","clozeCount":3},{"zh":"如果夏天有人睡觉时出了一点汗，第二天通常也没人会注意到，所以喜欢晚上洗澡，然后干干净净、放松地钻进被窝，是很正常的。","parts":[{"type":"text","text":"Si en verano alguien "},{"type":"cloze","answer":"suda"},{"type":"text","text":" "},{"type":"cloze","answer":"un"},{"type":"text","text":" "},{"type":"cloze","answer":"poco"},{"type":"text","text":" mientras duerme, al día siguiente nadie "},{"type":"cloze","answer":"suele"},{"type":"text","text":" "},{"type":"cloze","answer":"notarlo"},{"type":"text","text":", así que es normal "},{"type":"cloze","answer":"preferir"},{"type":"text","text":" "},{"type":"cloze","answer":"ducharse"},{"type":"text","text":" "},{"type":"cloze","answer":"por"},{"type":"text","text":" "},{"type":"cloze","answer":"la"},{"type":"text","text":" "},{"type":"cloze","answer":"noche"},{"type":"text","text":" y "},{"type":"cloze","answer":"meterse"},{"type":"text","text":" "},{"type":"cloze","answer":"en"},{"type":"text","text":" "},{"type":"cloze","answer":"la"},{"type":"text","text":" "},{"type":"cloze","answer":"cama"},{"type":"text","text":" bien limpio y relajado."}],"text":"Si en verano alguien suda un poco mientras duerme, al día siguiente nadie suele notarlo, así que es normal preferir ducharse por la noche y meterse en la cama bien limpio y relajado.","clozeCount":14}],"original":"La verdad es que en China, como en gran parte de Asia oriental, la gente tiene mucho menos olor corporal. La razón es sobre todo genética. Si en verano alguien suda un poco mientras duerme, al día siguiente nadie suele notarlo, así que es normal preferir ducharse por la noche y meterse en la cama bien limpio y relajado."},{"sentences":[{"zh":"在西班牙和其他西方国家，孩子们通常也会晚上洗澡，但到了青春期，很多人开始早上洗澡。","parts":[{"type":"text","text":"En España y en otros países occidentales, los niños también "},{"type":"cloze","answer":"suelen"},{"type":"text","text":" "},{"type":"cloze","answer":"bañarse"},{"type":"text","text":" "},{"type":"cloze","answer":"por"},{"type":"text","text":" "},{"type":"cloze","answer":"la"},{"type":"text","text":" "},{"type":"cloze","answer":"noche"},{"type":"text","text":", pero cuando "},{"type":"cloze","answer":"llega"},{"type":"text","text":" "},{"type":"cloze","answer":"la"},{"type":"text","text":" "},{"type":"cloze","answer":"adolescencia"},{"type":"text","text":" muchos empiezan a "},{"type":"cloze","answer":"ducharse"},{"type":"text","text":" "},{"type":"cloze","answer":"por"},{"type":"text","text":" "},{"type":"cloze","answer":"la"},{"type":"text","text":" "},{"type":"cloze","answer":"mañana"},{"type":"text","text":"."}],"text":"En España y en otros países occidentales, los niños también suelen bañarse por la noche, pero cuando llega la adolescencia muchos empiezan a ducharse por la mañana.","clozeCount":12},{"zh":"一个舒服的澡能帮你清醒过来，精神满满地开始一天，但最重要的是，没人想带着汗味、臭烘烘地出门。","parts":[{"type":"text","text":"Una buena ducha te ayuda a "},{"type":"cloze","answer":"despertarte"},{"type":"text","text":" y a "},{"type":"cloze","answer":"empezar"},{"type":"text","text":" "},{"type":"cloze","answer":"el"},{"type":"text","text":" "},{"type":"cloze","answer":"día"},{"type":"text","text":" "},{"type":"cloze","answer":"con"},{"type":"text","text":" "},{"type":"cloze","answer":"energía"},{"type":"text","text":", pero, sobre todo, "},{"type":"cloze","answer":"nadie"},{"type":"text","text":" "},{"type":"cloze","answer":"quiere"},{"type":"text","text":" "},{"type":"cloze","answer":"salir"},{"type":"text","text":" "},{"type":"cloze","answer":"de"},{"type":"text","text":" "},{"type":"cloze","answer":"casa"},{"type":"text","text":" sudado y oliendo mal."}],"text":"Una buena ducha te ayuda a despertarte y a empezar el día con energía, pero, sobre todo, nadie quiere salir de casa sudado y oliendo mal.","clozeCount":11}],"original":"En España y en otros países occidentales, los niños también suelen bañarse por la noche, pero cuando llega la adolescencia muchos empiezan a ducharse por la mañana. Una buena ducha te ayuda a despertarte y a empezar el día con energía, pero, sobre todo, nadie quiere salir de casa sudado y oliendo mal."}]};
+var TITLE = "Ducharse por la mañana o por la noche";
+var all = [];
+DATA.paragraphs.forEach(function(p, pi){
+  p.sentences.forEach(function(s, si){
+    s.pi = pi; s.si = si; s.done = false; s.revealed = false; s.hints = 0;
+    all.push(s);
+  });
+});
+var exercise = all.map(function(s, i){ return s.clozeCount ? i : -1; }).filter(function(i){ return i >= 0; });
+var activeList = exercise.slice();
+var step = 0;
+var hintUses = 0;
+var revealCount = 0;
+var difficult = {};
+var confirmTimer = null;
+var audioCtx = null;
+var completing = false;
+
+var reading = document.getElementById("reading");
+var peek = document.getElementById("peek");
+var hintBtn = document.getElementById("hintBtn");
+var answerBtn = document.getElementById("answerBtn");
+var progress = document.getElementById("progress");
+var finish = document.getElementById("finish");
+var stats = document.getElementById("stats");
+var hardBtn = document.getElementById("hardBtn");
+var copied = document.getElementById("copied");
+
+function norm(s){
+  s = (s || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+  try { s = s.replace(/[^\p{L}\p{N}\s]/gu, ""); }
+  catch(e){ s = s.replace(/[^a-z0-9ñ\s]/gi, ""); }
+  return s.replace(/\s+/g, " ").trim();
+}
+function el(tag, cls, text){
+  var x = document.createElement(tag);
+  if(cls) x.className = cls;
+  if(text != null) x.textContent = text;
+  return x;
+}
+function currentIndex(){ return activeList[step]; }
+function isFinished(){ return step >= activeList.length; }
+
+function render(){
+  reading.innerHTML = "";
+  DATA.paragraphs.forEach(function(p, pi){
+    var box = el("div", "para");
+    p.sentences.forEach(function(s){
+      var idx = all.indexOf(s);
+      var sent = el("span", "sent");
+      var active = idx === currentIndex() && !isFinished();
+      sent.classList.toggle("active", active);
+      sent.classList.toggle("done", s.done);
+      sent.classList.toggle("revealed", s.revealed);
+      sent.classList.toggle("future", !active && !s.done && !s.revealed);
+      if(active) renderActive(sent, s); else sent.textContent = s.text + " ";
+      box.appendChild(sent);
+      if(active){
+        var zh = el("div", "active-zh", s.zh);
+        box.appendChild(zh);
+      }
+    });
+    reading.appendChild(box);
+  });
+  updateControls();
+  focusFirstOpen();
+}
+
+function renderActive(node, s){
+  s.parts.forEach(function(part, n){
+    if(part.type === "text"){
+      node.appendChild(document.createTextNode(part.text));
+      return;
+    }
+    var input = el("input", "gap");
+    input.type = "text";
+    input.autocomplete = "off";
+    input.autocapitalize = "none";
+    input.spellcheck = false;
+    input.inputMode = "text";
+    input.dataset.answer = part.answer;
+    input.dataset.n = n;
+    input.size = Math.max(4, Math.min(24, part.answer.length + 2));
+    input.style.width = Math.max(3.6, Math.min(24, part.answer.length * 1.05 + 1.8)) + "ch";
+    input.setAttribute("aria-label", "填空");
+    input.addEventListener("input", onInput);
+    node.appendChild(input);
+  });
+  node.appendChild(document.createTextNode(" "));
+}
+
+function onInput(e){
+  var input = e.target;
+  var typed = norm(input.value);
+  var answer = norm(input.dataset.answer);
+  input.classList.remove("err", "ok");
+  if(!typed) return;
+  if(answer.indexOf(typed) === 0){
+    if(typed === answer){
+      input.value = input.dataset.answer;
+      input.classList.add("ok");
+      input.disabled = true;
+      setTimeout(focusFirstOpen, 90);
+      checkSentence();
+    }
+  } else {
+    input.classList.add("err");
+  }
+}
+
+function focusFirstOpen(){
+  if(isFinished()) return;
+  var open = reading.querySelector(".sent.active .gap:not(:disabled)");
+  if(open) open.focus({preventScroll:true});
+}
+
+function checkSentence(){
+  if(completing) return;
+  var open = reading.querySelector(".sent.active .gap:not(:disabled)");
+  if(open) return;
+  var idx = currentIndex();
+  if(idx == null) return;
+  completing = true;
+  all[idx].done = true;
+  sentenceSuccess(function(){
+    step += 1;
+    completing = false;
+    if(isFinished()) end(); else render();
+  });
+}
+
+function sentenceSuccess(done){
+  popSound();
+  burst();
+  setTimeout(done, 930);
+}
+
+function popSound(){
+  try{
+    var C = window.AudioContext || window.webkitAudioContext;
+    if(!C) return;
+    audioCtx = audioCtx || new C();
+    var now = audioCtx.currentTime;
+    var o = audioCtx.createOscillator();
+    var g = audioCtx.createGain();
+    o.type = "sine";
+    o.frequency.setValueAtTime(660, now);
+    o.frequency.exponentialRampToValueAtTime(880, now + .08);
+    g.gain.setValueAtTime(.0001, now);
+    g.gain.exponentialRampToValueAtTime(.045, now + .015);
+    g.gain.exponentialRampToValueAtTime(.0001, now + .18);
+    o.connect(g).connect(audioCtx.destination);
+    o.start(now); o.stop(now + .2);
+  }catch(e){}
+}
+
+function burst(){
+  var layer = el("div", "burst");
+  for(var i = 0; i < 16; i++){
+    var s = el("i", "spark");
+    var a = Math.PI * 2 * i / 16;
+    var r = 48 + Math.random() * 38;
+    s.style.setProperty("--x", Math.cos(a) * r + "px");
+    s.style.setProperty("--y", Math.sin(a) * r + "px");
+    layer.appendChild(s);
+  }
+  document.body.appendChild(layer);
+  setTimeout(function(){ layer.remove(); }, 820);
+}
+
+function updateControls(){
+  var total = activeList.length;
+  if(isFinished()){
+    hintBtn.disabled = true;
+    answerBtn.disabled = true;
+    progress.textContent = total ? total + " / " + total : "0 / 0";
+    return;
+  }
+  hintBtn.disabled = false;
+  answerBtn.disabled = false;
+  progress.textContent = (step + 1) + " / " + total;
+  answerBtn.textContent = "想不起来？显示答案";
+  answerBtn.classList.remove("confirm");
+}
+
+function showPeek(){
+  if(isFinished()) return;
+  var idx = currentIndex();
+  var s = all[idx];
+  difficult[idx] = true;
+  s.hints += 1;
+  hintUses += 1;
+  var p = DATA.paragraphs[s.pi];
+  peek.textContent = p.original;
+  document.body.classList.add("peeking");
+  hintBtn.setAttribute("aria-pressed", "true");
+  reading.querySelectorAll("input").forEach(function(i){ i.blur(); i.disabled = true; });
+}
+function hidePeek(){
+  document.body.classList.remove("peeking");
+  hintBtn.setAttribute("aria-pressed", "false");
+  reading.querySelectorAll(".sent.active input").forEach(function(i){
+    if(!i.classList.contains("ok")) i.disabled = false;
+  });
+  focusFirstOpen();
+}
+hintBtn.addEventListener("pointerdown", function(e){ e.preventDefault(); showPeek(); });
+["pointerup","pointercancel","lostpointercapture"].forEach(function(name){
+  hintBtn.addEventListener(name, hidePeek);
+});
+window.addEventListener("blur", hidePeek);
+
+answerBtn.addEventListener("click", function(){
+  if(isFinished()) return;
+  if(answerBtn.classList.contains("confirm")){
+    revealSentence();
+    return;
+  }
+  answerBtn.classList.add("confirm");
+  answerBtn.textContent = "再按一次显示答案";
+  clearTimeout(confirmTimer);
+  confirmTimer = setTimeout(function(){
+    answerBtn.classList.remove("confirm");
+    answerBtn.textContent = "想不起来？显示答案";
+  }, 2200);
+});
+
+function revealSentence(){
+  clearTimeout(confirmTimer);
+  var idx = currentIndex();
+  all[idx].revealed = true;
+  difficult[idx] = true;
+  revealCount += 1;
+  step += 1;
+  if(isFinished()) end(); else render();
+}
+
+function end(){
+  render();
+  var total = activeList.length;
+  var independent = activeList.filter(function(i){ return all[i].done && !all[i].revealed && all[i].hints === 0; }).length;
+  stats.innerHTML = "";
+  stats.appendChild(el("div", "", independent + " / " + total + " 句完全靠自己完成"));
+  stats.appendChild(el("div", "", hintUses + " 次查看过原文"));
+  if(revealCount) stats.appendChild(el("div", "", revealCount + " 句看过答案"));
+  finish.classList.add("show");
+  hardBtn.hidden = Object.keys(difficult).length === 0;
+  try{ finish.scrollIntoView({block:"center", behavior:"smooth"}); }catch(e){}
+}
+
+function reset(list){
+  activeList = list || exercise.slice();
+  step = 0;
+  completing = false;
+  hintUses = 0;
+  revealCount = 0;
+  difficult = {};
+  all.forEach(function(s){ s.done = false; s.revealed = false; s.hints = 0; });
+  finish.classList.remove("show");
+  copied.textContent = "";
+  render();
+}
+document.getElementById("againBtn").addEventListener("click", function(){ reset(); });
+hardBtn.addEventListener("click", function(){
+  var list = Object.keys(difficult).map(Number).filter(function(i){ return exercise.indexOf(i) >= 0; });
+  if(list.length) reset(list);
+});
+
+function summaryText(){
+  var total = activeList.length;
+  var independent = activeList.filter(function(i){ return all[i].done && !all[i].revealed && all[i].hints === 0; }).length;
+  var lines = [
+    "学习记录",
+    "题目：" + TITLE,
+    independent + " / " + total + " 句完全靠自己完成",
+    hintUses + " 次查看过原文"
+  ];
+  if(revealCount) lines.push(revealCount + " 句看过答案");
+  return lines.join("\n");
+}
+document.getElementById("copyBtn").addEventListener("click", function(){
+  var text = summaryText();
+  function ok(){ copied.textContent = "已复制，可以发给老师。"; }
+  function fallback(){
+    var ta = el("textarea");
+    ta.value = text; document.body.appendChild(ta); ta.select();
+    try{ document.execCommand("copy"); ok(); }catch(e){ copied.textContent = text; }
+    ta.remove();
+  }
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(ok, fallback);
+  } else fallback();
+});
+
+render();
+</script>
+</body></html>

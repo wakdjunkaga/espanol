@@ -1,12 +1,4 @@
-<!doctype html>
-<html lang="es">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="noindex,nofollow">
-<title>El tren en Londres</title>
-<link rel='preconnect' href='https://fonts.googleapis.com'><link rel='preconnect' href='https://fonts.gstatic.com' crossorigin><link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400;1,8..60,600&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=Noto+Serif+SC:wght@400;500;700&amp;family=Noto+Sans+SC:wght@400;500&amp;display=swap'>
-<style>:root{
+<!doctype html><html lang='zh'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><meta name='robots' content='noindex,nofollow'><title>¡Jolín, Jolin!</title><link rel='preconnect' href='https://fonts.googleapis.com'><link rel='preconnect' href='https://fonts.gstatic.com' crossorigin><link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400;1,8..60,600&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=Noto+Serif+SC:wght@400;500;700&amp;family=Noto+Sans+SC:wght@400;500&amp;display=swap'><style>:root{
   --paper:#e9e7e1;--card:#f4f3ef;--ink:#1a1916;--ink2:#43413b;--muted:#78756c;
   --rule:#cfcbc1;--rule-soft:#dcd8ce;
   --red:#bb392a;--blue:#2b5378;--blue-rgb:43,83,120;
@@ -353,16 +345,44 @@ li.term:last-child{border-bottom:1px solid var(--rule)}
     padding:.7rem 0}
   .term-zh{text-align:left}
 }
-</style>
-</head>
-<body class="hide-zh">
 
-<div class='mstrip'><span class='zh'>阿弟西语研究社</span><span>Yan · B1</span></div>
+/* ---- inline glosses (===GLOSSES===, same component as El Principito's --
+   chapter reader) — single tier only, no "muy aprovechable" label, since a
+   reading page glosses everything worth glossing rather than tiering it.
+   :not(.ghost) is not decoration: design.CHROME's button:not(.ghost):not(.cal)
+   scores CSS specificity 0-2-1, and a bare button.gloss (0-1-1) loses to it,
+   rendering as CHROME's boxed default button instead of an underlined word
+   (DESIGN_README rule 8 — same trap button.audio-src-btn already hit). */
+button.gloss:not(.ghost){font:inherit;color:inherit;background:none;border:0;
+  padding:0;cursor:pointer;min-height:0;
+  border-bottom:1.5px solid rgba(var(--blue-rgb),.55);border-radius:0;
+  transition:background-color .12s ease}
+button.gloss:not(.ghost):hover,button.gloss:not(.ghost):focus-visible{
+  background:rgba(var(--tint-rgb),.13);outline:none}
+button.gloss:not(.ghost)[aria-expanded="true"]{background:rgba(var(--tint-rgb),.2)}
+#pop{position:absolute;z-index:30;max-width:22rem;background:var(--card);
+  border:1px solid var(--rule);border-top:2px solid var(--blue);
+  padding:.9rem 1rem 1rem;box-shadow:0 6px 22px rgba(0,0,0,.18)}
+#pop .head{font-family:var(--read);font-size:1.12rem;color:var(--blue);
+  padding-right:1.2rem}
+#pop .defn{font-family:var(--hans);font-size:.98rem;line-height:1.75;
+  color:var(--ink);margin-top:.45rem}
+#pop .note{font-family:var(--hanx);font-size:.82rem;line-height:1.85;
+  color:var(--muted);margin-top:.6rem;padding-top:.55rem;
+  border-top:1px solid var(--rule-soft)}
+#pop .arrow{position:absolute;width:10px;height:10px;background:var(--card);
+  border-left:1px solid var(--rule);border-top:1px solid var(--rule)}
+#pop .close{position:absolute;top:.3rem;right:.4rem;font:inherit;
+  font-size:1.1rem;line-height:1;background:none;border:0;color:var(--muted);
+  cursor:pointer;padding:.25rem .35rem}
+#pop .close:hover{color:var(--ink)}
+</style></head><body class="hide-zh">
+<div class='mstrip'><span class='zh'>阿弟西语研究社</span><span>yan886</span></div>
 <div class="toggle-bar">
   <label class="toggle">
     <input type="checkbox" id="zh-toggle" onchange="document.body.classList.toggle('hide-zh', !this.checked)">
     <span class="switch"></span>
-    <span class="toggle-label">translation <span class="zh">· 中文</span></span>
+    <span class="toggle-label"><span class="zh">中文翻译</span></span>
   </label>
 </div>
 
@@ -370,132 +390,84 @@ li.term:last-child{border-bottom:1px solid var(--rule)}
 
   <div class="titlepage">
     <div class="kicker">Lectura bilingüe <span class="zh">· 双语阅读</span></div>
-    <h1 class="title">El tren en Londres<span class="fmw"><span class="fm f-read"><i class="l"></i><i class="l"></i><i class="l s"></i></span></span></h1>
-    <div class="subtitle">24 de agosto de 2026</div>
+    <h1 class="title">¡Jolín, Jolin!<span class="fmw"><span class="fm f-read"><i class="l"></i><i class="l"></i><i class="l s"></i></span></span></h1>
+    <div class="subtitle">9 de septiembre de 2026</div>
     <div class="rule"></div>
   </div>
 
   <div class="listen">
     <div class="listen-top">
       <div class="listen-label">escuchar <span class="zh">· 听音频</span></div>
-      <div class="audio-toggle">
-        <button class="audio-src-btn active" data-src="audio/tren-londres-tts.mp3">机器</button>
-        <button class="audio-src-btn" data-src="audio/tren-londres-mine.mp3">老师</button>
-      </div>
     </div>
-    <audio controls id="main-audio" src="audio/tren-londres-tts.mp3"></audio>
+    <audio controls id="main-audio" src="audio/jolin-jolin-mine.mp3"></audio>
     <span class="handnote hand"><i class="mk" style="--m:url(data:image/png;base64,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);width:36.0px;height:28px;transform:rotate(-3deg)"></i></span>
   </div>
 
   <div class="passage">
-    <div class="passage-row">
-      <button class="play-btn" data-src="audio/tren-londres-1.mp3" aria-label="play">▶</button>
-      <div class="passage-text">
-        <div class="es">En el verano de 2018 fui a Londres con mis hijos porque Luna quería visitar una universidad. Era la primera vez que viajábamos a Inglaterra.</div>
-        <div class="zh-line">2018年夏天，我和孩子们一起去了伦敦，因为露娜想去参观一所大学。那是我们第一次去英国旅行。</div>
-      </div>
-    </div>
+    <div class="es">Si quieres viajar a Madrid <button type="button" class="gloss" data-g="0">sin moverte de casa</button>, solo tienes que mirar el vídeo de "馬德里不思議", de la cantante taiwanesa Jolin Tsai. En el vídeo vemos una calle muy <button type="button" class="gloss" data-g="1">madrileña</button>, con casitas de colores, una bonita plaza y... ¿<button type="button" class="gloss" data-g="2"><button type="button" class="gloss" data-g="2">paprika</button></button> <button type="button" class="gloss" data-g="3">secándose al sol</button>?</div>
+    <div class="zh-line">如果你想不出门就"去"一趟马德里，只需要看看台湾歌手蔡依林（Jolin Tsai）的《马德里不思议》MV就行。视频里我们看到一条很有马德里感觉的街道，有彩色的小房子、一个漂亮的广场……还有——晒在阳光下的红椒？</div>
   </div>
   <div class="passage">
-    <div class="passage-row">
-      <button class="play-btn" data-src="audio/tren-londres-2.mp3" aria-label="play">▶</button>
-      <div class="passage-text">
-        <div class="es">Un día fuimos a coger el tren. Cuando llegó, Jin subió directamente, pero Luna y yo no tuvimos tiempo de subir: las puertas se cerraron y nos quedamos fuera. ¡Y el pobre Jin estaba dentro solito! En ese momento solo tenía ocho años.</div>
-        <div class="zh-line">有一天，我们去坐火车。车进站的时候，晋径直上了车，可露娜和我却没来得及上——车门关上了，我们被留在了外面。可怜的晋一个人待在车厢里！那时候他才八岁。</div>
-      </div>
-    </div>
+    <div class="es">Pues no: esa calle no está en Madrid, <button type="button" class="gloss" data-g="4">ni siquiera</button> en España —el vídeo se grabó en un pequeño pueblo turístico de Hungría (¡la paprika ya era una pista!). Seguramente porque era más barato grabarlo allí, aunque algunos <button type="button" class="gloss" data-g="5">bromean</button> y dicen que Jolin no quería ir a España porque aquí su nombre es una <button type="button" class="gloss" data-g="6"><button type="button" class="gloss" data-g="6">palabrota</button></button>.</div>
+    <div class="zh-line">其实并不是：那条街根本不在马德里，甚至都不在西班牙——这段视频其实是在匈牙利一个小旅游村拍的（红椒早就是个线索了！）。大概是因为在那里拍摄更便宜，不过也有人开玩笑说，蔡依林不愿意去西班牙，是因为在西班牙她的名字是一句脏话。</div>
   </div>
   <div class="passage">
-    <div class="passage-row">
-      <button class="play-btn" data-src="audio/tren-londres-3.mp3" aria-label="play">▶</button>
-      <div class="passage-text">
-        <div class="es">El tren empezó a moverse y yo me puse a golpear la puerta desde fuera para intentar que parara, pero no sirvió de nada. Me puse muy nerviosa, porque no conocíamos a nadie en Londres y mi hijo de ocho años estaba solo en un tren.</div>
-        <div class="zh-line">火车开始开动，我在外面拼命拍打车门，想让它停下来，可是一点用都没有。我一下子慌了神，因为我们在伦敦谁也不认识，而我八岁的儿子一个人在车上。</div>
-      </div>
-    </div>
+    <div class="es">En realidad, esto no es completamente cierto. <button type="button" class="gloss" data-g="7">Lo que pasa es que</button> en español existe <button type="button" class="gloss" data-g="8">jolín</button>, una palabra suave que usamos cuando no queremos decir la palabrota "<button type="button" class="gloss" data-g="9">joder</button>". <button type="button" class="gloss" data-g="10">Así que</button> la siguiente frase sería totalmente correcta en español: "¡<button type="button" class="gloss" data-g="8">Jolín</button>, Jolin, esto no es Madrid!"</div>
+    <div class="zh-line">其实，这话也不完全对。事实是，西班牙语里有一个词叫jolín，是一个比较温和的说法，我们不想说更粗的脏话"joder"时，就会用它。所以下面这句话在西班牙语里完全说得通："¡Jolín, Jolin, esto no es Madrid!"（哎呀，Jolin啊，这可不是马德里！）</div>
   </div>
-  <div class="passage">
-    <div class="passage-row">
-      <button class="play-btn" data-src="audio/tren-londres-4.mp3" aria-label="play">▶</button>
-      <div class="passage-text">
-        <div class="es">Luna, en cambio, estaba muy tranquila. Me decía:<br>—Mamá, no pasa nada. Jin va a bajar en la siguiente parada.<br>Pero yo pensaba: «¡Esta niña no se da cuenta de la gravedad de la situación!».</div>
-        <div class="zh-line">露娜却完全相反，她显得非常镇定，一直跟我说：<br>——"妈妈，没事的。晋会在下一站下车的。"<br>可我心里想："这孩子根本没意识到事情有多严重！"</div>
-      </div>
-    </div>
-  </div>
-  <div class="passage">
-    <div class="passage-row">
-      <button class="play-btn" data-src="audio/tren-londres-5.mp3" aria-label="play">▶</button>
-      <div class="passage-text">
-        <div class="es">Al final, Luna y yo esperamos el próximo tren. Cuando llegamos a la siguiente parada, vimos a Jin en el andén. Estaba con un hombre muy amable, que había bajado del tren con él y se había quedado esperando a que llegáramos.</div>
-        <div class="zh-line">最后，露娜和我等了下一班车。到了下一站，我们看见晋站在站台上。他身边站着一位非常热心的男士，那人跟他一起下了车，一直陪他等到我们赶来。</div>
-      </div>
-    </div>
-  </div>
-  <div class="passage">
-    <div class="passage-row">
-      <button class="play-btn" data-src="audio/tren-londres-6.mp3" aria-label="play">▶</button>
-      <div class="passage-text">
-        <div class="es">¡Me llevé un susto de muerte! Y Jin también, pobrecito.</div>
-        <div class="zh-line">我真是吓得魂飞魄散！晋也是，可怜的孩子。</div>
-      </div>
-    </div>
-  </div>
-  <div class="day-label">Glosario<span class="en">key vocabulary</span></div>
-  <ul class="glossary">
-    <li class="term"><div class="term-row"><span class="term-es">coger el tren</span><span class="term-zh">坐火车 / 上火车（西班牙用语）</span></div></li>
-    <li class="term"><div class="term-row"><span class="term-es">subir (a un tren/coche)</span><span class="term-zh">上车</span></div></li>
-    <li class="term"><div class="term-row"><span class="term-es">quedarse fuera</span><span class="term-zh">被留在外面，没能进去</span></div></li>
-    <li class="term"><div class="term-row"><span class="term-es">solito/a</span><span class="term-zh">孤零零一个人（solo 的小称）</span></div></li>
-    <li class="term"><div class="term-row"><span class="term-es">empezar a moverse</span><span class="term-zh">开始动起来 / 开动</span></div></li>
-    <li class="term"><div class="term-row"><span class="term-es">golpear</span><span class="term-zh">敲打，拍打</span></div></li>
-    <li class="term"><div class="term-row"><span class="term-es">no servir de nada</span><span class="term-zh">毫无用处，徒劳</span></div></li>
-    <li class="term"><div class="term-row"><span class="term-es">ponerse nervioso/a</span><span class="term-zh">变得紧张</span></div></li>
-    <li class="term"><div class="term-row"><span class="term-es">no conocer a nadie</span><span class="term-zh">谁也不认识</span></div></li>
-    <li class="term"><div class="term-row"><span class="term-es">en cambio</span><span class="term-zh">相反，而</span></div></li>
-    <li class="term"><div class="term-row"><span class="term-es">tranquilo/a</span><span class="term-zh">冷静的，镇定的</span></div></li>
-    <li class="term"><div class="term-row"><span class="term-es">no pasa nada</span><span class="term-zh">没事，没关系</span></div></li>
-    <li class="term"><div class="term-row"><span class="term-es">darse cuenta de algo</span><span class="term-zh">意识到某事</span></div></li>
-    <li class="term"><div class="term-row"><span class="term-es">la gravedad de la situación</span><span class="term-zh">事态的严重性</span></div></li>
-    <li class="term"><div class="term-row"><span class="term-es">el andén</span><span class="term-zh">（火车/地铁）站台</span></div></li>
-    <li class="term"><div class="term-row"><span class="term-es">llevarse un susto de muerte</span><span class="term-zh">吓得半死，魂飞魄散（习语）</span></div></li>
-    <li class="term"><div class="term-row"><span class="term-es">pobrecito/a</span><span class="term-zh">可怜的小家伙</span></div></li>
-  </ul>
 
   <div class='colophon'><span class='who'>阿弟西语研究社<span>archivo de repaso</span></span><span class="sig"><i class="mk" style="--m:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAS8AAADlCAYAAAAC2nG+AAAwaElEQVR4nO2dfXAc9ZnnPyuEkGUJRZYV4ZdShDG2FZ1xjMFxOYLw5nURAw4vS3m5EMimOC5hqb292qRyWWpTqVR2l2MvlctySdhUlg0hhGJ5C4RQXgcwhrgU82IblYNtbKG4jI1thGJsybIstPfHt3/pnp5uaSRNz/Ronk/VlKSemZ7WTM+3n+f5PS9gGIZhGIZhGIZhGIZhGIZhGIZhGIZhGIZhGIZhGIZhGIZhGIZhGIZhGIZhGIZhGIZhGIZhGIZhGIZhGIZhGIZhGIZhGIZhGIZhGCXMnxT7AAwjBSwAGoCZwELgGPCjoh6RMSaVxT4AwygyS4ErgdnAdPSd2FzUIzJywsTLKGfmA6uB65B4VQJdwIFiHpSRGyZeRjlzFtAGLMH/LlQDR4t2REbOVBT7AAyjiJxCohW8iLcB7dh3I/XYB2SUMwPAYGhbA7AGCVgr0FjgYzIMwxiTemAd8Drwn6Hbz4FbgVrvcaVCBZku8MVAS/EOJzks5mWUMyeAXcCjKM51SeC+65D1NQ3YArxW6IPLkXrv1oiEqx5YjNI9TkOWpBO07iIdYyKYeBnlzBD6Qj8NbPV+nwtcAVQhEViHBCyN4lULzAKuQq7uNCRei7z7B4HD6H95GRgBegp+lAlh4mWUO0fx0yP2IkvlBeCjQAf6sqfte9KErMKPIvG6AfhkxOOqkct4NhLmESRkQ94+zgD2e7dhb1+nI6utL9H/IA9Yhr1hZNOCXMoLgPfQF3trUY8IaryfdUhU/xxYgSyt2ojH70ZW1wgS5yHgbSTWFd5+RoB+YAb6nxu8bYeBN4E9SNT3e89PFSZehpF+KlAu2s1AM3JnF4/xnOeB57znzgZWISHqBvZ521uRBbeYbOvyOIoHbgJ+g8TwJBK/Q5P8f/JC2sxhwzAyqQBWAl8A/mKMxw4B7yLheRnoxLewjiERq0DB/enAcqKtNrzty7zHtSAL9BCwDS1gvDPB/ydvmHgZRnqpRS7dGsYWrs3A/wXeQi7vTm/7HGRxDaI6zouR2xnHCNCLYmKg4P8CJHofAE8hkTzNe51hihQfM/EyjHRSi2JubajTRRyHUAeMp5A7GHbpjgKXApchC65hjNetwBeu4DaAM9HiQAewA9iA3MpTKOF3ZIx95xUTL8NIHzXAp5Fb10C2mIDE4lFgPQquR8WiqoHzgGuQ9RbHAArKL8jh2KpRrKzVO77VyEXdjmJkffgrl3ORu9oTcWyTxgL2hpE+FqHVxGaUunAZEgvHTuB+4GFkbUXRjGJctwB/FfOYd4CXUA7bfmRBzUBB/MsYe1EgSC/wj/ipF22o1VAX8DMU8M8rZnkZRrpoRF/8emRNteAL13HgWSQGLyPBiGMmim+tjrn/CeCnaFXyJLLwDnr3NSE39NMoTrYQBf5njXHc93i/b0YdO+YhVzKRNAsTL8NIF3VIeOrQl98F1weBr6MY0/Yx9lGLrLd2ol3OB4GHkMvp4lQHA/cf8V7nNSRqzcBHkDV2g3dco7EcX1uOIYvOMIwpTBXK5/oaSnNwReL9SLhyKRCvBdYCPwReRMLh9nMCuJfovK6xaPKeswz4FtHF7OHb28CdjL1IYBhGCdOCROVv0CpeUAR+TG7BdNCK4r3AG8jqCe7nLmSNTYYG5D5e6R3rvUhow6/1PvAd5HYmgrmNhlF8XIH1CrLrFH8LPELu3V0bkcDU4SegDgHfQKuTeyZ5rC6nqwIlqx5DAnU50pPpyELcDTzOFCoENwwjm2XAbUhcwj3FLmT0QHmQVmR5PU6m63a7tz0pY6UKCVZT4O8mFCtLDLO8DKO4VKPuEPPQKmOQrUQnnoZpBs7xfl+M4mZ4z30YBeZdNnwSDJG5ojiEgv6JYuJlGMWlAcWhVgIfD2w/iALuYwlXLRKupajFTQcSwl7gAZQO0ZPXI04JJl6GUVzORpbSBYFtQyiPqyeH59ehEW7LUW7VMm/7gyhgnvq+XBPFxMswikczEp55+P26QGU2u8jNzZuBXMWLyUxmfZIpLFxg4mUYuVCJRMa1lZmNWi73oe6rPUwsnvRRlCIxM7S9y9vvWIXOzcjSuojM8qF9lMHsSRMvwxibeahP/DwkNLOQxfMHlMrwS1QSEx6jNhY1SAjD0306kYCdjHlevXcslwLXk5lasds7nv5xHkvJYeJlGKPjBnFcjVyzMAuRUPSiguTR6g3DnIEC9tWBbUNIuHpQt4comlBg/otkBvkHUELrUyRQCG0YRmlxPWrm9y6jl8L8BglKC/HdScM0Ab+K2NcdRA+EnuP9vJbMsp9gBn2uOWElj03MNox4qlDW+yzGTrhcicplVpMdw4qjHsXOwjSSGcDH+7sP+BJwH9le0yCy/MbrupYs5jYaRjzhFIaxWItytjrQat8vGD3ofoLoflxtSACPB7Y1oN5ctxDdKeIbyFU8No7jNQxjinIHGjwRdM0OAN9DQfETxLuRncgSu4TMlcAgtciSep/souYbUSysGlldX/XuC7uL/cC3kaCVjctoGEY8rai2MCxKd+OPDPsaqh2ME7CTwO+R2C0iMzCP93cHyqQPP/dJ4FZU8/g1lDoRfswBZO0ZhmEAsoiuQGO+gmLxJmoF48It9cg620W8gDlL6n4keuFQTROynOL6YR0g2zJzt5/hB/ENwzCoRU30DpNtdS0KPbYRuXhbGF3A+pHQRbl2K8mtuV/Q4roHWWaT7c9lGMYUohW5emHRuJ34VceVwDdRLCxKcE6gdIrVZMfA6pEw5ipe9yCLqxZbdDMMI0AV2flXB5BAxQXFXdpRO7AO+Aey42EnUJeHK5DF5qhBYrQOJZjGuZ53IysvbP2VJabahpFNE6o7DNKJVh4PZj8c8FMidqDg+jYUC7sKWIUGtlaj9ItPoJSGOvxM+gHUMfVtYCOaedjo7XcvGrpx1Huem4ZtGIbxRxqQaxcOkt9JduLoWNQgS+y7wIeBfe1FQyw6Ip7TiLL056MeXR3e74ZhGKPSAPxPst22yaQkrEQu38nA/tYTLV5GjpjbaBiZnEQuW5A+Jpe5vg25gwCfRQK5DZXzGBPExMswMnGdHoJsYux2zKPhYlr3oXhWJYphRZUGGTli4lU+VKJl/hn4wximowBzGqnHH3R6DFk/cS1i8kl46s3vULb7W3nYd7d3M/KAiVf5UAVcg76cQygB8ygKJKdt9WoO8Cm0MleF3Kv9qM/VHsbuMDoZZpO50ngArTQORT/cKBYmXuXDMAoQ34BykvYgi2I7ErQRxtdILwkaUXO/tcDN+DlVh5Dl8yBy6bpIxgqrR+kLrYFtmzFrKZWYeJUPdUjAqry/FwFfRhNntqAvaTHFqxo/wfMLZBYxN3u3TyDBfQiV0wyS317tFcjyagxtq8Qsr9Rh4lU+VJPdE/1MVB9Xh1yjYtKKip5vJrv7gqMW+BwSuceBZ5AVlq9hqqfILt2Z8oMsShUTr/JhGK2kRdFCcbvqVqEGfF8mtxbKS5HFOBPlS21DE5rzIWLnBH7vQ+2fy6Y7aSlhbaDLh2HiA91RE2wKyWzkEp4Z2j4IfBDznFnAXwH/hKy1fBz/R8nMZt+HAvZGCjHxKi/2xmyfA5xfyAMJUIlmD4Yn82xHXRyuQK2P/zXm+R9HU3S+isaBTaa/1bnezdGLrK8kVzeNCWJuY/kwjCyJAaJr9FYi66XQiZNNaP7gJaHtG4ENqBD6CGoEWIky1MMW2gJ07MMob+0HEzyWeWS6rb0opcQwjCJSiYLz4Z7s7nYUCUih+6AvAl4IHUsnmYNUHQ2oJXLUGDJXSL0N/R9VjO/iXAV8ncw+8d9n/MXYRoEwt7F8GEaWxC7v7yOh+z9EK21xQf2kuIbMCT3PIoEKHx9IYO9HLub/Ru1kHK6kZ4l33zrGJ16NyAIk8Lx+CpPVb0wAE6/y4l3khr1D9jj401HpUKFCCZUoPrWETFdtJ4p3RSWGjqCE1d1orNjfe48NcyGa3LOO3M/xs8huPRPXu8tIASZe5UU3SkjdhgLRQWqR9VEoy2s6snSWh7bvJfvYotiBRtt/C3gi4v7F3v6dIMXljjmWkpnj9QrK6je3MaVYwL686EXiVYUC9GGqKMwFrRoFx1eTae1sJfcFA5c8+jyyyBrIDvqvQYm5neh/306mqxlkeujvTuRim9uYUky8yo99yGppi7m/EOLViCydS0PbH0ariuOhD1leA6g2cWnodW5D1l0XEqMFyO10VCPhC4vX61jLmlRjbmP50U18NvoQapeTNDNQXllwZXMfGr460aTQF1GM60cR9y1BRen/DSXDBmNs56DM/i8Gtu1GAm+Z9SnGLK/y5CjZlgbI/Ur6C9uErJ+VZF48H0aiOlE3bRCJzmOoVvMzZOaDtQJ/DTyNrC3X5mYdcFdoX08yfgvQKBxzgI+ZeJUnJ4gOYFeSvOXVilIjgu7dEBKTcOH4RFjv7etW4CtkZ9xf6h1DD+oRdmPEPjYBx/NwLEZ+aUAx0jbgfBOv8qQfxYDWBLb1oZhQ0m1xZqCVwCBbkbv4Tp5eox65fXcDK1AumXMVa73XDx+D4ysos99IBxX4o+guQeVbK4FlJl7lyRlkzyUcRDlUSdfxzUE5VUFeIr/B8X0oWP8asq7cwNioFVbHCPBr4FWsd1daqEExSpfGshxddBrAYl7lTGPo71Pkx20bjXnARagQ29GF0h0mM50niq3ez2pkhW0G/iv6vzvIPPePo8z+nyLxMopPI7rYrELWcyuKZf4x3GHiVZ4cI3uleQayiOaQP/ctSDW6goaTUjciyyupGJML5A8DL6OxZquRgE1DixddqL5ya4LHYeRGDXA2Eq7VSLiiOoXsNvEqT9z0oCC1qDND1CpkPqhELkAwKbUbBdgLIRiu3KgXuZGPIhEfQcm5hZpOZERTjS4m89Giyhqy2ySB+rvdD2wx8SpPTifaRawnmZhXLQq0XobfQ38ErertintSQrj6yMnMYTTySxWyiFfhB+Sjuop0ozy+R4E+E6/ypJpoK+MMkgklzEAnZjBg3odqLIs9scgoHk2oi267d7saXUDDXXEHUMXD36Nz5iBYzKtcqSTa8qpCpnsSr9cR2nYEdZCwARflRwUKwLejC9qlqAoiKvdwJ3ITH0fnyh9bJZl4lSefQMHQMNPQlfAA+XWr6sjMq9oJfAN1bbAWy+XDfLQo1IYC8ZegFegw+9Diymto9Xc7ERc5E6/ypIJs0RhCA2l3oM4T+aSFzFY7G4A3sGGu5UIlWghyq4eXEj9rYA/wPWRpvYO8gci8OxOv8mSEzGaEw0hIFqFi6XxaQ03INXBF2DuB5zDhmupUI4u7AU1BXwL8DyRiUe5hH8r3ewEJl2sEGZswbOJVngwjM3wYnQO9qMvqIpR5PxulEUw207we1TFeE9h2EmW9Wxb71KUGXbAWonNpBUp7iNKbIbR6uAkJ1zFyjINOFfFq8G4t6M04hZIT3yeZhMtSpgZd+ZxwjaBYVz1675ajE++tSb5OPbK2VqPxZI4D5D+b3kgHFeh72IGmPC1B50FUXAvgd8DPUK7fHsa5eDMVxMupfDtwHUrAdImIr6Og37tED3QoR+pRLk2d9/dB9B42IiFbhN7LybqOlehzuTq0/dfI8jKmDrXofFmNsuMvA64kul/gIGo59AqKe+5ggrMCSl285qCVs1uQ2ofHdm1Fb9Sz6GpvzeWUDLgMxaKOIFN9LrpizvAeM9vbNpm41FzgKjKvuv8M/ArLZJ9KzELuYQuytlrJbHcU5n40d2DSw01KWbwWoPhMB7q6RwUBlyL170Pi1U15x1oWADORZVWPelq9gCyxc7wbSNiWIwHaNIHXccmHKwLbRpB7sHMC+zPSSQ06Z65En/X5ZHapdRxCzR0fRwXyZZ+YPAv4IdEDVMO3V9EswOaiHGl6qATuQVnKblDrtUjU7kTu3FHvvjdQfVlV1I7GeI1FaLk7+Bm8SHwPLaO0qEKGwZ0oZrWX6O/d+8BPgLXouzeL8Z9PsZSq5VWN39snF1qQJbAaWWE9qJNAudGGXENXlH0ayr8awh+L5jLhF+MH7neTO22otfINgW193r4PT/TAjdTQjC5qV+Fb8E0Rj3sFpcQ8hxJO8x6yKVXxmov86xWh7QPIqhhAgrXA294EXI4E73XUhuUo5TUdxp1kbmUW/FyvHiQ6W8hsWbMSuY095O5urwC+QGb8cRPwCFYMXapUoOz4QWRxXYTOjbAnM4Dcw83erQtZZYnEmktRvJqQ8l9N9mrG3ShIfwwFEVcif7wJf7neJWH2o5SKcpiK3Iwf62rHD6IfxreGjiKROoCf/dyKLgKxWc4hmtDJHV44eRVdiY3SoxKdMx3ouzQTCVm4mSVoSnk38Daytk+Q4CJZqYlXE7qyu46YQQaR0u9Ab1ofiuH0A18KPK4FfQgux2mQ3CY0lyq1aEX2QmQRBVf/ZqL3ox1dMT9EV8w6FLdqRSftG+g9Gst9bETBf8dBVAq0NfrhRsqZg4LwK9F5cAHZC2NdKP3lDTT4ZD8FauhYauJVgVqrXBhx3wZkNbjl/YPoC+fiY8HWw/NQTtgQsjjeZGoJmLMu69BJdwvZ06RBJ+eXUTrJw8iNfs573gL0fq9B7+sWZNHGWaqtqOi23fu7D/gminf8YTL/jFFQKvA//6vQ+bOEbGNhAAXjH0UXpz50DhSsE20piVcrcgUvj7jvCbTqEY5h7UPitR7/A3E497MHfSmngni1IxexBcUFXWO3+aM8pw29B5uQ0GxH73Uveo8aUXlPJfEWlMv1uQzfZdyO0jDGE+w3ikctupi70EIHEq+oAupD6GL3JFrQcd+dnqQPMkgpiVc/6q748dD23SgY/AzR/vUBJF59KE0gyDy0qvYGErCe/B1uUbgR3w1sR3k4Y/ESsjxd1vt7SPR78FeRFgG/R+dLVI/7uSjWFaxhtPrF0sB1fJgLXIFCDG3oQt8Qemwfcg0fwR+aMhUu+omzALmG4VySH5P9JoepR1+6uyKefxL4Ofrgwh0cS4EGJFR34udojXX7PXrf/g7lebWTaZVWo3SHA4HnfAjci96nSu/W5N1uQrHG4P7/guigrpEOqpC19Ul07txNfL6Wu92Jv8I41ncucUrF8mpCNVNzI+7bxdh1eEeRFfKMt4/bA/dVIYthJmrZUSrMAT6CYnnXoKr9M0OP2Y3c5eDq3weoXOoJJDKHyL56DqIr7E+8fX8cxULuQDHH+5Gb2YAsrivxLeJuFAfpwrqkppmFKA56EfI+WomuUhkGHkCx0B58a7roFlepiFcjukKEYzf/gWIrUQWgYQ4ikXsCCdX1gftqkEXRgT7AN0l3/V01Ko26Dvg80Rbj0yhu5TqmupPtiLf996iSPzxFyNGDRGo/Cvi7RZIFwG2oE8VcZLm5q/BONPvwFygFI27fRnFoQN+BduBWdGGKqzp5GX/e5cuoucHp2AVpXFShwPpLZJuxX0NXjPEwH31wb0bsbxvKVUmz+1iJrJ2fEm/eP4nSQx4PbDuJXD/3f96FLKb5jF6y0Qx8DngKlXsEXcPga76B3IrRFgeM4lGBPu+/QcXxJ4k+d04B/4KMhbyV8pQrs9AbHn6z30c1U/UT2Od8b5/7yf7wfokssKL79BE0oP85Kvbnbt9HMai1KL0h7nH93n6+xNg1n7XoPbkDBWtfQBeT99Hn8ktkjUUV5RrFZx6ywO9Hq4Nx58RTKA5aEhegUnAb5xJtHexGLtBEzNgDKO5Th6yFoFBdgNILTnj7T0sJUSPKV7sdubhhelEQ/gH0udahEzUqJw58V/kAimeMVrpzHFlrr3qPnYZWqFqRa7gDBXvT7GqXI/XIRXQTwtvIrn5wPAh8G60gWgPPPLAAxXSiXMYf4ydEToR65H7dg0zlsAt0F9GJncViGTL3o66YncgVDibizkLv3RYyXeQ3vP285/29gegBn0bp0oAWcL6KFk/eJd5FfBV5Ia3FONDJkHbLaybqFxQ1hHIvso4mylFkmWxCge9g2cxi/G6sGyfxGvmiHV01PxVx30MoYfBVMrPfD6KVvwPIOqpHIvZjtMjxeVQudBIFYo2pQQU6l68m+7wO0oXOmw2UaE5e2sXLdT0Ii9ebKEXiwCT3f9x7jR1kf8jnevfXUsCShxhagL8lMxViGPgBqizoIdrtO4UEehUS+x+h9+4UssiG0QUgl9VaI93UoLZP16AcvaVEf7+PoNiX6xt/mBLtMJxm8WpB+V1RV47XUSwqH296D/pCX0pmwHkOihXsRwJQjB74Lej/d6uCQR5AAdajRAvXEhQvnIuWx7tRusR27/7dwGP5P2SjgNSi/myzkHD9L2Rhzyb7u30ILbZsQ3Md9lL8i/KkSLN49aOK9ktD27eT31ay3ShmdC7KWQqyBll4xRjgUYXE6wbvFvystqJUiY2jPL8Sv7XzMWRp/SGB4zQKSy3+YslC7zYPXaTiFmeeRmkzD1GC7mEcaRavRuTuBAtDjyNz9xXyO7R0N2pTHBavZrTyuDnPrzcWrofSxcj6C6cy7GL00WTNKGi7GJ3YnUj0bYJS6XMWWjlcgeKgrURbWiBr63FkcW0iv8OEjRiaUa5SP9k5TBcn8HqzUNpA1KrmARTcLiSLge+QWS/o6guf845ntDy0xSgny/Xoup8Syd0xRmUWyst7Dn+1OOp2An3ma5H1nkuBfsmRVsurBVk8wTf9A1Sm0JPA6x1EsYIHgPPIDIzP8o7lGfR+Jd3KuBmddLeT+f8fAe5Dq0OdjG7+z0bvYR2KDXZhE1tKnUYUPvgsaj0UxQcoPPAoymNMS45iIqRRvJpR/KkjtP0P6IqS1AeyE6UM/AQlrga5BonmepIVr/nIarqZ7Kvlg+ik3B5+UoglaKFjJlpV3IHczKiiWyO9uK4dH0VxLZdsGpeTtwetSO9Fn3lJriCOhzSKVwUKPraFto+QvM/ej2JfHWQOznTm+pvImpnILMOxqPf2fT6Z7WlA8bafk1slfz26Sjfgz6wcpjx69U8VqlCssh2dD5czeiLxL5BV/ir6rKe8cEE6xWs62eVAA+gLnHRFezd6T54ke+pvC+qu8P0EXrceCeQaMtv1gCzNvyS3aUcd6Cp9ETrxd6D4yN58HqyRKO3oXLsJXcQviXncO0isnkVB+bJbjEmjeE1DYvUBfuzpXWT1TDYpNRcOoDyYjWSfOIvRlfBN8lv/tQC5BF8mcwbeMFop2kdu7ZSr8FcajyJXeDdyKYz004664V5N9sUzyNMoIL8dfTfKkrSJ13y09NuAYlwVKG7jZsEVYu7fcRQjehJZMcFC1vmocHsz+ROvatR69xayi2Z/gGJduQ5rrUBL6XVIhDuR9WWkmxZkNd+AXMRwU0nHdmRlrfd+Lwv3MI60iVcjyl9ZiZ8Z/j4Sr1cpXCO0XmR5taNWL0GWeNu3MfkM5SpvX6vITmV4DAXod5H7SXo6slxHvOe9gTWPSyuuJGsB8OdIuMLzGUDWdwW6YP4/1H5oEGv0mDrxmo4sG/dFrkApAYco7Jewz7s9g+JHiwL3zUcmvUv8DOJmJC5Fcax9KP0ijiZ00oaTYzejnuL7Gd/V1eX0HEbitX/0hxtFpAaJ1o2o1VGUtdWLX3T/CLqol3RJTz5Jk3jNQ+5ia2j7UZSQV4xj3YMC3m6GId7Pc9FqqKsPq0HuWgM6wVah4908xv7/C4p1hf+3jUxswvR93s1IJ25wybmoXtUVUEfRhWJbP0VxyxE03NXwSJN4VaAYUzhzvBuJSDEapPUjAbqAzKXqxSiY/y46vlZ0Es7wfs5FVs9ols8ClGwYPnndvENj6tCIn77yKbSqvJzozrM9KBWnC8Vdu7GynkjSJF4g8arzfh/B7+hQrKX+HhRQfwkVvTrrqwkFVo8i9+w8ZEEdRe5iP+p80Rmz3wYU24saoPsgWu00pgYNSKja0UVvIfE5W/+MLpbPosWbA5hwlQQXow6frq/8YeCHyDqZSJ/6fNGO6gQ7iZ75+BuU+e+2/QbVJV5LZtpDkFq0YhTe3w/RsIuoKcVx++kAvodEfte4/jMjSRrRhW8x+lzjupm6bra3o8/dKiFyJC2WVw26QtUh62YQidg+dPUp5oqZa1T4NtlXzCoU43LsRO1qXkfmflzi4Eyy3/su5C68Re4u8mxk8a1GrusTOT7PSJZq9Hm0ofjnlcRfyB5A3W234J/7Rg6kRbzqUcD7LLTi2I+uVPtJx1L/6ygFYTbxXS2OI5O/EwnRaDWIs8m2Jtd7t1wLqCtQLO46FD/rRVdwo3g0o/N3JQoJrCS71Mvh2jA/SuYwVyNH0iJedeiDr0CN81wpzBHSUZPnSjG6iRevThQbG0u4QCkNwdbWh7zn5ypctShm9jmUG9SLvgRjrW4ayeBWEVehC8qVxIvWTvw2zCXfzbSYpEW8ZgNnoyvQCIp37SY9pQ/zkViMVrKxF6U3jJXRXuPtJ+hGPEJu5T/g55L9d/QlAYnlL9AgWKOwVKM2NVcS3TgyyH0od3AD5h5OmrSIVwMSsMPI8tqPvojFziKuRe5iByqOXjLKYysYe5BFg7ePYLuf3eiEfi+H42lE8bcbgOsD211nVbuKF45qlBKzGvgi8Re2YfQZ/wqtJu7HVhDzQlrEawh1/BxGLlA3cqW6inQ8S5FQtCBRXUXmTMQoLkBJh1VokSHO3V3hPdYxHZVA5eIez0XCdUdg20FUPlV2XQWKRAX6jJejz/sG4oPxG1E4YIv3ey4tjYwcSYN4tSBr6wj+lOr9qGtqoWlGllYVCrjehkQsF1xyah9KLoziGLKcgu1+5jB2Kki9d1tI5jCOIZTQuod0LGxMdarQZ7wCdX74DPFF1P8BfBOLQyZGGsSrAVkidcjyqqY4ZvUsFIe4BfVSOpfo3t8jaJVoHxK44MSWJu+5W4huQzOCOmOGmT3Gsc1FPfaDQ0RHUD7Zw1i/rqSpQZ/bChTbuoH4vvCPoZKeHnLvBmJMgDSIVxP6cjYjy6TQFfONSDwWoCvptcQPt3gMuWidyNLpxU9EdJyFxHgX2S18msmeQtTl7TOOJlSKdB2ZK52PoFhZHxbrSopK9Pmehy5SX/H+jhKuQ0i0fo1Wpm1mQMIUW7zmoStaM/ARlLF+mMJcsRq81z0fXU1XEj8aHZQA+k0Un+pF791RFAO5Az/1YRayvk6g5fCgWFWQ/b8dRHGvBWSvONYTHRD+AKVGFMO1LgeqkScwG8W2bgD+NOaxA+iz2IBc+GLU4JYlxRavRmR1OUvnOAp2J9n50y1lL0TCcB2ZLW+iuA/1UnqLzCXut5FAzSOzffMy5Nb1IaFz8aio1j4Xo5SQJ73H1nnPrUSrkmHhGkIN6aw7ajK4hZrlaKGmg/j0h+3IAn4c5W8ZBaTY4nU2vsXiOjAk7TI6a+azxI+QcmxEJ+cWZBWGc3Nc19X1qOTneiQ8FcjNWINcQpe0Ooy/MuhWqKrRHMbZyPobQgLX6B2jS3bsQ5aWW7myeEr+aUUXimuQNR4ULfe5gvL51qN2SV3YYklRKKZ4taM8KjcLcb/3e9VoT5ogbjVvCbK0xhraOgD8DI1H72T0hMJBFJx9Af1PbpgGyKpaj/43FwPZjDpH/HVoP1d4twEU+2sk8/N5xTuezUzxeXxFoBq937ehoPwlZOfsVSBrdz2ytDrRZ2UUiWKK14eobbErCdqLLJNjeXyNRcDHUIb8bBSLah3jOb8D/g+ybnrJLRN6KwrUP4esOkcLsp66kct5BFlWTyGBu45ssa4hMyA8AjyPSo9ex4Qr37QiwVqOXPS41IdDKOb5KuYipoJiitcZyEqZiQRrGuqqkI+BEfPRlfRcZP1cRfZwiyh+i4KvG8leFRyLfWj1bwkSMtdo7nrkKlZ5+wVZYq499LpR9rkVXeVf8Z5jSY75owpZ3+1kVyyE+Xfgu+gzyKUSwigAxRSvefhTbtpQYDQfwuUmbl+N+oPnkmS6Fa0W/QLFLyYSw9iBumE8gYQ4mJG/Cr/FTy9yP46hQP1mlGoxhIR2AH1B3kRi9yKWCpFvapC1tRrl6sWVff0WuYdW9J5CiiVerndXJXIV9yFzfKLxrmZvX6ehIPwtxA/rDDIC/Bs6OV/39jGZpe730Kqh61PuXJBlyMpcjC+Sh7zbPpQq8SFqKuhWGl0szcgftShn6wr8lcQ4HkJ9tl7DAvKppFji5Qaj1iHB6keWy3im3dQg4TsXNQk8ByWHLiKz3Uwcv0OtSZ5CLmI+VjmPI9F5wTuWP/O2V3rHtR+5xvX4X4heLKExaWpRzNOlx1yKLPJBMjuXHkeW1uOoFXNPQY/SGBfFEq9pyEqahk6iIWR95JK7NAfFyxpRkPVyZNnMIHqgQZh9qKRmg/d6/eQ3PcMVl9+PBubeFLjvCmSdObcwDb3KyoGzUerDTShEUYXih/1kite9aDVxY4GPz5gAxRKvYXTiHEMWlBOj0ViALKqz8XtrjdZfK8wmNEpqBxoYO0By7kA3iuVVoeB9MJ9sHRLun3vH8D7KA7NOmvmlAp1TbSiM8Hkyz3c36MXN53wcuYiWP1ciFEu8TqHymXfRl3cGErMoqlEJ0VzUU2sFozd8C+MsrU3IJThJYQLggyiB8bsokXUNvjv7Z+i9f9e7b4D8LFYYPiuAtSi2FXWRG0CpLb9ELqJZwSVGscRrJ4o7uFY4NWTmLy1DX/Tp6AraguIVa8fxGr3I0noOWTaukLqQdCOBOoBE6iv4k4GuRTGVfdhk63xRhc6Vi1H6w5UxjzuE4pIPo/PDVnNLkGKmSvwg8PuVyHxfik7A89BKUBsK7M8fx34PorjFBiRahyluo74B5I4cQK7h3+ILWKv380ThD2tK4pKCP0d8+sNjKLbVg1Z2TbhKlGKI1ydRYuC56OR5FVlFa9A04aWMT6xA1ss+VIfYjSyZk6QrE/ogSsk4CdyMhLkLWWazsZWtiVCD+vkfRheCm4nvI98L/CP+kBQr7SlxCi1e81EA2y1buwr+IZQDdWH8U7MYRjGsTvw0i6PIyurJ2xHnlyMox6sbvQ99aNXRSn7GTzW+i9jG6MMv/hUNfh1GFwsTrilAocVrGvrStiELqxVdEYcZXxDejUR/BdVEHqF0Egl7saX4ydKErPcbkbUVlyKzG60iuhIrYwpRaPGqwC/fmettayD3MVDPoziWM/17sXq/cmIOWnm+GHW9jWsQ2IvOlZ+g2KdN65mCFFK8XLtnJ1zD+AmdFcT3BN+K0hzeQu6gm6QdbrFsTG3mITfxFhSQjzt3X0Eu4mZsEvWUppDiNYRM/YWoPMZNxj6G38erEVlSe1Acawv+MIt+JHJ2MpYXlWjlcAnqDnIlmedtsEngs2hR5DFKJ4xgTJBCilcVEi1Xz3gCvzB7D0on6EOtlbvxUxwm2uXBKG2C7Zg78GtYw+xD581m5CYeQUXuxhSnkOJ1FrKeTqIrZR1qRngAdXTYiqZku/mNtiJUvrSg/mufRkH5uIG/H6DV2x0oU76O9K40G3mmkOJ1GAXnO1HM6ixkUXWiIPxbjL8BoDH1aEEpM5ejXvIuoTfoHg7jtxZ6Dr+g30p8yohCitcZSJymI9Fy5n6X97sJV/lSjc6PecjSWkd2u24nXLtRx471+FULRhlSSPGqQcH6Su82gE6+/VhRcjnThKytNlR471p4R+FaGa1HVpalQJQxhRSvOnQ1dUF6az1i1ODPR7yY+BZH21G6zLfQ+XM6JlxlTyHFqx7FtaYhF8CtIsa1wjGmJk3I1WtEorUata+JGpDi2hm5yePFLLA3UkahxMuNHjvN+9slqA6hVUajfGhELbJXopyt1pjHbUYTlp7EEpKNCAolXvUoq34uysEZRMmp4cGextRlKRKuzyDhWkx0VcV2NPziRZT2YOVfRiSFEq9KlBpxDL/982HyO2DWSC8taCXxL5FwxU2JehA1CdyIzg/rtWXEUsiY1y50Ep+O2sC8jAVdy4E5wK3AF4h3EXcD30edb12bbhMuY1QKJV4zkMt4OnIVh7FM6KlMI0pIXog/tach4nFHUJLpsyjh9CS5dxgxypxCiNcs73YOGvk1jFlcU5lWFM+6AE1NihvsuhkNdf0tfiNJw8iZQohXHbK8GvBjXKcK8LpG4WlA6Q/XojkEcyIesxMN+n0WlYa5lWfDGBeFEK8GVP7hxtifLMBrGoXDNZisR3GtT6PaxPBK8jBaRVyPCvEPYS6iMQkKZXmB3AJ3QpvbOHVYgASrDdUkRrXz/gCV9fwILdwcxWoSjUlSCPE6w/t5jPglcqP0aAbOR3GtS1FwPqqX/FaUaLoJtTqyLHkjLxRCvCq82ynkPhqlTTWqlliBVhJXEW9tPQr8DBXeD2EJp0YeSVq8ar3XOBtlWNeh/C7LrC9NqlGS6XXeLaoesQfla21Gsa3dhTo4o7xIWrzORX3r56OpL++iDHuLd5QWc1ALo2Wo39YtRIcANiL30JX2WI82IzGSFq/Z3m06infsRz283kv4dY384Aa7LkflXWvQIIywcA0gwfo35CK+hV2gjIRJWrxcHeMR/OGyQ1heTynQijLlO4DPooC8S3sJMoTa1vwEDQB+p2BHaJQ1SYvXMfze46dQiVAjygky0kklEqnlyNL6LHAmuuCE87K2o/jWU9hEaqPAJC1edfhxr2AHCUtOTCe1yM1fhURrJX7bmkr8VIg9KEN+A3IT9xf0KA2DZMWrBllaF6JVqWqUVX0UBe6N9FCP3MQKlP7wZaJLe0BxrXtR/pYlGxtFI0nxqkBB3rne387aGsJaP6eNRcjausj7PU64voL6be3AhMsoMkmK13moAR0oXtKHSkPeRn3sjeIzBwXib0Zta6LSHwaBR1BcaztaLTa33yg6SYrXSZQi4TLs30fdMY9gvbzSQD0q71mDhmBECdcetJL4LLrw9Bbs6AxjDJIUr2koR8gxjPKBTiT4msboNKDPfDaqeLgGCVdUL/mNqJD6Waysx0ghSYlXE/qCtAa2uU6apyf0msbouAWUlcAlaAW4jexzYA+qSVyP3EQTLiOVJCVeFcjqmhvYNhNl1pvlVViq8IXqJuATRAfkj+B3f9iCUltMuIzUkpR4DaJOA+H992Bxk0JSgcp5bgAuR7WJYVyvrZeAX2MtmY0SISnxOokKsYP0e7d9Cb2mkcl8tJLosuSjOkD0onFjPwdeQ669CZdREiQlXsNkT4txq49GsrgBv+0o4XQt0ZN7QLGtHwNd3t/WKNAoGZISrxVk53INYikSSdKMLg4tyEVch6yvMLuRm9iDrGAbhmKUJEmJ1wmyS4BOJPh65Y7rZHo58CWUBhHFZhTXehGVap1Eq4uGUXIkGbDvQjP5PultexMrKUmCJpRsuhg1CowTrq3AfSi2taMwh2YYyZGkJbQDWVtVqLPEy1iaRD6Zg+ZhXojfAaIx4nG9KNl0A3ITzdIypgRJidcOJFr70arjMtQS+LWEXq+cqESths4DPo/SIOI+x83I2tqIVhFtJdEwjKJQgVYRb0MJpf85yu1e5EJGjSMzDMMoGLOQGN2DCtzjRGsH8HdErzQahmEUjCZUI7oY+Bfg90SL1oeodc1NKF0iKinVMKYMhUpduAw4BxUHv4KsA4u/jE0rsqAuQrlzfxrzuGfxUyB6sSoGw8gbd6FxWCeBn6KSFWN0KpC19XW08BFlbb2FpvZ8HnVAbYnck2FMQQpleU1DJSpVqFVOVOM7Q1Sg92clytu6iuguEM8Dz6CC6j1YBwijzCiUeO0CfoDiN9uxXKM43JDXT6OaxMvJnpMIEq5HgedQCorNwTTKjkKJ13TgcfwkVZumnM0iZKGuQrlbF0Y8ZjOKF76McuYOYcJlGEaRcM0C1wG/BLYhkQ/Gtk4CnahLxCLkgkdl0xtG2fAnxT6AMqYWta45G+hAq4mXRTzuCPAQ6rm1E1ulNQzAujwUk4/h95O/CjgzdP8wmtzzAoprDWLCZRhGEWlCmfL3IjGKSzi9F8W96ome7mMYZY1ZXoWjGVlaA6hN0Dqyra3jaCjv8yj+1YNZW4YRiYlXYZiF2tfMRrMSO8i2pg6iYutOtJpok6kNYxRMvAqDC8p3EF3i0wf8A8qB24WC9Na40TBGwVYbk6MFWVfnAVcj4WqNeNzDwBNItHowN9EwjCJSj1YR7wbeIDoof9i7fzFmARuGUWRqkHV1LfB94tvXHAbuRDWL1rrGMIyi4oTrNlRzeIpo4doG3IFa3cTNUzQMYwws5jV5mlB861zU6mclMC/msf+OBmGsR21uLChvGBPEYi2TowoJ13VIuJbEPG4IeBX4FSqmrsSEyzCMIlGLrKxvo8TSuJ7ye4HvAFcgoVtQjIM1DMOoRa7iWtQV9j2iRetd4H7gVkywDMMoMs2o3vAO5ALGWVtbgC+hAH5FMQ7UMAwDtCo4C7ge+CHx1lY/arp4Ncr1MgwjISxgPzbzULPAC1BQflnEY46g1cN7Uc+tN7FMecNIFBOv0ZmHUiCuQ8MwolrT7ESNAp9GLmI/NgzDMIwi0YTcxLXAU8THtl5HmfLtKJBvGEaBMMsrmrPQLMQbiZ6FOIja1jwHdAHvo15chmEUiP8PQZTVXAyPdkkAAAAASUVORK5CYII=);width:60.9px;height:46px;"></i></span></div>
 
 </div>
+<div id="pop" hidden role="dialog" aria-label="glosa"></div>
+<script>window.GLOSSES=[{"head": "sin moverte de casa", "defn": "不出门；不离开家", "note": "sin + [原形]：表示\"在不[做某事]的情况下\"<br>sin moverse de casa → 不离开家 / 不出门"}, {"head": "madrileño/a", "defn": "马德里的；有马德里感觉的", "note": "una calle muy madrileña → 一条很有马德里感觉的街"}, {"head": "paprika", "defn": "匈牙利红椒", "note": ""}, {"head": "secarse", "defn": "变干，晒干", "note": "paprika secándose al sol → 正在太阳下晒干的红椒"}, {"head": "ni siquiera", "defn": "甚至不；连……都不", "note": "No está en Madrid, ni siquiera en España. → 它不在马德里，甚至不在西班牙。"}, {"head": "bromear", "defn": "开玩笑", "note": ""}, {"head": "palabrota", "defn": "脏话；粗话", "note": ""}, {"head": "Lo que pasa es que…", "defn": "其实是……；情况是……", "note": "直译：发生【的事情】是……"}, {"head": "jolín", "defn": "比较温和的感叹词，用来代替更粗鲁的 joder", "note": ""}, {"head": "joder", "defn": "相当于中文里的\"操\"，是比较粗鲁的词，可以表达生气、惊讶或不满", "note": "la palabrota \"joder\" → \"joder\" 这个脏话"}, {"head": "Así que…", "defn": "所以……，这样呢……", "note": ""}]</script>
+
 <script>
 (function () {
-  var current = null, currentBtn = null;
-  document.addEventListener('click', function (e) {
-    var b = e.target.closest('.play-btn');
-    if (!b) return;
-    if (currentBtn) currentBtn.classList.remove('playing');
-    if (current) { current.pause(); current.currentTime = 0; }
-    if (b === currentBtn) { current = null; currentBtn = null; return; }
-    current = new Audio(b.dataset.src);
-    currentBtn = b;
-    b.classList.add('playing');
-    current.addEventListener('ended', function () {
-      b.classList.remove('playing');
-      currentBtn = null;
+  (function () {
+    var G = window.GLOSSES || [];
+    var pop = document.getElementById('pop'), cur = null;
+    function hide() {
+      if (cur) { cur.setAttribute('aria-expanded', 'false'); cur = null; }
+      pop.hidden = true;
+    }
+    function show(btn) {
+      var g = G[+btn.dataset.g]; if (!g) return;
+      if (cur === btn) { hide(); return; }
+      if (cur) cur.setAttribute('aria-expanded', 'false');
+      cur = btn; btn.setAttribute('aria-expanded', 'true');
+      pop.innerHTML = '<span class="arrow"></span>' +
+        '<button class="close" aria-label="cerrar">&times;</button>' +
+        '<div class="head">' + g.head + '</div>' +
+        '<div class="defn zh">' + g.defn + '</div>' +
+        (g.note ? '<div class="note zh">' + g.note + '</div>' : '');
+      pop.querySelector('.close').onclick = function (e) { e.stopPropagation(); hide(); btn.focus(); };
+      pop.hidden = false;
+      place(btn);
+    }
+    function place(btn) {
+      pop.style.left = '0px'; pop.style.top = '0px';
+      var r = btn.getBoundingClientRect(), pr = pop.getBoundingClientRect();
+      var sx = window.scrollX, sy = window.scrollY, m = 8;
+      var left = r.left + sx + r.width / 2 - pr.width / 2;
+      left = Math.max(sx + m, Math.min(left, sx + document.documentElement.clientWidth - pr.width - m));
+      var below = r.top < pr.height + 70;
+      var top = below ? r.bottom + sy + 10 : r.top + sy - pr.height - 10;
+      pop.style.left = left + 'px'; pop.style.top = top + 'px';
+      var ar = pop.querySelector('.arrow'), ax = r.left + sx + r.width / 2 - left - 5;
+      ar.style.left = Math.max(10, Math.min(ax, pr.width - 20)) + 'px';
+      ar.style.top = below ? '-6px' : (pr.height - 5) + 'px';
+      ar.style.transform = below ? 'rotate(45deg)' : 'rotate(225deg)';
+    }
+    document.querySelectorAll('button.gloss').forEach(function (b) {
+      b.setAttribute('aria-expanded', 'false');
+      b.onclick = function (e) { e.stopPropagation(); show(b); };
     });
-    current.play();
-  });
-
-  document.addEventListener('click', function (e) {
-    var b = e.target.closest('.audio-src-btn');
-    if (!b) return;
-    document.querySelectorAll('.audio-src-btn').forEach(function (x) {
-      x.classList.remove('active');
-    });
-    b.classList.add('active');
-    var audio = document.getElementById('main-audio');
-    var wasPlaying = !audio.paused;
-    audio.src = b.dataset.src;
-    if (wasPlaying) audio.play();
-  });
+    document.addEventListener('click', function (e) { if (!pop.contains(e.target)) hide(); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { var c = cur; hide(); if (c) c.focus(); } });
+    window.addEventListener('resize', function () { if (cur) place(cur); });
+    window.addEventListener('scroll', function () { if (cur) place(cur); }, { passive: true });
+  })();
 })();
 </script>
 
