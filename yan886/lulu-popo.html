@@ -5,348 +5,359 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
 <title>Lulu y Popo</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Noto+Serif+SC:wght@300;400;500&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --bg: #faf6ef;
-    --card: #f5efe4;
-    --ink: #2b2620;
-    --muted: #8a7f6f;
-    --accent: #a8768c;
-    --gold: #c9a56a;
-    --rule: #e4dccb;
-  }
+<link rel='preconnect' href='https://fonts.googleapis.com'><link rel='preconnect' href='https://fonts.gstatic.com' crossorigin><link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400;1,8..60,600&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=Noto+Serif+SC:wght@400;500;700&amp;family=Noto+Sans+SC:wght@400;500&amp;display=swap'>
+<style>:root{
+  --paper:#e9e7e1;--card:#f4f3ef;--ink:#1a1916;--ink2:#43413b;--muted:#78756c;
+  --rule:#cfcbc1;--rule-soft:#dcd8ce;
+  --red:#bb392a;--blue:#2b5378;--blue-rgb:43,83,120;
+  --tint-rgb:34,94,156;--tint-a:.175;--tint-b:.07;
+  --graph:#6e6f72;--graph-rgb:110,111,114;
+  --deep:#20303a;--deep-ink:#ebe8e1;--deep-dim:#93a1a8;--deep-rule:#3b4c57;
+  --deep-red:#e07a63;
+  --now:#20303a;--now-ink:#ebe8e1;
+  --hl:#d9b45e;--hl-ink:#1a1916;
 
-  * { box-sizing: border-box; }
+  --rhythm:30rem;      /* max width of a measure — an instrument, not a console */
+  --measure:47rem;     /* the page column */
+  --reading:19px;      /* reader pages override this from localStorage */
+  --read:"Source Serif 4",Georgia,serif;
+  --app:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  --hans:"Noto Serif SC","Songti SC",STSong,SimSun,serif;
+  --hanx:"Noto Sans SC","PingFang SC","Hiragino Sans GB",sans-serif;
 
-  html, body {
-    margin: 0;
-    padding: 0;
-    background: var(--bg);
-    color: var(--ink);
-  }
+  --es-bg:var(--paper);        --es-card:var(--card);
+  --es-panel:var(--card);      --es-instrument:var(--card);
+  --es-ink:var(--ink);         --es-soft:var(--ink2);
+  --es-muted:var(--muted);     --es-rule:var(--rule);
+  --es-gold:var(--hl);         --es-accent:var(--blue);
+  --es-deep:var(--deep);       --es-rec:var(--deep);
+  --es-go:var(--blue);         --es-measure:var(--measure);
+  --es-serif:var(--read);      --es-han:var(--hans);
+  --es-sans:var(--hanx);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#16161a;--card:#1e1e24;--ink:#e8e6e0;--ink2:#c2bfb7;--muted:#8b887f;
+  --rule:#33333c;--rule-soft:#282830;
+  --red:#e77a67;--blue:#87afd6;--blue-rgb:135,175,214;
+  --tint-rgb:120,168,214;--tint-a:.20;--tint-b:.085;
+  --graph:#9b9ca0;--graph-rgb:155,156,160;
+  --deep:#242b33;--deep-ink:#e8e6e0;--deep-dim:#98a4ac;--deep-rule:#3a444d;
+  --deep-red:#e77a67;
+  --now:#cfd4d9;--now-ink:#14181c;
+  --hl:#d9b45e;--hl-ink:#14181c;
+}}
+:root[data-theme="dark"]{
+  --paper:#16161a;--card:#1e1e24;--ink:#e8e6e0;--ink2:#c2bfb7;--muted:#8b887f;
+  --rule:#33333c;--rule-soft:#282830;
+  --red:#e77a67;--blue:#87afd6;--blue-rgb:135,175,214;
+  --tint-rgb:120,168,214;--tint-a:.20;--tint-b:.085;
+  --graph:#9b9ca0;--graph-rgb:155,156,160;
+  --deep:#242b33;--deep-ink:#e8e6e0;--deep-dim:#98a4ac;--deep-rule:#3a444d;
+  --deep-red:#e77a67;
+  --now:#cfd4d9;--now-ink:#14181c;
+  --hl:#d9b45e;--hl-ink:#14181c;
+}
 
-  body {
-    font-family: "EB Garamond", "Noto Serif SC", serif;
-    line-height: 1.5;
-    padding: 10vh 20px 14vh;
-  }
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--read);font-size:17px;line-height:1.6;padding:0 0 4.5rem;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.wrap,.doc{max-width:var(--measure);margin:0 auto;padding:0 1.4rem}
 
-  .sheet {
-    max-width: 620px;
-    margin: 0 auto;
-  }
+/* ---- the hand ----------------------------------------------------------- */
+.mk{display:inline-block;background-color:currentColor;vertical-align:middle;
+  pointer-events:none;-webkit-mask-image:var(--m);mask-image:var(--m);
+  -webkit-mask-size:100% 100%;mask-size:100% 100%;
+  -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.hand{color:var(--red)}
+.field .hand{color:var(--deep-red)}
+.sig{color:var(--blue);line-height:1}
 
-  .titlepage {
-    text-align: center;
-    margin-bottom: 40px;
-  }
+/* ---- masthead ----------------------------------------------------------- */
+.mstrip{background:var(--deep);color:var(--deep-ink);display:flex;
+  justify-content:space-between;gap:1rem;padding:.5rem 1.4rem;
+  font-family:var(--app);font-size:10px;letter-spacing:.16em;
+  text-transform:uppercase}
+.mstrip .zh{font-family:var(--hanx);letter-spacing:.2em;text-transform:none}
+.kicker{font-family:var(--hanx);font-size:.78rem;letter-spacing:.22em;
+  color:var(--muted);margin:2.4rem 0 .9rem}
+h1{font-family:var(--hans);font-weight:500;font-size:clamp(1.9rem,7vw,2.5rem);
+  line-height:1.15;letter-spacing:.02em;margin:0;
+  display:flex;align-items:center;gap:.85rem;flex-wrap:wrap}
+.sub{font-family:var(--hanx);font-size:.85rem;color:var(--muted);margin:.7rem 0 0}
+.rule{border:0;height:1px;background:var(--rule);margin:1.6rem 0 0}
 
-  .kicker {
-    font-size: 11px;
-    letter-spacing: 0.28em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 18px;
-  }
+/* ---- movement heads. Arabic, with the count, because a student has to
+       count them and I·II·III reads as a chapter number. ------------------ */
+.mvh{display:flex;align-items:baseline;gap:1.1rem;border-top:2px solid var(--ink);
+  padding-top:.9rem;margin:4.2rem 0 0}
+.mvn{font-family:var(--read);font-variation-settings:"opsz" 60;font-weight:600;
+  font-size:clamp(2.4rem,8vw,3.2rem);line-height:.9;color:var(--ink);
+  letter-spacing:-.02em}
+.mvn .of{font-family:var(--app);font-weight:400;font-size:.85rem;
+  letter-spacing:.04em;color:var(--graph);margin-left:.18rem;vertical-align:super}
+.mvt{font-family:var(--hans);font-weight:700;font-size:clamp(1.5rem,5.4vw,2rem);
+  line-height:1.3;color:var(--ink)}
 
-  .kicker .zh {
-    font-family: "Noto Serif SC", serif;
-    text-transform: none;
-    letter-spacing: 0.1em;
-  }
+/* ---- instructions ------------------------------------------------------- */
+/* No card. Generic containment is what made nine exercises look like nine
+   identical homework rows. */
+.how{font-family:var(--hanx);font-size:.95rem;line-height:2.05;color:var(--ink2);
+  max-width:32rem;margin:1.5rem 0 0}
+.how p{margin:0 0 .5rem}
+.how p:last-child{margin:0}
+.how .lead{color:var(--ink)}
+.how b,.how strong{font-weight:500;color:var(--ink);
+  box-shadow:inset 0 -.32em 0 rgba(var(--tint-rgb),.3)}
+.note,.legend{font-family:var(--hanx);font-size:.8rem;line-height:1.95;
+  color:var(--muted);margin:2.2rem 0 0;padding-top:1rem;
+  border-top:1px solid var(--rule);max-width:30rem}
 
-  h1.title {
-    font-family: "Cormorant Garamond", "Noto Serif SC", serif;
-    font-size: 46px;
-    font-weight: 500;
-    font-style: italic;
-    margin: 0;
-    color: var(--ink);
-  }
+/* ---- controls: square, hairline, never a rounded pill ------------------- */
+button{font:inherit;color:var(--ink);cursor:pointer}
+button:not(.ghost):not(.cal){font-family:var(--hanx);font-size:.9rem;
+  min-height:44px;padding:0 1.1rem;border-radius:2px;
+  border:1px solid var(--rule);background:none;color:var(--ink2);
+  transition:border-color .15s ease,color .15s ease,background .15s ease}
+button:not(.ghost):hover:not(:disabled){border-color:var(--ink2);color:var(--ink)}
+button:not(.ghost):disabled{opacity:.38;cursor:default}
+button:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+/* yellow means live audio, playing or capturing — and nothing else */
+button.playing:not(.ghost),button.rec:not(.ghost){
+  background:var(--hl);border-color:var(--hl);color:var(--hl-ink)}
+button.ghost{border:0;background:none;border-radius:0;padding:.35rem 1px;
+  font-family:var(--hanx);font-size:.85rem;color:var(--blue);min-height:0;
+  border-bottom:1px dotted currentColor}
+button.ghost:disabled{color:var(--muted);opacity:.45;cursor:default}
+button.ghost.on{color:var(--ink);border-bottom-style:solid;
+  border-bottom-color:var(--blue)}
+.btns,.tp{display:flex;gap:.55rem;flex-wrap:wrap;margin:1.4rem 0 0}
 
-  .subtitle {
-    margin-top: 14px;
-    font-size: 14px;
-    color: var(--muted);
-  }
+/* ---- items -------------------------------------------------------------- */
+.items{margin:2.2rem 0 0}
+.items>.item{padding:1.9rem 0 0;border-top:1px solid var(--rule);
+  background:none;border-radius:0;position:relative}
+.items>.item:first-child{border-top:0;padding-top:1rem}
+.ihd{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;
+  margin:0 0 .8rem}
+.n,.inum{font-family:var(--app);font-size:10.5px;letter-spacing:.16em;
+  color:var(--graph);margin:0}
+.izh,.item>.zh{font-family:var(--hanx);font-size:.82rem;color:var(--muted);
+  margin:0 0 .6rem}
 
-  .rule {
-    width: 60px;
-    height: 1px;
-    background: var(--gold);
-    margin: 22px auto;
-  }
+/* ---- the foot ----------------------------------------------------------- */
+.foot,.colophon{margin:3.4rem 0 0;padding-top:1.2rem;
+  border-top:1px solid var(--rule);display:flex;justify-content:space-between;
+  align-items:flex-end;gap:1.5rem;flex-wrap:wrap}
+.foot .who,.colophon .who{font-family:var(--hanx);font-size:.82rem;
+  letter-spacing:.16em;color:var(--muted)}
+.foot .who span,.colophon .who span{display:block;font-family:var(--app);
+  font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--graph);margin-top:.45rem}
 
-  /* toggle */
-  .toggle-bar {
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    display: flex;
-    justify-content: center;
-    padding: 14px 0 10px;
-    margin: -10vh -20px 6vh;
-    background: linear-gradient(var(--bg) 70%, transparent);
-  }
+/* ---- family marks ------------------------------------------------------- */
+.fmw{display:inline-block;height:1.4em;line-height:1.4em}
+.fm{display:inline-flex;width:30px;height:14px;position:relative;
+  vertical-align:middle;color:var(--graph);gap:1.5px}
+.fm i{background:currentColor}
+.f-pron{align-items:flex-start}
+.f-pron i.c{flex:1;height:8px}
+.f-pron i.tie{position:absolute;left:24%;right:26%;bottom:1px;height:5px;
+  background:none;border:1px solid currentColor;border-top:0;border-radius:0 0 6px 6px}
+.f-song{align-items:flex-end}
+.f-song i.c{flex:1}
+.f-song i.h1{height:14px}.f-song i.h2{height:7px}
+.f-song i.h3{height:10.5px}.f-song i.h4{height:4px}
+.f-talk{flex-direction:column;justify-content:center;gap:3.5px}
+.f-talk i{height:4px;flex:none}
+.f-talk i.t1{width:55%}.f-talk i.t2{width:74%;margin-left:auto}
+.f-read{flex-direction:column;justify-content:center;gap:3px}
+.f-read i{height:2px;flex:none;width:100%;opacity:.85}
+.f-read i.s{width:58%}
+.f-grid{flex-wrap:wrap;gap:1.5px;align-content:center}
+.f-grid i.g{width:6.4px;height:6px;background:none;
+  box-shadow:inset 0 0 0 1px currentColor;opacity:.75}
+.f-grid i.g.on{background:currentColor;box-shadow:none;opacity:1}
 
-  .toggle {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    background: var(--card);
-    border: 1px solid var(--rule);
-    border-radius: 999px;
-    padding: 6px 16px 6px 6px;
-    cursor: pointer;
-    user-select: none;
-    box-shadow: 0 2px 10px rgba(43,38,32,0.05);
-  }
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
 
-  .switch {
-    position: relative;
-    width: 38px;
-    height: 22px;
-    border-radius: 999px;
-    background: var(--rule);
-    transition: background 0.2s ease;
-    flex-shrink: 0;
-  }
+body{--pad:max(1.4rem,(100vw - var(--measure))/2);
+  padding-left:var(--pad);padding-right:var(--pad)}
+body > .mstrip,body > .field{
+  margin-left:calc(-1 * var(--pad));margin-right:calc(-1 * var(--pad))}
+/* ===================================================== 双语阅读 · page CSS ===
+   The page-only layer.
 
-  .switch::after {
-    content: "";
-    position: absolute;
-    top: 2px;
-    left: 2px;
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    background: #fff;
-    transition: transform 0.2s ease;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-  }
+       PAGE_CSS = design.TOKENS + design.CHROME + design.COLUMN + CSS
 
-  .toggle input { display: none; }
-  .toggle input:checked ~ .switch { background: var(--accent); }
-  .toggle input:checked ~ .switch::after { transform: translateX(16px); }
+   No design.APPARATUS: nothing here measures the language.
+   No design.FIELD: there is no loud moment on a reading page.
 
-  .toggle-label {
-    font-size: 13.5px;
-    letter-spacing: 0.02em;
-    color: var(--muted);
-  }
+   MOST OF THIS IS illustrated_reader.py's ANSWER, DELIBERATELY.
+   That module was PROMOTED FROM a page in this same cream house style, so the
+   two shared a stylesheet: the same `.sheet`, `.titlepage`, `.kicker`,
+   `h1.title`, `.subtitle`, `.rule`, `.toggle-bar` / `.toggle` / `.switch`,
+   `.passage` / `.es` / `.zh-line`, the same glossary and the same `.foot`.
+   Where they do the same thing they now say it the same way, because a
+   student opening one and then the other should not be able to tell they were
+   written a month apart. The audio is the only part that is this page's own.
 
-  .toggle-label .zh {
-    font-family: "Noto Serif SC", serif;
-    color: var(--ink);
-  }
+   MARKUP SHIM: --patch cannot touch markup, so every rule works on the two
+   published pages as well as on a fresh build.
+*/
 
-  /* listen */
-  .listen {
-    background: var(--card);
-    border: 1px solid var(--rule);
-    border-radius: 14px;
-    padding: 14px 16px 16px;
-    margin: 0 0 40px;
-  }
+/* the old 620px wrapper; COLUMN owns the column now */
+.sheet{max-width:none;margin:0}
 
-  .listen-top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 8px 10px;
-    margin-bottom: 9px;
-  }
+/* ---- the sticky translation bar ------------------------------------------ */
+body > .toggle-bar{margin-left:calc(-1 * var(--pad));
+  margin-right:calc(-1 * var(--pad));
+  padding-left:var(--pad);padding-right:var(--pad)}
+.toggle-bar{position:sticky;top:0;z-index:10;display:flex;
+  justify-content:flex-start;padding:.5rem 0;background:var(--paper);
+  border-bottom:1px solid var(--rule-soft)}
+/* Square and hairline: the pill is the shape this identity is written
+   against. Blue when on, because 中文 is the language. The checkbox stays a
+   checkbox so --patch and a fresh build share one markup. */
+.toggle{display:inline-flex;align-items:center;gap:.55rem;cursor:pointer;
+  background:none;border:0;border-radius:0;padding:.3rem 0;min-height:36px;
+  -webkit-user-select:none;user-select:none}
+.toggle input{display:none}
+.switch{position:relative;width:14px;height:14px;flex-shrink:0;border-radius:0;
+  background:none;box-shadow:inset 0 0 0 1px var(--rule);
+  transition:background .15s ease,box-shadow .15s ease}
+.switch::after{display:none}
+.toggle input:checked ~ .switch{background:var(--blue);
+  box-shadow:inset 0 0 0 1px var(--blue)}
+.toggle-label{font-family:var(--app);font-size:10px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--graph)}
+.toggle-label .zh{font-family:var(--hanx);font-size:.82rem;letter-spacing:.1em;
+  text-transform:none;color:var(--ink2)}
 
-  .listen-label {
-    font-size: 11.5px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--muted);
-  }
+/* ---- masthead ------------------------------------------------------------ */
+/* Both markups are styled: a fresh build emits design.masthead()'s
+   .kicker / h1 / .sub / hr.rule, the published pages have .titlepage /
+   h1.title / .subtitle / div.rule. */
+.kicker{font-family:var(--app);font-size:10.5px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--graph);margin:2.4rem 0 .9rem}
+.kicker .zh{font-family:var(--hanx);font-size:.78rem;letter-spacing:.2em;
+  text-transform:none;color:var(--muted)}
+.titlepage{text-align:left;margin:0}
+/* the title is the story's Spanish name, so it takes the reading face at its
+   display optical size — CHROME's h1 is the Han serif, which is right on a
+   page whose title is Chinese and wrong here */
+h1.title{font-family:var(--read);font-variation-settings:"opsz" 60;
+  font-style:normal;font-weight:600;font-size:clamp(1.9rem,7vw,2.5rem);
+  line-height:1.15;letter-spacing:-.01em;margin:0;color:var(--ink);
+  display:flex;align-items:center;gap:.85rem;flex-wrap:wrap}
+.subtitle{font-family:var(--hanx);font-size:.85rem;color:var(--muted);
+  margin:.7rem 0 0}
+div.rule{width:auto}
 
-  .listen-label .zh {
-    font-family: "Noto Serif SC", serif;
-    text-transform: none;
-    letter-spacing: 0.05em;
-  }
+/* ---- the listen card ----------------------------------------------------- */
+/* A card, kept. The rule is that the bordered card is rejected as a GENERAL
+   container and survives as an INSTRUMENT SURFACE — and this is the one
+   instrument on the page. Squared and hairlined: it was 14px rounded on a
+   cream ground.
+   The <audio> control itself is left native. This is a plain listen-through
+   track with no calibrated cues, so chant's deck would have nothing to draw
+   on its scrub track; replacing it is a feature, not a migration. */
+.listen{background:var(--card);border:1px solid var(--rule);border-radius:0;
+  padding:1rem 1.1rem 1.1rem;margin:2rem 0 2.8rem;max-width:34rem;
+  position:relative}
+.listen-top{display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:.55rem .8rem;margin-bottom:.7rem}
+.listen-label{font-family:var(--app);font-size:10px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--graph)}
+.listen-label .zh{font-family:var(--hanx);font-size:.8rem;letter-spacing:.12em;
+  text-transform:none;color:var(--ink2)}
+.listen audio{width:100%;height:34px}
 
-  .listen audio {
-    width: 100%;
-    height: 32px;
-  }
+/* the source switch: 机器 or his own voice. Two ghost buttons and the system's
+   existing "one of these is on" device — a blue solid underline — rather than
+   the rounded segmented pill it was. It is NOT yellow: choosing a source is
+   not audio playing. `.active` keeps its name because the script sets it. */
+.audio-toggle{display:inline-flex;gap:.9rem;border:0;border-radius:0;
+  flex-shrink:0}
+/* `:not(.ghost)` is not decoration: design.CHROME's
+   `button:not(.ghost):not(.cal)` scores 0-2-1 and a bare `button.audio-src-btn`
+   scores 0-1-1, so without it CHROME's 1px solid border wins and these render
+   as two boxes instead of two underlined ghosts. DESIGN_README rule 8. */
+button.audio-src-btn:not(.ghost){font:inherit;font-family:var(--hanx);
+  font-size:.85rem;border:0;background:none;border-radius:0;
+  padding:.35rem 1px;min-height:0;color:var(--blue);
+  border-bottom:1px dotted currentColor;cursor:pointer}
+button.audio-src-btn.active:not(.ghost){color:var(--ink);
+  border-bottom-style:solid;border-bottom-color:var(--blue)}
+.audio-src-btn .zh{font-family:var(--hanx)}
 
-  .audio-toggle {
-    display: inline-flex;
-    border: 1px solid var(--rule);
-    border-radius: 999px;
-    overflow: hidden;
-    flex-shrink: 0;
-  }
+/* ---- the paragraphs ------------------------------------------------------ */
+.passage{margin:0 0 1.8rem}
+.passage-row{display:flex;align-items:flex-start;gap:.7rem}
+.passage-text{flex:1 1 auto;min-width:0}
+/* Square, hairline, 34px — and NOTHING about background, border-colour or
+   colour, on purpose. design.CHROME's `button.playing:not(.ghost)` paints a
+   playing button yellow, and on THIS page `.playing` means exactly what CHROME
+   means by it, so the right move is to let that rule through rather than
+   override it. Setting a background here would score the same 0-2-1 and win
+   on order, and the button would never go gold. The inverse of the `.rec`
+   trap: there the shared rule was wrong for the page, here it is right. */
+button.play-btn:not(.ghost){flex-shrink:0;width:34px;min-width:34px;
+  height:34px;min-height:34px;margin-top:.15rem;padding:0;border-radius:0;
+  font-family:var(--app);font-size:11px;line-height:1;display:flex;
+  align-items:center;justify-content:center}
+.es{font-family:var(--read);font-size:1.08rem;line-height:1.75;max-width:34rem}
+/* `body.hide-zh` keys off .zh-line and nothing else: .zh is also the masthead
+   strip's class and the colophon's, and an unscoped rule makes the studio name
+   vanish when a student turns the translation off (the chant page's trap). */
+.zh-line{font-family:var(--hanx);font-size:.88rem;line-height:1.9;
+  color:var(--muted);margin-top:.45rem;max-width:34rem;
+  max-height:300px;opacity:1;overflow:hidden;
+  transition:max-height .3s ease,opacity .25s ease,margin .3s ease}
+body.hide-zh .zh-line{max-height:0;opacity:0;margin-top:0}
 
-  .audio-src-btn {
-    border: none;
-    background: #fff;
-    color: var(--muted);
-    font-family: inherit;
-    font-size: 11.5px;
-    letter-spacing: 0.03em;
-    padding: 5px 13px;
-    cursor: pointer;
-  }
+/* ---- glossary ------------------------------------------------------------ */
+/* Hairline rows. The hover indent and the tinted row went for the same reason
+   the exercise pages lost their cards. */
+.day-label{font-family:var(--hanx);font-size:.78rem;letter-spacing:.22em;
+  color:var(--muted);margin:3.2rem 0 .9rem}
+.day-label .en{font-family:var(--app);font-size:9.5px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--graph);margin-left:.7rem}
+ul.glossary{list-style:none;margin:0;padding:0}
+li.term{border-top:1px solid var(--rule)}
+li.term:last-child{border-bottom:1px solid var(--rule)}
+.term-row{display:flex;align-items:baseline;justify-content:space-between;
+  gap:1.1rem;padding:.75rem 0}
+.term-es{font-family:var(--read);font-size:1rem;flex:1 1 auto}
+.term-zh{font-family:var(--hanx);font-size:.85rem;color:var(--muted);
+  text-align:right;flex:0 1 auto}
 
-  .audio-src-btn + .audio-src-btn { border-left: 1px solid var(--rule); }
+/* ---- the hand ------------------------------------------------------------ */
+/* ONE mark, and the signature. `×2` beside the listen card: the one thing the
+   player cannot say is that you should play it more than once. It is drawn
+   three times in the library precisely so a repeat is not an identical stamp.
+   Felt at the bottom of its band (28 of 28–34) — the card is small and this
+   is a reading page, which is the quietest register that still takes a hand. */
+/* It hangs OUTSIDE the card, at every width. In the flow it sat inside the
+   box and read as another part of the instrument; the rule is that a mark
+   overshoots the thing it annotates so it reads as added afterwards. The
+   card's 2.8rem bottom margin is the room it hangs into. */
+.handnote{display:block;line-height:1}
+.listen .handnote{position:absolute;right:-.4rem;bottom:-1.5rem}
+@media(max-width:540px){.listen .handnote{right:auto;left:0;bottom:-1.7rem}}
 
-  .audio-src-btn.active {
-    background: var(--accent);
-    color: #fff;
-  }
-
-  .audio-src-btn .zh { font-family: "Noto Serif SC", serif; }
-
-  /* passages */
-  .passage {
-    margin-bottom: 30px;
-  }
-
-  .passage-row {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-  }
-
-  .play-btn {
-    flex-shrink: 0;
-    width: 30px;
-    height: 30px;
-    margin-top: 2px;
-    border-radius: 50%;
-    border: 1px solid var(--rule);
-    background: #fff;
-    color: var(--accent);
-    font-size: 11px;
-    line-height: 1;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0 0 0 2px;
-    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
-  }
-
-  .play-btn:hover { background: var(--card); }
-
-  .play-btn.playing {
-    background: var(--accent);
-    color: #fff;
-    border-color: var(--accent);
-  }
-
-  .passage-text { flex: 1 1 auto; min-width: 0; }
-
-  .es {
-    font-size: 19px;
-    line-height: 1.65;
-  }
-
-  .zh-line {
-    font-family: "Noto Serif SC", serif;
-    font-weight: 300;
-    font-size: 15.5px;
-    color: var(--muted);
-    line-height: 1.65;
-    margin-top: 8px;
-    max-height: 300px;
-    opacity: 1;
-    overflow: hidden;
-    transition: max-height 0.3s ease, opacity 0.25s ease, margin 0.3s ease;
-  }
-
-  body.hide-zh .zh-line {
-    max-height: 0;
-    opacity: 0;
-    margin-top: 0;
-  }
-
-  /* glossary */
-  .day-label {
-    font-family: "Noto Serif SC", serif;
-    font-size: 12.5px;
-    letter-spacing: 0.18em;
-    color: var(--accent);
-    margin: 46px 2px 10px;
-  }
-
-  .day-label .en {
-    font-family: "EB Garamond", serif;
-    font-style: italic;
-    color: var(--muted);
-    letter-spacing: 0.02em;
-    margin-left: 8px;
-  }
-
-  ul.glossary {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-
-  li.term { border-top: 1px solid var(--rule); }
-  li.term:last-child { border-bottom: 1px solid var(--rule); }
-
-  .term-row {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 18px;
-    padding: 13px 6px;
-    transition: background 0.15s ease, padding-left 0.15s ease;
-  }
-
-  .term-row:hover {
-    background: var(--card);
-    padding-left: 14px;
-  }
-
-  .term-es {
-    font-size: 16px;
-    flex: 1 1 auto;
-  }
-
-  .term-zh {
-    font-family: "Noto Serif SC", serif;
-    font-weight: 300;
-    font-size: 14.5px;
-    color: var(--muted);
-    text-align: right;
-    flex: 1 1 auto;
-  }
-
-  .foot {
-    margin-top: 54px;
-    padding-top: 20px;
-    border-top: 1px solid var(--rule);
-    text-align: center;
-    font-size: 11.5px;
-    color: #a79c8c;
-    letter-spacing: 0.05em;
-  }
-
-  .foot .zh { font-family: "Noto Serif SC", serif; }
-
-  @media (max-width: 480px) {
-    h1.title { font-size: 38px; }
-    .es { font-size: 17.5px; }
-    .term-row { flex-direction: column; gap: 3px; }
-    .term-zh { text-align: left; }
-  }
+@media (max-width:480px){
+  .es{font-size:1.02rem}
+  .term-row{flex-direction:column;align-items:flex-start;gap:.2rem;
+    padding:.7rem 0}
+  .term-zh{text-align:left}
+}
 </style>
 </head>
 <body class="hide-zh">
 
+<div class='mstrip'><span class='zh'>阿弟西语研究社</span><span>Yan · B1</span></div>
 <div class="toggle-bar">
   <label class="toggle">
     <input type="checkbox" id="zh-toggle" onchange="document.body.classList.toggle('hide-zh', !this.checked)">
@@ -359,7 +370,7 @@
 
   <div class="titlepage">
     <div class="kicker">Lectura bilingüe <span class="zh">· 双语阅读</span></div>
-    <h1 class="title">Lulu y Popo</h1>
+    <h1 class="title">Lulu y Popo<span class="fmw"><span class="fm f-read"><i class="l"></i><i class="l"></i><i class="l s"></i></span></span></h1>
     <div class="subtitle">22 de agosto de 2026</div>
     <div class="rule"></div>
   </div>
@@ -368,11 +379,12 @@
     <div class="listen-top">
       <div class="listen-label">escuchar <span class="zh">· 听音频</span></div>
       <div class="audio-toggle">
-        <button class="audio-src-btn active" data-src="audio/lulu-popo-tts.mp3">TTS</button>
-        <button class="audio-src-btn" data-src="audio/lulu-popo-mine.mp3">mi voz <span class="zh">· 我的录音</span></button>
+        <button class="audio-src-btn active" data-src="audio/lulu-popo-tts.mp3">机器</button>
+        <button class="audio-src-btn" data-src="audio/lulu-popo-mine.mp3">老师</button>
       </div>
     </div>
     <audio controls id="main-audio" src="audio/lulu-popo-tts.mp3"></audio>
+    <span class="handnote hand"><i class="mk" style="--m:url(data:image/png;base64,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);width:36.0px;height:28px;transform:rotate(-3deg)"></i></span>
   </div>
 
   <div class="passage">
@@ -413,7 +425,7 @@
     <li class="term"><div class="term-row"><span class="term-es">A ella también le gustan mucho los gatos.</span><span class="term-zh">她也很喜欢猫。</span></div></li>
   </ul>
 
-  <div class="foot">西语 A1 课程 · archivo de repaso</div>
+  <div class='colophon'><span class='who'>阿弟西语研究社<span>西语 A1 课程 · archivo de repaso</span></span><span class="sig"><i class="mk" style="--m:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAS8AAADlCAYAAAAC2nG+AAAwaElEQVR4nO2dfXAc9ZnnPyuEkGUJRZYV4ZdShDG2FZ1xjMFxOYLw5nURAw4vS3m5EMimOC5hqb292qRyWWpTqVR2l2MvlctySdhUlg0hhGJ5C4RQXgcwhrgU82IblYNtbKG4jI1thGJsybIstPfHt3/pnp5uaSRNz/Ronk/VlKSemZ7WTM+3n+f5PS9gGIZhGIZhGIZhGIZhGIZhGIZhGIZhGIZhGIZhGIZhGIZhGIZhGIZhGIZhGIZhGIZhGIZhGIZhGIZhGIZhGIZhGIZhGIZhGIZhGCXMnxT7AAwjBSwAGoCZwELgGPCjoh6RMSaVxT4AwygyS4ErgdnAdPSd2FzUIzJywsTLKGfmA6uB65B4VQJdwIFiHpSRGyZeRjlzFtAGLMH/LlQDR4t2REbOVBT7AAyjiJxCohW8iLcB7dh3I/XYB2SUMwPAYGhbA7AGCVgr0FjgYzIMwxiTemAd8Drwn6Hbz4FbgVrvcaVCBZku8MVAS/EOJzks5mWUMyeAXcCjKM51SeC+65D1NQ3YArxW6IPLkXrv1oiEqx5YjNI9TkOWpBO07iIdYyKYeBnlzBD6Qj8NbPV+nwtcAVQhEViHBCyN4lULzAKuQq7uNCRei7z7B4HD6H95GRgBegp+lAlh4mWUO0fx0yP2IkvlBeCjQAf6sqfte9KErMKPIvG6AfhkxOOqkct4NhLmESRkQ94+zgD2e7dhb1+nI6utL9H/IA9Yhr1hZNOCXMoLgPfQF3trUY8IaryfdUhU/xxYgSyt2ojH70ZW1wgS5yHgbSTWFd5+RoB+YAb6nxu8bYeBN4E9SNT3e89PFSZehpF+KlAu2s1AM3JnF4/xnOeB57znzgZWISHqBvZ521uRBbeYbOvyOIoHbgJ+g8TwJBK/Q5P8f/JC2sxhwzAyqQBWAl8A/mKMxw4B7yLheRnoxLewjiERq0DB/enAcqKtNrzty7zHtSAL9BCwDS1gvDPB/ydvmHgZRnqpRS7dGsYWrs3A/wXeQi7vTm/7HGRxDaI6zouR2xnHCNCLYmKg4P8CJHofAE8hkTzNe51hihQfM/EyjHRSi2JubajTRRyHUAeMp5A7GHbpjgKXApchC65hjNetwBeu4DaAM9HiQAewA9iA3MpTKOF3ZIx95xUTL8NIHzXAp5Fb10C2mIDE4lFgPQquR8WiqoHzgGuQ9RbHAArKL8jh2KpRrKzVO77VyEXdjmJkffgrl3ORu9oTcWyTxgL2hpE+FqHVxGaUunAZEgvHTuB+4GFkbUXRjGJctwB/FfOYd4CXUA7bfmRBzUBB/MsYe1EgSC/wj/ipF22o1VAX8DMU8M8rZnkZRrpoRF/8emRNteAL13HgWSQGLyPBiGMmim+tjrn/CeCnaFXyJLLwDnr3NSE39NMoTrYQBf5njXHc93i/b0YdO+YhVzKRNAsTL8NIF3VIeOrQl98F1weBr6MY0/Yx9lGLrLd2ol3OB4GHkMvp4lQHA/cf8V7nNSRqzcBHkDV2g3dco7EcX1uOIYvOMIwpTBXK5/oaSnNwReL9SLhyKRCvBdYCPwReRMLh9nMCuJfovK6xaPKeswz4FtHF7OHb28CdjL1IYBhGCdOCROVv0CpeUAR+TG7BdNCK4r3AG8jqCe7nLmSNTYYG5D5e6R3rvUhow6/1PvAd5HYmgrmNhlF8XIH1CrLrFH8LPELu3V0bkcDU4SegDgHfQKuTeyZ5rC6nqwIlqx5DAnU50pPpyELcDTzOFCoENwwjm2XAbUhcwj3FLmT0QHmQVmR5PU6m63a7tz0pY6UKCVZT4O8mFCtLDLO8DKO4VKPuEPPQKmOQrUQnnoZpBs7xfl+M4mZ4z30YBeZdNnwSDJG5ojiEgv6JYuJlGMWlAcWhVgIfD2w/iALuYwlXLRKupajFTQcSwl7gAZQO0ZPXI04JJl6GUVzORpbSBYFtQyiPqyeH59ehEW7LUW7VMm/7gyhgnvq+XBPFxMswikczEp55+P26QGU2u8jNzZuBXMWLyUxmfZIpLFxg4mUYuVCJRMa1lZmNWi73oe6rPUwsnvRRlCIxM7S9y9vvWIXOzcjSuojM8qF9lMHsSRMvwxibeahP/DwkNLOQxfMHlMrwS1QSEx6jNhY1SAjD0306kYCdjHlevXcslwLXk5lasds7nv5xHkvJYeJlGKPjBnFcjVyzMAuRUPSiguTR6g3DnIEC9tWBbUNIuHpQt4comlBg/otkBvkHUELrUyRQCG0YRmlxPWrm9y6jl8L8BglKC/HdScM0Ab+K2NcdRA+EnuP9vJbMsp9gBn2uOWElj03MNox4qlDW+yzGTrhcicplVpMdw4qjHsXOwjSSGcDH+7sP+BJwH9le0yCy/MbrupYs5jYaRjzhFIaxWItytjrQat8vGD3ofoLoflxtSACPB7Y1oN5ctxDdKeIbyFU8No7jNQxjinIHGjwRdM0OAN9DQfETxLuRncgSu4TMlcAgtciSep/souYbUSysGlldX/XuC7uL/cC3kaCVjctoGEY8rai2MCxKd+OPDPsaqh2ME7CTwO+R2C0iMzCP93cHyqQPP/dJ4FZU8/g1lDoRfswBZO0ZhmEAsoiuQGO+gmLxJmoF48It9cg620W8gDlL6n4keuFQTROynOL6YR0g2zJzt5/hB/ENwzCoRU30DpNtdS0KPbYRuXhbGF3A+pHQRbl2K8mtuV/Q4roHWWaT7c9lGMYUohW5emHRuJ34VceVwDdRLCxKcE6gdIrVZMfA6pEw5ipe9yCLqxZbdDMMI0AV2flXB5BAxQXFXdpRO7AO+Aey42EnUJeHK5DF5qhBYrQOJZjGuZ53IysvbP2VJabahpFNE6o7DNKJVh4PZj8c8FMidqDg+jYUC7sKWIUGtlaj9ItPoJSGOvxM+gHUMfVtYCOaedjo7XcvGrpx1Huem4ZtGIbxRxqQaxcOkt9JduLoWNQgS+y7wIeBfe1FQyw6Ip7TiLL056MeXR3e74ZhGKPSAPxPst22yaQkrEQu38nA/tYTLV5GjpjbaBiZnEQuW5A+Jpe5vg25gwCfRQK5DZXzGBPExMswMnGdHoJsYux2zKPhYlr3oXhWJYphRZUGGTli4lU+VKJl/hn4wximowBzGqnHH3R6DFk/cS1i8kl46s3vULb7W3nYd7d3M/KAiVf5UAVcg76cQygB8ygKJKdt9WoO8Cm0MleF3Kv9qM/VHsbuMDoZZpO50ngArTQORT/cKBYmXuXDMAoQ34BykvYgi2I7ErQRxtdILwkaUXO/tcDN+DlVh5Dl8yBy6bpIxgqrR+kLrYFtmzFrKZWYeJUPdUjAqry/FwFfRhNntqAvaTHFqxo/wfMLZBYxN3u3TyDBfQiV0wyS317tFcjyagxtq8Qsr9Rh4lU+VJPdE/1MVB9Xh1yjYtKKip5vJrv7gqMW+BwSuceBZ5AVlq9hqqfILt2Z8oMsShUTr/JhGK2kRdFCcbvqVqEGfF8mtxbKS5HFOBPlS21DE5rzIWLnBH7vQ+2fy6Y7aSlhbaDLh2HiA91RE2wKyWzkEp4Z2j4IfBDznFnAXwH/hKy1fBz/R8nMZt+HAvZGCjHxKi/2xmyfA5xfyAMJUIlmD4Yn82xHXRyuQK2P/zXm+R9HU3S+isaBTaa/1bnezdGLrK8kVzeNCWJuY/kwjCyJAaJr9FYi66XQiZNNaP7gJaHtG4ENqBD6CGoEWIky1MMW2gJ07MMob+0HEzyWeWS6rb0opcQwjCJSiYLz4Z7s7nYUCUih+6AvAl4IHUsnmYNUHQ2oJXLUGDJXSL0N/R9VjO/iXAV8ncw+8d9n/MXYRoEwt7F8GEaWxC7v7yOh+z9EK21xQf2kuIbMCT3PIoEKHx9IYO9HLub/Ru1kHK6kZ4l33zrGJ16NyAIk8Lx+CpPVb0wAE6/y4l3khr1D9jj401HpUKFCCZUoPrWETFdtJ4p3RSWGjqCE1d1orNjfe48NcyGa3LOO3M/xs8huPRPXu8tIASZe5UU3SkjdhgLRQWqR9VEoy2s6snSWh7bvJfvYotiBRtt/C3gi4v7F3v6dIMXljjmWkpnj9QrK6je3MaVYwL686EXiVYUC9GGqKMwFrRoFx1eTae1sJfcFA5c8+jyyyBrIDvqvQYm5neh/306mqxlkeujvTuRim9uYUky8yo99yGppi7m/EOLViCydS0PbH0ariuOhD1leA6g2cWnodW5D1l0XEqMFyO10VCPhC4vX61jLmlRjbmP50U18NvoQapeTNDNQXllwZXMfGr460aTQF1GM60cR9y1BRen/DSXDBmNs56DM/i8Gtu1GAm+Z9SnGLK/y5CjZlgbI/Ur6C9uErJ+VZF48H0aiOlE3bRCJzmOoVvMzZOaDtQJ/DTyNrC3X5mYdcFdoX08yfgvQKBxzgI+ZeJUnJ4gOYFeSvOXVilIjgu7dEBKTcOH4RFjv7etW4CtkZ9xf6h1DD+oRdmPEPjYBx/NwLEZ+aUAx0jbgfBOv8qQfxYDWBLb1oZhQ0m1xZqCVwCBbkbv4Tp5eox65fXcDK1AumXMVa73XDx+D4ysos99IBxX4o+guQeVbK4FlJl7lyRlkzyUcRDlUSdfxzUE5VUFeIr/B8X0oWP8asq7cwNioFVbHCPBr4FWsd1daqEExSpfGshxddBrAYl7lTGPo71Pkx20bjXnARagQ29GF0h0mM50niq3ez2pkhW0G/iv6vzvIPPePo8z+nyLxMopPI7rYrELWcyuKZf4x3GHiVZ4cI3uleQayiOaQP/ctSDW6goaTUjciyyupGJML5A8DL6OxZquRgE1DixddqL5ya4LHYeRGDXA2Eq7VSLiiOoXsNvEqT9z0oCC1qDND1CpkPqhELkAwKbUbBdgLIRiu3KgXuZGPIhEfQcm5hZpOZERTjS4m89Giyhqy2ySB+rvdD2wx8SpPTifaRawnmZhXLQq0XobfQ38ErertintSQrj6yMnMYTTySxWyiFfhB+Sjuop0ozy+R4E+E6/ypJpoK+MMkgklzEAnZjBg3odqLIs9scgoHk2oi267d7saXUDDXXEHUMXD36Nz5iBYzKtcqSTa8qpCpnsSr9cR2nYEdZCwARflRwUKwLejC9qlqAoiKvdwJ3ITH0fnyh9bJZl4lSefQMHQMNPQlfAA+XWr6sjMq9oJfAN1bbAWy+XDfLQo1IYC8ZegFegw+9Diymto9Xc7ERc5E6/ypIJs0RhCA2l3oM4T+aSFzFY7G4A3sGGu5UIlWghyq4eXEj9rYA/wPWRpvYO8gci8OxOv8mSEzGaEw0hIFqFi6XxaQ03INXBF2DuB5zDhmupUI4u7AU1BXwL8DyRiUe5hH8r3ewEJl2sEGZswbOJVngwjM3wYnQO9qMvqIpR5PxulEUw207we1TFeE9h2EmW9Wxb71KUGXbAWonNpBUp7iNKbIbR6uAkJ1zFyjINOFfFq8G4t6M04hZIT3yeZhMtSpgZd+ZxwjaBYVz1675ajE++tSb5OPbK2VqPxZI4D5D+b3kgHFeh72IGmPC1B50FUXAvgd8DPUK7fHsa5eDMVxMupfDtwHUrAdImIr6Og37tED3QoR+pRLk2d9/dB9B42IiFbhN7LybqOlehzuTq0/dfI8jKmDrXofFmNsuMvA64kul/gIGo59AqKe+5ggrMCSl285qCVs1uQ2ofHdm1Fb9Sz6GpvzeWUDLgMxaKOIFN9LrpizvAeM9vbNpm41FzgKjKvuv8M/ArLZJ9KzELuYQuytlrJbHcU5n40d2DSw01KWbwWoPhMB7q6RwUBlyL170Pi1U15x1oWADORZVWPelq9gCyxc7wbSNiWIwHaNIHXccmHKwLbRpB7sHMC+zPSSQ06Z65En/X5ZHapdRxCzR0fRwXyZZ+YPAv4IdEDVMO3V9EswOaiHGl6qATuQVnKblDrtUjU7kTu3FHvvjdQfVlV1I7GeI1FaLk7+Bm8SHwPLaO0qEKGwZ0oZrWX6O/d+8BPgLXouzeL8Z9PsZSq5VWN39snF1qQJbAaWWE9qJNAudGGXENXlH0ayr8awh+L5jLhF+MH7neTO22otfINgW193r4PT/TAjdTQjC5qV+Fb8E0Rj3sFpcQ8hxJO8x6yKVXxmov86xWh7QPIqhhAgrXA294EXI4E73XUhuUo5TUdxp1kbmUW/FyvHiQ6W8hsWbMSuY095O5urwC+QGb8cRPwCFYMXapUoOz4QWRxXYTOjbAnM4Dcw83erQtZZYnEmktRvJqQ8l9N9mrG3ShIfwwFEVcif7wJf7neJWH2o5SKcpiK3Iwf62rHD6IfxreGjiKROoCf/dyKLgKxWc4hmtDJHV44eRVdiY3SoxKdMx3ouzQTCVm4mSVoSnk38Daytk+Q4CJZqYlXE7qyu46YQQaR0u9Ab1ofiuH0A18KPK4FfQgux2mQ3CY0lyq1aEX2QmQRBVf/ZqL3ox1dMT9EV8w6FLdqRSftG+g9Gst9bETBf8dBVAq0NfrhRsqZg4LwK9F5cAHZC2NdKP3lDTT4ZD8FauhYauJVgVqrXBhx3wZkNbjl/YPoC+fiY8HWw/NQTtgQsjjeZGoJmLMu69BJdwvZ06RBJ+eXUTrJw8iNfs573gL0fq9B7+sWZNHGWaqtqOi23fu7D/gminf8YTL/jFFQKvA//6vQ+bOEbGNhAAXjH0UXpz50DhSsE20piVcrcgUvj7jvCbTqEY5h7UPitR7/A3E497MHfSmngni1IxexBcUFXWO3+aM8pw29B5uQ0GxH73Uveo8aUXlPJfEWlMv1uQzfZdyO0jDGE+w3ikctupi70EIHEq+oAupD6GL3JFrQcd+dnqQPMkgpiVc/6q748dD23SgY/AzR/vUBJF59KE0gyDy0qvYGErCe/B1uUbgR3w1sR3k4Y/ESsjxd1vt7SPR78FeRFgG/R+dLVI/7uSjWFaxhtPrF0sB1fJgLXIFCDG3oQt8Qemwfcg0fwR+aMhUu+omzALmG4VySH5P9JoepR1+6uyKefxL4Ofrgwh0cS4EGJFR34udojXX7PXrf/g7lebWTaZVWo3SHA4HnfAjci96nSu/W5N1uQrHG4P7/guigrpEOqpC19Ul07txNfL6Wu92Jv8I41ncucUrF8mpCNVNzI+7bxdh1eEeRFfKMt4/bA/dVIYthJmrZUSrMAT6CYnnXoKr9M0OP2Y3c5eDq3weoXOoJJDKHyL56DqIr7E+8fX8cxULuQDHH+5Gb2YAsrivxLeJuFAfpwrqkppmFKA56EfI+WomuUhkGHkCx0B58a7roFlepiFcjukKEYzf/gWIrUQWgYQ4ikXsCCdX1gftqkEXRgT7AN0l3/V01Ko26Dvg80Rbj0yhu5TqmupPtiLf996iSPzxFyNGDRGo/Cvi7RZIFwG2oE8VcZLm5q/BONPvwFygFI27fRnFoQN+BduBWdGGKqzp5GX/e5cuoucHp2AVpXFShwPpLZJuxX0NXjPEwH31wb0bsbxvKVUmz+1iJrJ2fEm/eP4nSQx4PbDuJXD/3f96FLKb5jF6y0Qx8DngKlXsEXcPga76B3IrRFgeM4lGBPu+/QcXxJ4k+d04B/4KMhbyV8pQrs9AbHn6z30c1U/UT2Od8b5/7yf7wfokssKL79BE0oP85Kvbnbt9HMai1KL0h7nH93n6+xNg1n7XoPbkDBWtfQBeT99Hn8ktkjUUV5RrFZx6ywO9Hq4Nx58RTKA5aEhegUnAb5xJtHexGLtBEzNgDKO5Th6yFoFBdgNILTnj7T0sJUSPKV7sdubhhelEQ/gH0udahEzUqJw58V/kAimeMVrpzHFlrr3qPnYZWqFqRa7gDBXvT7GqXI/XIRXQTwtvIrn5wPAh8G60gWgPPPLAAxXSiXMYf4ydEToR65H7dg0zlsAt0F9GJncViGTL3o66YncgVDibizkLv3RYyXeQ3vP285/29gegBn0bp0oAWcL6KFk/eJd5FfBV5Ia3FONDJkHbLaybqFxQ1hHIvso4mylFkmWxCge9g2cxi/G6sGyfxGvmiHV01PxVx30MoYfBVMrPfD6KVvwPIOqpHIvZjtMjxeVQudBIFYo2pQQU6l68m+7wO0oXOmw2UaE5e2sXLdT0Ii9ebKEXiwCT3f9x7jR1kf8jnevfXUsCShxhagL8lMxViGPgBqizoIdrtO4UEehUS+x+h9+4UssiG0QUgl9VaI93UoLZP16AcvaVEf7+PoNiX6xt/mBLtMJxm8WpB+V1RV47XUSwqH296D/pCX0pmwHkOihXsRwJQjB74Lej/d6uCQR5AAdajRAvXEhQvnIuWx7tRusR27/7dwGP5P2SjgNSi/myzkHD9L2Rhzyb7u30ILbZsQ3Md9lL8i/KkSLN49aOK9ktD27eT31ay3ShmdC7KWQqyBll4xRjgUYXE6wbvFvystqJUiY2jPL8Sv7XzMWRp/SGB4zQKSy3+YslC7zYPXaTiFmeeRmkzD1GC7mEcaRavRuTuBAtDjyNz9xXyO7R0N2pTHBavZrTyuDnPrzcWrofSxcj6C6cy7GL00WTNKGi7GJ3YnUj0bYJS6XMWWjlcgeKgrURbWiBr63FkcW0iv8OEjRiaUa5SP9k5TBcn8HqzUNpA1KrmARTcLiSLge+QWS/o6guf845ntDy0xSgny/Xoup8Syd0xRmUWyst7Dn+1OOp2An3ma5H1nkuBfsmRVsurBVk8wTf9A1Sm0JPA6x1EsYIHgPPIDIzP8o7lGfR+Jd3KuBmddLeT+f8fAe5Dq0OdjG7+z0bvYR2KDXZhE1tKnUYUPvgsaj0UxQcoPPAoymNMS45iIqRRvJpR/KkjtP0P6IqS1AeyE6UM/AQlrga5BonmepIVr/nIarqZ7Kvlg+ik3B5+UoglaKFjJlpV3IHczKiiWyO9uK4dH0VxLZdsGpeTtwetSO9Fn3lJriCOhzSKVwUKPraFto+QvM/ej2JfHWQOznTm+pvImpnILMOxqPf2fT6Z7WlA8bafk1slfz26Sjfgz6wcpjx69U8VqlCssh2dD5czeiLxL5BV/ir6rKe8cEE6xWs62eVAA+gLnHRFezd6T54ke+pvC+qu8P0EXrceCeQaMtv1gCzNvyS3aUcd6Cp9ETrxd6D4yN58HqyRKO3oXLsJXcQviXncO0isnkVB+bJbjEmjeE1DYvUBfuzpXWT1TDYpNRcOoDyYjWSfOIvRlfBN8lv/tQC5BF8mcwbeMFop2kdu7ZSr8FcajyJXeDdyKYz004664V5N9sUzyNMoIL8dfTfKkrSJ13y09NuAYlwVKG7jZsEVYu7fcRQjehJZMcFC1vmocHsz+ROvatR69xayi2Z/gGJduQ5rrUBL6XVIhDuR9WWkmxZkNd+AXMRwU0nHdmRlrfd+Lwv3MI60iVcjyl9ZiZ8Z/j4Sr1cpXCO0XmR5taNWL0GWeNu3MfkM5SpvX6vITmV4DAXod5H7SXo6slxHvOe9gTWPSyuuJGsB8OdIuMLzGUDWdwW6YP4/1H5oEGv0mDrxmo4sG/dFrkApAYco7Jewz7s9g+JHiwL3zUcmvUv8DOJmJC5Fcax9KP0ijiZ00oaTYzejnuL7Gd/V1eX0HEbitX/0hxtFpAaJ1o2o1VGUtdWLX3T/CLqol3RJTz5Jk3jNQ+5ia2j7UZSQV4xj3YMC3m6GId7Pc9FqqKsPq0HuWgM6wVah4908xv7/C4p1hf+3jUxswvR93s1IJ25wybmoXtUVUEfRhWJbP0VxyxE03NXwSJN4VaAYUzhzvBuJSDEapPUjAbqAzKXqxSiY/y46vlZ0Es7wfs5FVs9ols8ClGwYPnndvENj6tCIn77yKbSqvJzozrM9KBWnC8Vdu7GynkjSJF4g8arzfh/B7+hQrKX+HhRQfwkVvTrrqwkFVo8i9+w8ZEEdRe5iP+p80Rmz3wYU24saoPsgWu00pgYNSKja0UVvIfE5W/+MLpbPosWbA5hwlQQXow6frq/8YeCHyDqZSJ/6fNGO6gQ7iZ75+BuU+e+2/QbVJV5LZtpDkFq0YhTe3w/RsIuoKcVx++kAvodEfte4/jMjSRrRhW8x+lzjupm6bra3o8/dKiFyJC2WVw26QtUh62YQidg+dPUp5oqZa1T4NtlXzCoU43LsRO1qXkfmflzi4Eyy3/su5C68Re4u8mxk8a1GrusTOT7PSJZq9Hm0ofjnlcRfyB5A3W234J/7Rg6kRbzqUcD7LLTi2I+uVPtJx1L/6ygFYTbxXS2OI5O/EwnRaDWIs8m2Jtd7t1wLqCtQLO46FD/rRVdwo3g0o/N3JQoJrCS71Mvh2jA/SuYwVyNH0iJedeiDr0CN81wpzBHSUZPnSjG6iRevThQbG0u4QCkNwdbWh7zn5ypctShm9jmUG9SLvgRjrW4ayeBWEVehC8qVxIvWTvw2zCXfzbSYpEW8ZgNnoyvQCIp37SY9pQ/zkViMVrKxF6U3jJXRXuPtJ+hGPEJu5T/g55L9d/QlAYnlL9AgWKOwVKM2NVcS3TgyyH0od3AD5h5OmrSIVwMSsMPI8tqPvojFziKuRe5iByqOXjLKYysYe5BFg7ePYLuf3eiEfi+H42lE8bcbgOsD211nVbuKF45qlBKzGvgi8Re2YfQZ/wqtJu7HVhDzQlrEawh1/BxGLlA3cqW6inQ8S5FQtCBRXUXmTMQoLkBJh1VokSHO3V3hPdYxHZVA5eIez0XCdUdg20FUPlV2XQWKRAX6jJejz/sG4oPxG1E4YIv3ey4tjYwcSYN4tSBr6wj+lOr9qGtqoWlGllYVCrjehkQsF1xyah9KLoziGLKcgu1+5jB2Kki9d1tI5jCOIZTQuod0LGxMdarQZ7wCdX74DPFF1P8BfBOLQyZGGsSrAVkidcjyqqY4ZvUsFIe4BfVSOpfo3t8jaJVoHxK44MSWJu+5W4huQzOCOmOGmT3Gsc1FPfaDQ0RHUD7Zw1i/rqSpQZ/bChTbuoH4vvCPoZKeHnLvBmJMgDSIVxP6cjYjy6TQFfONSDwWoCvptcQPt3gMuWidyNLpxU9EdJyFxHgX2S18msmeQtTl7TOOJlSKdB2ZK52PoFhZHxbrSopK9Pmehy5SX/H+jhKuQ0i0fo1Wpm1mQMIUW7zmoStaM/ARlLF+mMJcsRq81z0fXU1XEj8aHZQA+k0Un+pF791RFAO5Az/1YRayvk6g5fCgWFWQ/b8dRHGvBWSvONYTHRD+AKVGFMO1LgeqkScwG8W2bgD+NOaxA+iz2IBc+GLU4JYlxRavRmR1OUvnOAp2J9n50y1lL0TCcB2ZLW+iuA/1UnqLzCXut5FAzSOzffMy5Nb1IaFz8aio1j4Xo5SQJ73H1nnPrUSrkmHhGkIN6aw7ajK4hZrlaKGmg/j0h+3IAn4c5W8ZBaTY4nU2vsXiOjAk7TI6a+azxI+QcmxEJ+cWZBWGc3Nc19X1qOTneiQ8FcjNWINcQpe0Ooy/MuhWqKrRHMbZyPobQgLX6B2jS3bsQ5aWW7myeEr+aUUXimuQNR4ULfe5gvL51qN2SV3YYklRKKZ4taM8KjcLcb/3e9VoT5ogbjVvCbK0xhraOgD8DI1H72T0hMJBFJx9Af1PbpgGyKpaj/43FwPZjDpH/HVoP1d4twEU+2sk8/N5xTuezUzxeXxFoBq937ehoPwlZOfsVSBrdz2ytDrRZ2UUiWKK14eobbErCdqLLJNjeXyNRcDHUIb8bBSLah3jOb8D/g+ybnrJLRN6KwrUP4esOkcLsp66kct5BFlWTyGBu45ssa4hMyA8AjyPSo9ex4Qr37QiwVqOXPS41IdDKOb5KuYipoJiitcZyEqZiQRrGuqqkI+BEfPRlfRcZP1cRfZwiyh+i4KvG8leFRyLfWj1bwkSMtdo7nrkKlZ5+wVZYq499LpR9rkVXeVf8Z5jSY75owpZ3+1kVyyE+Xfgu+gzyKUSwigAxRSvefhTbtpQYDQfwuUmbl+N+oPnkmS6Fa0W/QLFLyYSw9iBumE8gYQ4mJG/Cr/FTy9yP46hQP1mlGoxhIR2AH1B3kRi9yKWCpFvapC1tRrl6sWVff0WuYdW9J5CiiVerndXJXIV9yFzfKLxrmZvX6ehIPwtxA/rDDIC/Bs6OV/39jGZpe730Kqh61PuXJBlyMpcjC+Sh7zbPpQq8SFqKuhWGl0szcgftShn6wr8lcQ4HkJ9tl7DAvKppFji5Qaj1iHB6keWy3im3dQg4TsXNQk8ByWHLiKz3Uwcv0OtSZ5CLmI+VjmPI9F5wTuWP/O2V3rHtR+5xvX4X4heLKExaWpRzNOlx1yKLPJBMjuXHkeW1uOoFXNPQY/SGBfFEq9pyEqahk6iIWR95JK7NAfFyxpRkPVyZNnMIHqgQZh9qKRmg/d6/eQ3PcMVl9+PBubeFLjvCmSdObcwDb3KyoGzUerDTShEUYXih/1kite9aDVxY4GPz5gAxRKvYXTiHEMWlBOj0ViALKqz8XtrjdZfK8wmNEpqBxoYO0By7kA3iuVVoeB9MJ9sHRLun3vH8D7KA7NOmvmlAp1TbSiM8Hkyz3c36MXN53wcuYiWP1ciFEu8TqHymXfRl3cGErMoqlEJ0VzUU2sFozd8C+MsrU3IJThJYQLggyiB8bsokXUNvjv7Z+i9f9e7b4D8LFYYPiuAtSi2FXWRG0CpLb9ELqJZwSVGscRrJ4o7uFY4NWTmLy1DX/Tp6AraguIVa8fxGr3I0noOWTaukLqQdCOBOoBE6iv4k4GuRTGVfdhk63xRhc6Vi1H6w5UxjzuE4pIPo/PDVnNLkGKmSvwg8PuVyHxfik7A89BKUBsK7M8fx34PorjFBiRahyluo74B5I4cQK7h3+ILWKv380ThD2tK4pKCP0d8+sNjKLbVg1Z2TbhKlGKI1ydRYuC56OR5FVlFa9A04aWMT6xA1ss+VIfYjSyZk6QrE/ogSsk4CdyMhLkLWWazsZWtiVCD+vkfRheCm4nvI98L/CP+kBQr7SlxCi1e81EA2y1buwr+IZQDdWH8U7MYRjGsTvw0i6PIyurJ2xHnlyMox6sbvQ99aNXRSn7GTzW+i9jG6MMv/hUNfh1GFwsTrilAocVrGvrStiELqxVdEYcZXxDejUR/BdVEHqF0Egl7saX4ydKErPcbkbUVlyKzG60iuhIrYwpRaPGqwC/fmettayD3MVDPoziWM/17sXq/cmIOWnm+GHW9jWsQ2IvOlZ+g2KdN65mCFFK8XLtnJ1zD+AmdFcT3BN+K0hzeQu6gm6QdbrFsTG3mITfxFhSQjzt3X0Eu4mZsEvWUppDiNYRM/YWoPMZNxj6G38erEVlSe1Acawv+MIt+JHJ2MpYXlWjlcAnqDnIlmedtsEngs2hR5DFKJ4xgTJBCilcVEi1Xz3gCvzB7D0on6EOtlbvxUxwm2uXBKG2C7Zg78GtYw+xD581m5CYeQUXuxhSnkOJ1FrKeTqIrZR1qRngAdXTYiqZku/mNtiJUvrSg/mufRkH5uIG/H6DV2x0oU76O9K40G3mmkOJ1GAXnO1HM6ixkUXWiIPxbjL8BoDH1aEEpM5ejXvIuoTfoHg7jtxZ6Dr+g30p8yohCitcZSJymI9Fy5n6X97sJV/lSjc6PecjSWkd2u24nXLtRx471+FULRhlSSPGqQcH6Su82gE6+/VhRcjnThKytNlR471p4R+FaGa1HVpalQJQxhRSvOnQ1dUF6az1i1ODPR7yY+BZH21G6zLfQ+XM6JlxlTyHFqx7FtaYhF8CtIsa1wjGmJk3I1WtEorUata+JGpDi2hm5yePFLLA3UkahxMuNHjvN+9slqA6hVUajfGhELbJXopyt1pjHbUYTlp7EEpKNCAolXvUoq34uysEZRMmp4cGextRlKRKuzyDhWkx0VcV2NPziRZT2YOVfRiSFEq9KlBpxDL/982HyO2DWSC8taCXxL5FwxU2JehA1CdyIzg/rtWXEUsiY1y50Ep+O2sC8jAVdy4E5wK3AF4h3EXcD30edb12bbhMuY1QKJV4zkMt4OnIVh7FM6KlMI0pIXog/tach4nFHUJLpsyjh9CS5dxgxypxCiNcs73YOGvk1jFlcU5lWFM+6AE1NihvsuhkNdf0tfiNJw8iZQohXHbK8GvBjXKcK8LpG4WlA6Q/XojkEcyIesxMN+n0WlYa5lWfDGBeFEK8GVP7hxtifLMBrGoXDNZisR3GtT6PaxPBK8jBaRVyPCvEPYS6iMQkKZXmB3AJ3QpvbOHVYgASrDdUkRrXz/gCV9fwILdwcxWoSjUlSCPE6w/t5jPglcqP0aAbOR3GtS1FwPqqX/FaUaLoJtTqyLHkjLxRCvCq82ynkPhqlTTWqlliBVhJXEW9tPQr8DBXeD2EJp0YeSVq8ar3XOBtlWNeh/C7LrC9NqlGS6XXeLaoesQfla21Gsa3dhTo4o7xIWrzORX3r56OpL++iDHuLd5QWc1ALo2Wo39YtRIcANiL30JX2WI82IzGSFq/Z3m06infsRz283kv4dY384Aa7LkflXWvQIIywcA0gwfo35CK+hV2gjIRJWrxcHeMR/OGyQ1heTynQijLlO4DPooC8S3sJMoTa1vwEDQB+p2BHaJQ1SYvXMfze46dQiVAjygky0kklEqnlyNL6LHAmuuCE87K2o/jWU9hEaqPAJC1edfhxr2AHCUtOTCe1yM1fhURrJX7bmkr8VIg9KEN+A3IT9xf0KA2DZMWrBllaF6JVqWqUVX0UBe6N9FCP3MQKlP7wZaJLe0BxrXtR/pYlGxtFI0nxqkBB3rne387aGsJaP6eNRcjausj7PU64voL6be3AhMsoMkmK13moAR0oXtKHSkPeRn3sjeIzBwXib0Zta6LSHwaBR1BcaztaLTa33yg6SYrXSZQi4TLs30fdMY9gvbzSQD0q71mDhmBECdcetJL4LLrw9Bbs6AxjDJIUr2koR8gxjPKBTiT4msboNKDPfDaqeLgGCVdUL/mNqJD6Waysx0ghSYlXE/qCtAa2uU6apyf0msbouAWUlcAlaAW4jexzYA+qSVyP3EQTLiOVJCVeFcjqmhvYNhNl1pvlVViq8IXqJuATRAfkj+B3f9iCUltMuIzUkpR4DaJOA+H992Bxk0JSgcp5bgAuR7WJYVyvrZeAX2MtmY0SISnxOokKsYP0e7d9Cb2mkcl8tJLosuSjOkD0onFjPwdeQ669CZdREiQlXsNkT4txq49GsrgBv+0o4XQt0ZN7QLGtHwNd3t/WKNAoGZISrxVk53INYikSSdKMLg4tyEVch6yvMLuRm9iDrGAbhmKUJEmJ1wmyS4BOJPh65Y7rZHo58CWUBhHFZhTXehGVap1Eq4uGUXIkGbDvQjP5PultexMrKUmCJpRsuhg1CowTrq3AfSi2taMwh2YYyZGkJbQDWVtVqLPEy1iaRD6Zg+ZhXojfAaIx4nG9KNl0A3ITzdIypgRJidcOJFr70arjMtQS+LWEXq+cqESths4DPo/SIOI+x83I2tqIVhFtJdEwjKJQgVYRb0MJpf85yu1e5EJGjSMzDMMoGLOQGN2DCtzjRGsH8HdErzQahmEUjCZUI7oY+Bfg90SL1oeodc1NKF0iKinVMKYMhUpduAw4BxUHv4KsA4u/jE0rsqAuQrlzfxrzuGfxUyB6sSoGw8gbd6FxWCeBn6KSFWN0KpC19XW08BFlbb2FpvZ8HnVAbYnck2FMQQpleU1DJSpVqFVOVOM7Q1Sg92clytu6iuguEM8Dz6CC6j1YBwijzCiUeO0CfoDiN9uxXKM43JDXT6OaxMvJnpMIEq5HgedQCorNwTTKjkKJ13TgcfwkVZumnM0iZKGuQrlbF0Y8ZjOKF76McuYOYcJlGEaRcM0C1wG/BLYhkQ/Gtk4CnahLxCLkgkdl0xtG2fAnxT6AMqYWta45G+hAq4mXRTzuCPAQ6rm1E1ulNQzAujwUk4/h95O/CjgzdP8wmtzzAoprDWLCZRhGEWlCmfL3IjGKSzi9F8W96ome7mMYZY1ZXoWjGVlaA6hN0Dqyra3jaCjv8yj+1YNZW4YRiYlXYZiF2tfMRrMSO8i2pg6iYutOtJpok6kNYxRMvAqDC8p3EF3i0wf8A8qB24WC9Na40TBGwVYbk6MFWVfnAVcj4WqNeNzDwBNItHowN9EwjCJSj1YR7wbeIDoof9i7fzFmARuGUWRqkHV1LfB94tvXHAbuRDWL1rrGMIyi4oTrNlRzeIpo4doG3IFa3cTNUzQMYwws5jV5mlB861zU6mclMC/msf+OBmGsR21uLChvGBPEYi2TowoJ13VIuJbEPG4IeBX4FSqmrsSEyzCMIlGLrKxvo8TSuJ7ye4HvAFcgoVtQjIM1DMOoRa7iWtQV9j2iRetd4H7gVkywDMMoMs2o3vAO5ALGWVtbgC+hAH5FMQ7UMAwDtCo4C7ge+CHx1lY/arp4Ncr1MgwjISxgPzbzULPAC1BQflnEY46g1cN7Uc+tN7FMecNIFBOv0ZmHUiCuQ8MwolrT7ESNAp9GLmI/NgzDMIwi0YTcxLXAU8THtl5HmfLtKJBvGEaBMMsrmrPQLMQbiZ6FOIja1jwHdAHvo15chmEUiP8PQZTVXAyPdkkAAAAASUVORK5CYII=);width:60.9px;height:46px;"></i></span></div>
 
 </div>
 <script>
