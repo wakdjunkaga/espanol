@@ -1,0 +1,906 @@
+<!doctype html><html lang='zh'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><meta name='robots' content='noindex,nofollow'><title>¿Dónde están? · 阿弟西语研究社</title><link rel='preconnect' href='https://fonts.googleapis.com'><link rel='preconnect' href='https://fonts.gstatic.com' crossorigin><link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400;1,8..60,600&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=Noto+Serif+SC:wght@400;500;700&amp;family=Noto+Sans+SC:wght@400;500&amp;display=swap'><style>:root{
+  --paper:#e9e7e1;--card:#f4f3ef;--ink:#1a1916;--ink2:#43413b;--muted:#78756c;
+  --rule:#cfcbc1;--rule-soft:#dcd8ce;
+  --red:#bb392a;--blue:#2b5378;--blue-rgb:43,83,120;
+  --tint-rgb:34,94,156;--tint-a:.175;--tint-b:.07;
+  --graph:#6e6f72;--graph-rgb:110,111,114;
+  --deep:#20303a;--deep-ink:#ebe8e1;--deep-dim:#93a1a8;--deep-rule:#3b4c57;
+  --deep-red:#e07a63;
+  --now:#20303a;--now-ink:#ebe8e1;
+  --hl:#d9b45e;--hl-ink:#1a1916;
+
+  --rhythm:30rem;      /* max width of a measure — an instrument, not a console */
+  --measure:47rem;     /* the page column */
+  --reading:19px;      /* reader pages override this from localStorage */
+  --read:"Source Serif 4",Georgia,serif;
+  --app:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  --hans:"Noto Serif SC","Songti SC",STSong,SimSun,serif;
+  --hanx:"Noto Sans SC","PingFang SC","Hiragino Sans GB",sans-serif;
+
+  --es-bg:var(--paper);        --es-card:var(--card);
+  --es-panel:var(--card);      --es-instrument:var(--card);
+  --es-ink:var(--ink);         --es-soft:var(--ink2);
+  --es-muted:var(--muted);     --es-rule:var(--rule);
+  --es-gold:var(--hl);         --es-accent:var(--blue);
+  --es-deep:var(--deep);       --es-rec:var(--deep);
+  --es-go:var(--blue);         --es-measure:var(--measure);
+  --es-serif:var(--read);      --es-han:var(--hans);
+  --es-sans:var(--hanx);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#16161a;--card:#1e1e24;--ink:#e8e6e0;--ink2:#c2bfb7;--muted:#8b887f;
+  --rule:#33333c;--rule-soft:#282830;
+  --red:#e77a67;--blue:#87afd6;--blue-rgb:135,175,214;
+  --tint-rgb:120,168,214;--tint-a:.20;--tint-b:.085;
+  --graph:#9b9ca0;--graph-rgb:155,156,160;
+  --deep:#242b33;--deep-ink:#e8e6e0;--deep-dim:#98a4ac;--deep-rule:#3a444d;
+  --deep-red:#e77a67;
+  --now:#cfd4d9;--now-ink:#14181c;
+  --hl:#d9b45e;--hl-ink:#14181c;
+}}
+:root[data-theme="dark"]{
+  --paper:#16161a;--card:#1e1e24;--ink:#e8e6e0;--ink2:#c2bfb7;--muted:#8b887f;
+  --rule:#33333c;--rule-soft:#282830;
+  --red:#e77a67;--blue:#87afd6;--blue-rgb:135,175,214;
+  --tint-rgb:120,168,214;--tint-a:.20;--tint-b:.085;
+  --graph:#9b9ca0;--graph-rgb:155,156,160;
+  --deep:#242b33;--deep-ink:#e8e6e0;--deep-dim:#98a4ac;--deep-rule:#3a444d;
+  --deep-red:#e77a67;
+  --now:#cfd4d9;--now-ink:#14181c;
+  --hl:#d9b45e;--hl-ink:#14181c;
+}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--read);font-size:17px;line-height:1.6;padding:0 0 4.5rem;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.wrap,.doc{max-width:var(--measure);margin:0 auto;padding:0 1.4rem}
+
+/* ---- the hand ----------------------------------------------------------- */
+.mk{display:inline-block;background-color:currentColor;vertical-align:middle;
+  pointer-events:none;-webkit-mask-image:var(--m);mask-image:var(--m);
+  -webkit-mask-size:100% 100%;mask-size:100% 100%;
+  -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.hand{color:var(--red)}
+.field .hand{color:var(--deep-red)}
+.sig{color:var(--blue);line-height:1}
+
+/* ---- masthead ----------------------------------------------------------- */
+.mstrip{background:var(--deep);color:var(--deep-ink);display:flex;
+  justify-content:space-between;gap:1rem;padding:.5rem 1.4rem;
+  font-family:var(--app);font-size:10px;letter-spacing:.16em;
+  text-transform:uppercase}
+.mstrip .zh{font-family:var(--hanx);letter-spacing:.2em;text-transform:none}
+.kicker{font-family:var(--hanx);font-size:.78rem;letter-spacing:.22em;
+  color:var(--muted);margin:2.4rem 0 .9rem}
+h1{font-family:var(--hans);font-weight:500;font-size:clamp(1.9rem,7vw,2.5rem);
+  line-height:1.15;letter-spacing:.02em;margin:0;
+  display:flex;align-items:center;gap:.85rem;flex-wrap:wrap}
+.sub{font-family:var(--hanx);font-size:.85rem;color:var(--muted);margin:.7rem 0 0}
+.rule{border:0;height:1px;background:var(--rule);margin:1.6rem 0 0}
+
+/* ---- movement heads. Arabic, with the count, because a student has to
+       count them and I·II·III reads as a chapter number. ------------------ */
+.mvh{display:flex;align-items:baseline;gap:1.1rem;border-top:2px solid var(--ink);
+  padding-top:.9rem;margin:4.2rem 0 0}
+.mvn{font-family:var(--read);font-variation-settings:"opsz" 60;font-weight:600;
+  font-size:clamp(2.4rem,8vw,3.2rem);line-height:.9;color:var(--ink);
+  letter-spacing:-.02em}
+.mvn .of{font-family:var(--app);font-weight:400;font-size:.85rem;
+  letter-spacing:.04em;color:var(--graph);margin-left:.18rem;vertical-align:super}
+.mvt{font-family:var(--hans);font-weight:700;font-size:clamp(1.5rem,5.4vw,2rem);
+  line-height:1.3;color:var(--ink)}
+
+/* ---- instructions ------------------------------------------------------- */
+/* No card. Generic containment is what made nine exercises look like nine
+   identical homework rows. */
+.how{font-family:var(--hanx);font-size:.95rem;line-height:2.05;color:var(--ink2);
+  max-width:32rem;margin:1.5rem 0 0}
+.how p{margin:0 0 .5rem}
+.how p:last-child{margin:0}
+.how .lead{color:var(--ink)}
+.how b,.how strong{font-weight:500;color:var(--ink);
+  box-shadow:inset 0 -.32em 0 rgba(var(--tint-rgb),.3)}
+.note,.legend{font-family:var(--hanx);font-size:.8rem;line-height:1.95;
+  color:var(--muted);margin:2.2rem 0 0;padding-top:1rem;
+  border-top:1px solid var(--rule);max-width:30rem}
+
+/* ---- controls: square, hairline, never a rounded pill ------------------- */
+button{font:inherit;color:var(--ink);cursor:pointer}
+button:not(.ghost):not(.cal){font-family:var(--hanx);font-size:.9rem;
+  min-height:44px;padding:0 1.1rem;border-radius:2px;
+  border:1px solid var(--rule);background:none;color:var(--ink2);
+  transition:border-color .15s ease,color .15s ease,background .15s ease}
+button:not(.ghost):hover:not(:disabled){border-color:var(--ink2);color:var(--ink)}
+button:not(.ghost):disabled{opacity:.38;cursor:default}
+button:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+/* yellow means live audio, playing or capturing — and nothing else */
+button.playing:not(.ghost),button.rec:not(.ghost){
+  background:var(--hl);border-color:var(--hl);color:var(--hl-ink)}
+button.ghost{border:0;background:none;border-radius:0;padding:.35rem 1px;
+  font-family:var(--hanx);font-size:.85rem;color:var(--blue);min-height:0;
+  border-bottom:1px dotted currentColor}
+button.ghost:disabled{color:var(--muted);opacity:.45;cursor:default}
+button.ghost.on{color:var(--ink);border-bottom-style:solid;
+  border-bottom-color:var(--blue)}
+.btns,.tp{display:flex;gap:.55rem;flex-wrap:wrap;margin:1.4rem 0 0}
+
+/* ---- items -------------------------------------------------------------- */
+.items{margin:2.2rem 0 0}
+.items>.item{padding:1.9rem 0 0;border-top:1px solid var(--rule);
+  background:none;border-radius:0;position:relative}
+.items>.item:first-child{border-top:0;padding-top:1rem}
+.ihd{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;
+  margin:0 0 .8rem}
+.n,.inum{font-family:var(--app);font-size:10.5px;letter-spacing:.16em;
+  color:var(--graph);margin:0}
+.izh,.item>.zh{font-family:var(--hanx);font-size:.82rem;color:var(--muted);
+  margin:0 0 .6rem}
+
+/* ---- the foot ----------------------------------------------------------- */
+.foot,.colophon{margin:3.4rem 0 0;padding-top:1.2rem;
+  border-top:1px solid var(--rule);display:flex;justify-content:space-between;
+  align-items:flex-end;gap:1.5rem;flex-wrap:wrap}
+.foot .who,.colophon .who{font-family:var(--hanx);font-size:.82rem;
+  letter-spacing:.16em;color:var(--muted)}
+.foot .who span,.colophon .who span{display:block;font-family:var(--app);
+  font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--graph);margin-top:.45rem}
+
+/* ---- family marks ------------------------------------------------------- */
+.fmw{display:inline-block;height:1.4em;line-height:1.4em}
+.fm{display:inline-flex;width:30px;height:14px;position:relative;
+  vertical-align:middle;color:var(--graph);gap:1.5px}
+.fm i{background:currentColor}
+.f-pron{align-items:flex-start}
+.f-pron i.c{flex:1;height:8px}
+.f-pron i.tie{position:absolute;left:24%;right:26%;bottom:1px;height:5px;
+  background:none;border:1px solid currentColor;border-top:0;border-radius:0 0 6px 6px}
+.f-song{align-items:flex-end}
+.f-song i.c{flex:1}
+.f-song i.h1{height:14px}.f-song i.h2{height:7px}
+.f-song i.h3{height:10.5px}.f-song i.h4{height:4px}
+.f-talk{flex-direction:column;justify-content:center;gap:3.5px}
+.f-talk i{height:4px;flex:none}
+.f-talk i.t1{width:55%}.f-talk i.t2{width:74%;margin-left:auto}
+.f-read{flex-direction:column;justify-content:center;gap:3px}
+.f-read i{height:2px;flex:none;width:100%;opacity:.85}
+.f-read i.s{width:58%}
+.f-grid{flex-wrap:wrap;gap:1.5px;align-content:center}
+.f-grid i.g{width:6.4px;height:6px;background:none;
+  box-shadow:inset 0 0 0 1px currentColor;opacity:.75}
+.f-grid i.g.on{background:currentColor;box-shadow:none;opacity:1}
+
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+body{--pad:max(1.4rem,(100vw - var(--measure))/2);
+  padding-left:var(--pad);padding-right:var(--pad)}
+body > .mstrip,body > .field{
+  margin-left:calc(-1 * var(--pad));margin-right:calc(-1 * var(--pad))}
+
+/* ==================================================== 看图练习 · page CSS ===
+   PAGE_CSS = design.TOKENS + design.CHROME + design.COLUMN + this.
+
+   Composed from design.py, not read out of docs\identidad.css. That file is
+   GENERATED from design.py and is the portable form for tools that cannot run
+   Python; a module living in generators\ imports the source instead, or it
+   silently freezes at whatever design.py said the last time the CSS was
+   exported.
+
+   NO !important ANYWHERE. There were twenty-five, and every one was this page
+   losing a specificity fight with design.CHROME's `button:not(.ghost):not(.cal)`
+   (0-2-1). Qualifying the selector with its element and `:not(.ghost)` ties
+   that score and wins on order, which is what the cascade is for. An
+   !important is a note saying you did not know which rule you were fighting.
+*/
+body.scene-page{padding-bottom:5rem}
+
+/* The title is Spanish, so it takes the reading face at display size — the
+   same call the graded reader and the illustrated reader make. It is NOT
+   blue: blue is the language at the level of a MARK (the syllable tint, the
+   weld, the gloss, the signature), and a blue heading reads as a link. */
+.scene-title{font-family:var(--read);font-variation-settings:"opsz" 60;
+  font-style:italic;letter-spacing:0;color:var(--ink)}
+
+/* ---- the scene ---------------------------------------------------------- */
+/* One frame, not two. The stage's rules and the frame's border were both
+   containing the same picture. */
+.scene-stage{margin:2rem 0 0;padding:0}
+.scene-frame{position:relative;width:100%;background:var(--card);
+  border:1px solid var(--rule);border-radius:0;overflow:hidden}
+.scene-frame img{display:block;width:100%;height:auto}
+.scene-local{max-width:43rem;margin-top:1.4rem}
+.scene-frame button.hotspot{position:absolute;min-height:0;padding:0;border:0;
+  background:transparent;border-radius:0;color:transparent}
+.scene-frame button.hotspot:focus-visible{outline:2px solid var(--blue);
+  outline-offset:2px}
+/* right and wrong. Blue is the answer handed over; graphite is the measure
+   saying "not this one". There is no green in this system — dictation.py and
+   answering.py each lost one (STATE §16.6, §16.7). */
+.scene-frame button.hotspot.ok{background:rgba(var(--blue-rgb),.18);
+  box-shadow:inset 0 0 0 1px var(--blue)}
+.scene-frame button.hotspot.bad{background:rgba(var(--graph-rgb),.14);
+  box-shadow:inset 0 0 0 1px var(--graph)}
+
+/* ---- moving on ---------------------------------------------------------- */
+button.continue-button:not(.ghost){min-width:15rem;background:var(--deep);
+  border-color:var(--deep);color:var(--deep-ink);font-family:var(--hanx);
+  font-size:1rem;font-weight:500}
+button.continue-button:not(.ghost):hover:not(:disabled){background:var(--ink);
+  border-color:var(--ink)}
+.continue-button .go{font-family:var(--app);color:var(--deep-dim);
+  margin-left:.5rem}
+
+/* ---- the route ---------------------------------------------------------- */
+/* Kept as it is, his call: five exercises are worth a visible control, and it
+   shows the shape of the session in a way the movement head cannot. */
+.route{margin:2rem 0 0;padding-top:1rem;border-top:1px solid var(--rule)}
+.route-title{font-family:var(--hanx);font-size:.8rem;letter-spacing:.16em;
+  color:var(--muted);margin:0 0 .7rem}
+.route-list{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:2px;
+  margin:0;padding:0;list-style:none}
+button.route-button:not(.ghost){width:100%;min-height:58px;text-align:left;
+  border-color:var(--rule-soft);padding:.55rem .65rem;
+  background:rgba(var(--graph-rgb),.04)}
+.route-button strong{display:block;font-family:var(--app);font-size:10px;
+  letter-spacing:.12em;color:var(--graph);font-weight:500}
+.route-button span{display:block;font-family:var(--hanx);font-size:.85rem;
+  color:var(--ink2);margin-top:.18rem}
+button.route-button.current:not(.ghost){border-color:var(--blue);
+  background:rgba(var(--blue-rgb),.08)}
+.route-button.current span{color:var(--ink)}
+.route-button.done span{color:var(--muted)}
+.route-button:disabled{opacity:.55}
+.mobile-route{display:none;position:sticky;top:0;z-index:6;
+  margin:0 calc(-1 * var(--pad));padding:.55rem var(--pad);
+  background:var(--paper);border-bottom:1px solid var(--rule)}
+.mobile-route button{width:100%;justify-content:space-between}
+
+/* ---- the five sections -------------------------------------------------- */
+.section-shell{display:none;margin:2.2rem 0 0}
+.section-shell.active{display:block}
+.section-shell.collapsed{display:block;border-top:1px solid var(--rule);
+  padding-top:1rem}
+.section-shell.collapsed .section-body{display:none}
+.collapsed-line{display:none;font-family:var(--hanx);font-size:.9rem;
+  color:var(--muted)}
+.section-shell.collapsed .collapsed-line{display:block}
+.exercise-progress{font-family:var(--app);font-size:11px;letter-spacing:.12em;
+  color:var(--graph);margin:.9rem 0 0}
+
+/* ---- the Spanish -------------------------------------------------------- */
+/* Set in --ink, the way every other page in the system sets its Spanish. It
+   was all --blue, which made blue this page's theme colour instead of a
+   signal. Blue survives on the two things it means: a revealed answer and a
+   hint the student asked for. */
+.spanish-line{font-family:var(--read);font-size:1.28rem;line-height:1.8;
+  color:var(--ink);margin:.8rem 0}
+.hold-reveal{display:inline-block;min-height:1.8rem;margin:.7rem 0 0;
+  font-family:var(--read);font-style:italic;color:var(--blue)}
+.feedback-line{min-height:1.8rem;font-family:var(--hanx);font-size:.9rem;
+  color:var(--ink2);margin:.9rem 0 0}
+.feedback-line strong{font-weight:500;color:var(--blue)}
+.feedback-line .teacher-hook{font-family:var(--read);color:var(--ink2)}
+.cloze-question{font-family:var(--read);font-size:1.16rem;color:var(--ink2);
+  margin:1.2rem 0 .45rem}
+.cloze-answer{font-family:var(--read);font-size:1.34rem;line-height:2.15;
+  color:var(--ink);margin:0}
+.blank-input{display:inline-block;font:inherit;line-height:1.45;min-width:3.2ch;
+  border:0;border-bottom:1.5px solid var(--graph);border-radius:0;
+  background:rgba(var(--graph-rgb),.07);color:var(--ink);
+  padding:.08rem .2rem .12rem;text-align:center;outline:none;
+  vertical-align:baseline}
+.blank-input:focus{border-color:var(--blue);background:rgba(var(--blue-rgb),.08)}
+.blank-input.ok{border-color:var(--blue);background:rgba(var(--blue-rgb),.15)}
+.blank-input.impossible{border-color:var(--graph);
+  background:rgba(var(--graph-rgb),.18);box-shadow:0 1px 0 var(--graph)}
+.recall-item.done{opacity:.62}
+.tf-options button.choice-ok:not(.ghost){border-color:var(--blue);
+  background:rgba(var(--blue-rgb),.14)}
+.tf-options button.choice-bad:not(.ghost){background:rgba(var(--graph-rgb),.16)}
+
+/* ---- writing ------------------------------------------------------------ */
+.write-field{margin:1.5rem 0 0}
+.write-field label{display:block;font-family:var(--hanx);font-size:.9rem;
+  color:var(--ink2);margin-bottom:.35rem}
+textarea{width:100%;min-height:6.5rem;resize:vertical;
+  border:1px solid var(--rule);border-radius:2px;background:var(--card);
+  color:var(--ink);font-family:var(--read);font-size:1.15rem;line-height:1.7;
+  padding:.8rem;outline:none}
+textarea:focus{border-color:var(--blue);box-shadow:0 0 0 1px var(--blue)}
+.hint-line{display:none;font-family:var(--read);color:var(--blue);margin:.4rem 0 0}
+.hint-line.show{display:block}
+
+/* ---- recording ---------------------------------------------------------- */
+/* Yellow means live audio — playing or capturing — and nothing else, so it is
+   right here and only while `.recording` is on. */
+.recording-panel{margin-top:1.5rem;padding:1rem 0;
+  border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.recording-status{min-height:1.8rem;margin:.85rem 0 0;font-family:var(--hanx);
+  font-size:.9rem;color:var(--muted)}
+button.scene-record-control:not(.ghost){background:none;
+  border-color:var(--rule);color:var(--ink2)}
+button.scene-record-control.recording:not(.ghost){background:var(--hl);
+  border-color:var(--hl);color:var(--hl-ink);
+  animation:record-pulse 1.7s ease-out infinite}
+@keyframes record-pulse{0%,100%{box-shadow:0 0 0 0 rgba(217,180,94,.55)}
+  50%{box-shadow:0 0 0 7px rgba(217,180,94,0)}}
+.recording-playback{display:none;width:100%;margin-top:.9rem}
+.recording-playback.ready{display:block}
+.recording-send{display:none;margin-top:.75rem}
+.recording-send.ready{display:flex}
+.recording-send .button-link{display:inline-flex;align-items:center;
+  justify-content:center;min-height:44px;padding:.5rem .85rem;
+  border:1px solid var(--rule);border-radius:2px;background:none;
+  color:var(--ink2);font-family:var(--hanx);font-size:.92rem;
+  text-decoration:none}
+.recording-send .button-link:hover{border-color:var(--ink2);color:var(--ink)}
+@media (prefers-reduced-motion:reduce){
+  button.scene-record-control.recording:not(.ghost){animation:none}
+}
+
+/* ---- the report --------------------------------------------------------- */
+.report{display:none;margin-top:3rem;padding-top:1.3rem;
+  border-top:2px solid var(--ink)}
+.report.show{display:block}
+.report h2{font-family:var(--hans);font-size:1.8rem;margin:0 0 .8rem}
+.report-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:2px;
+  margin:1.2rem 0}
+.stat-box{border:1px solid var(--rule);background:rgba(var(--graph-rgb),.045);
+  padding:.65rem}
+.stat-box strong{display:block;font-family:var(--app);font-size:1.2rem;
+  color:var(--ink);font-weight:500}
+.stat-box span{font-family:var(--hanx);font-size:.75rem;color:var(--muted)}
+.written-record{font-family:var(--hanx);font-size:.92rem;line-height:1.9;
+  color:var(--ink2);border-top:1px solid var(--rule);padding-top:1rem;
+  margin-top:1rem;white-space:pre-wrap}
+.copy-state{min-height:1.5rem;font-family:var(--hanx);font-size:.9rem;
+  color:var(--blue);margin:.7rem 0 0}
+
+/* ---- the picture, on a phone -------------------------------------------- */
+.scene-float{display:none}
+/* the scrim was a hardcoded rgba(26,25,22,.45) — the light --ink, which in
+   dark mode is a pale wash over a dark page */
+.scene-sheet{display:none;position:fixed;inset:0;z-index:20;
+  background:color-mix(in srgb, var(--deep) 78%, transparent);padding:1rem;
+  align-items:center;justify-content:center}
+.scene-sheet.open{display:flex}
+.sheet-inner{background:var(--paper);border:1px solid var(--rule);padding:.75rem;
+  max-width:min(96vw,900px)}
+.sheet-inner img{display:block;width:100%;height:auto}
+.sheet-actions{text-align:right;margin-top:.5rem}
+
+@media(max-width:720px){
+  .route-list{grid-template-columns:1fr}
+  .mobile-route{display:block}
+  .route.compact .route-list{display:none}
+  .scene-float{display:block;position:fixed;right:.9rem;bottom:.9rem;z-index:8}
+  .scene-float button{background:var(--paper)}
+  .report-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .cloze-answer{font-size:1.18rem}
+}
+
+
+.hs-messi{left:22.2%;top:78%;width:6.2%;height:13.5%;z-index:3}
+.hs-restaurant{left:0%;top:56%;width:31.5%;height:42%;z-index:1}
+.hs-dog{left:53%;top:35%;width:7.5%;height:13.5%;z-index:3}
+.hs-hospital{left:43%;top:7%;width:27.5%;height:39%;z-index:1}
+.hs-girl{left:62.2%;top:65.5%;width:6.7%;height:17%;z-index:3}
+.hs-bathroom{left:54%;top:54%;width:20%;height:34%;z-index:1}</style></head><body>
+<div class='mstrip'><span class='zh'>阿弟西语研究社</span><span>scene prototype</span></div>
+<p class='kicker'>看图练习</p>
+<h1><span class='scene-title'>¿Dónde están?</span><span class="fmw"><span class="fm f-talk"><i class="t1"></i><i class="t2"></i></span></span></h1>
+<p class='sub'>看图片，完成几个很短的小练习。</p>
+<hr class='rule'>
+
+<section class="scene-stage" id="sceneTop" aria-label="场景图片">
+  <div class='scene-frame'><img src='donde-estan.png' alt='城市里的超市、医院、餐厅、咖啡馆、海滩和家里的浴室。Messi、Adrià、狗和女孩在不同位置。'></div>
+</section>
+
+<div class="mobile-route"><button id="mobileRouteButton"><span id="mobileRouteText">1 / 5 · 听一听，找一找</span><span>展开</span></button></div>
+<nav class="route compact" id="route" aria-label="今天的小练习">
+  <p class="route-title">今天的小练习</p>
+  <ol class="route-list">
+    <li><button class="route-button current"><strong>1 / 5</strong><span>听一听，找一找</span></button></li>
+    <li><button class="route-button"><strong>2 / 5</strong><span>问答回忆</span></button></li>
+    <li><button class="route-button"><strong>3 / 5</strong><span>真的吗？</span></button></li>
+    <li><button class="route-button"><strong>4 / 5</strong><span>你来描述</span></button></li>
+    <li><button class="route-button"><strong>5 / 5</strong><span>换你当老师</span></button></li>
+  </ol>
+</nav>
+
+<section class="section-shell active" id="section1">
+  <div class="collapsed-line">完成 · 听一听，找一找</div>
+  <div class="section-body">
+    <div class='mvh'><span class='mvn'>1<span class='of'>/5</span></span><span class='mvt'>听一听，找一找</span></div>
+    <div class="how"><p class="lead">听问题，然后点图片里的答案。</p></div>
+    <p class="exercise-progress" id="listenCount">1 / 3</p>
+    <div class="btns"><button id="listenPromptButton">听问题</button><button class="ghost" id="listenHold">听不懂？按住看问题</button></div>
+    <div class="hold-reveal" id="listenTranscript"></div>
+    <div class='scene-frame scene-local' id='listenScene'><img src='donde-estan.png' alt='可点击的场景图片'><button class='hotspot hs-messi' data-hotspot='messi' aria-label='Messi'></button>
+<button class='hotspot hs-restaurant' data-hotspot='restaurant' aria-label='restaurante'></button>
+<button class='hotspot hs-dog' data-hotspot='dog' aria-label='perro'></button>
+<button class='hotspot hs-hospital' data-hotspot='hospital' aria-label='hospital'></button>
+<button class='hotspot hs-girl' data-hotspot='girl' aria-label='chica'></button>
+<button class='hotspot hs-bathroom' data-hotspot='bathroom' aria-label='baño'></button></div>
+    <p class="feedback-line" id="listenFeedback"></p>
+    <div class="btns"><button class="continue-button" id="continue1" data-next="0" hidden>继续：问答回忆<span class="go">→</span></button></div>
+  </div>
+</section>
+
+<section class="section-shell" id="section2">
+  <div class="collapsed-line">完成 · 问答回忆</div>
+  <div class="section-body">
+    <div class='mvh'><span class='mvn'>2<span class='of'>/5</span></span><span class='mvt'>问答回忆</span></div>
+    <div class="how"><p class="lead">看问题，把答案里的空格补出来。</p><p>大小写、重音和标点都不算错。</p></div>
+    <p class="exercise-progress" id="recallCount">1 / 4</p>
+    <div class="items" id="recallItems"></div>
+    <div class="btns"><button class="continue-button" id="continue2" data-next="1" hidden>继续：真的吗？<span class="go">→</span></button></div>
+  </div>
+</section>
+
+<section class="section-shell" id="section3">
+  <div class="collapsed-line">完成 · 真的吗？</div>
+  <div class="section-body">
+    <div class='mvh'><span class='mvn'>3<span class='of'>/5</span></span><span class='mvt'>真的吗？</span></div>
+    <div class="how"><p class="lead">听句子，判断对不对。答错了可以继续试。</p></div>
+    <p class="exercise-progress" id="tfCount">1 / 4</p>
+    <div class="btns"><button id="tfPromptButton">听句子</button><button class="ghost" id="tfHold">听不懂？按住看句子</button></div>
+    <div class="hold-reveal" id="tfTranscript"></div>
+    <div class="btns tf-options"><button id="tfTrue">对</button><button id="tfFalse">不对</button></div>
+    <p class="feedback-line" id="tfFeedback"></p>
+    <div class="btns"><button class="continue-button" id="continue3" data-next="2" hidden>继续：你来描述<span class="go">→</span></button></div>
+  </div>
+</section>
+
+<section class="section-shell" id="section4">
+  <div class="collapsed-line">完成 · 你来描述</div>
+  <div class="section-body">
+    <div class='mvh'><span class='mvn'>4<span class='of'>/5</span></span><span class='mvt'>你来描述</span></div>
+    <div class="how"><p class="lead">看图写两句话。不自动判断语法，原句会放进学习记录。</p></div>
+    <div class="write-field"><label for="freeWhere">一句说一个人在哪里</label><textarea id="freeWhere"></textarea><button class="ghost" onclick="toggleHint('hintWhere')">需要一点提示？</button><p class="hint-line" id="hintWhere">___ está en ___</p></div>
+    <div class="write-field"><label for="freeWant">一句说一个人想去哪里</label><textarea id="freeWant"></textarea><button class="ghost" onclick="toggleHint('hintWant')">需要一点提示？</button><p class="hint-line" id="hintWant">___ quiere ir a/al ___</p></div>
+    <p class="feedback-line" id="freeFeedback"></p>
+    <div class="btns"><button id="freeDone">老师，我做完了！</button><button class="continue-button" id="continue4" data-next="3" hidden>继续：换你当老师<span class="go">→</span></button></div>
+  </div>
+</section>
+
+<section class="section-shell" id="section5">
+  <div class="collapsed-line">完成 · 换你当老师</div>
+  <div class="section-body">
+    <div class='mvh'><span class='mvn'>5<span class='of'>/5</span></span><span class='mvt'>换你当老师</span></div>
+    <div class="how"><p class="lead">问 Adrià 一个关于图片的问题，然后录下来。</p><p>可以用：谁？ / 在哪里？ / 想不想…？</p></div>
+    <div class="recording-panel"><div class="btns"><button class="scene-record-control" id="teacherRecord">● 录音</button></div><p class="recording-status" id="teacherRecordStatus">录好以后可以听一遍，再发给老师。</p><audio class="recording-playback" id="teacherPlayback" controls></audio><div class="recording-send btns" id="teacherSend"><button id="teacherShare">发送录音给老师</button><a id="teacherDownload" class="button-link">下载录音，发给老师</a></div></div>
+    <p class="feedback-line" id="teacherFeedback"></p>
+    <div class="btns"><button id="teacherDone" disabled>老师，我录好了！</button></div>
+  </div>
+</section>
+
+<section class="report" id="finalReport">
+  <h2>学习记录</h2>
+  <div class="report-grid">
+    <div class="stat-box"><strong id="reportListen">0 / 3</strong><span>听一听，找一找</span></div>
+    <div class="stat-box"><strong id="reportRecall">0 / 4</strong><span>问答回忆</span></div>
+    <div class="stat-box"><strong id="reportTf">0 / 4</strong><span>真的吗？首次答对</span></div>
+    <div class="stat-box"><strong id="reportWritten">0</strong><span>自由写作</span></div>
+  </div>
+  <div class="written-record" id="writtenRecord"></div>
+  <div class="btns"><button id="copyReport">复制学习记录，发给老师</button></div>
+  <p class="copy-state" id="copyState"></p>
+</section>
+
+<div class="scene-float"><button id="openScene">看图片</button></div>
+<div class="scene-sheet" id="sceneSheet" aria-modal="true" role="dialog">
+  <div class="sheet-inner"><div class='scene-frame'><img src='donde-estan.png' alt='场景图片'></div><div class="sheet-actions"><button id="closeScene">关闭</button></div></div>
+</div>
+
+<div class='colophon'><span class='who'>阿弟西语研究社<span>看图练习</span></span><span class="sig"><i class="mk" style="--m:url(data:image/png;base64,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);width:60.9px;height:46px;"></i></span></div>
+<script>
+var DATA = {"listenFind": [{"prompt": "¿Dónde está Messi?", "correct": ["messi", "restaurant"], "success": "¡Sí! Messi está en el restaurante."}, {"prompt": "¿Dónde está el perro?", "correct": ["dog", "hospital"], "success": "Claro, el perro está en el hospital."}, {"prompt": "¿Quién está en el baño?", "correct": ["girl"], "success": "¡Exacto! La chica está en el baño."}], "recall": [["¿La chica está en la cocina?", "No, <la> chica <está> <en> <el> <baño>."], ["¿Con quién está Messi?", "Está <con> <el> <chico>."], ["¿Estoy en el hospital?", "No, <estás> <en> <la> <cafetería>."], ["¿Quién quiere ir al hospital?", "<La> <chica> quiere <ir> <al> hospital."]], "trueFalse": [["Messi está en la playa.", false], ["La chica está en el baño.", true], ["Quiero ir al supermercado.", true], ["El chico tiene una cerveza.", true]], "wrongHooks": ["No... vuelve a intentarlo.", "Pues no... ¿Lo intentamos otra vez?", "Casi, pero no."]};
+var AUDIO = {"listenPrompts": ["audio/listen-messi.wav", "audio/listen-perro.wav", "audio/listen-bano.wav"], "listenCorrect": ["audio/feedback-messi.wav", "audio/feedback-perro.wav", "audio/feedback-bano.wav"], "wrongHooks": ["audio/wrong-01.wav", "audio/wrong-02.wav", "audio/wrong-03.wav"], "trueFalse": ["audio/truefalse-messi-playa.wav", "audio/truefalse-chica-bano.wav", "audio/truefalse-supermercado.wav", "audio/truefalse-chico-cerveza.wav"]};
+var activeSection = 0;
+var completed = [false,false,false,false,false];
+var sectionStats = {
+  listenCorrect: 0, listenAttempts: 0, listenHelp: 0,
+  recallDone: 0, recallReveal: 0,
+  tfFirstTry: 0, tfDone: 0, tfHelp: 0, tfAttempts: {}
+};
+var listenStep = 0;
+var recallStep = 0;
+var tfStep = 0;
+var audioCtx = null;
+
+function byId(id){ return document.getElementById(id); }
+function allSel(q){ return Array.prototype.slice.call(document.querySelectorAll(q)); }
+function norm(s){
+  s = (s || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+  try { s = s.replace(/[^\p{L}\p{N}\s]/gu, ""); }
+  catch(e){ s = s.replace(/[^a-z0-9ñ\s]/gi, ""); }
+  return s.replace(/\s+/g, " ").trim();
+}
+function el(tag, cls, text){
+  var x = document.createElement(tag);
+  if(cls) x.className = cls;
+  if(text != null) x.textContent = text;
+  return x;
+}
+function setFeedback(id, htmlText){ byId(id).innerHTML = htmlText || ""; }
+function softSound(kind){
+  try{
+    var C = window.AudioContext || window.webkitAudioContext;
+    if(!C) return;
+    audioCtx = audioCtx || new C();
+    var now = audioCtx.currentTime, o = audioCtx.createOscillator(), g = audioCtx.createGain();
+    o.type = "sine";
+    o.frequency.setValueAtTime(kind === "ok" ? 660 : 180, now);
+    o.frequency.exponentialRampToValueAtTime(kind === "ok" ? 880 : 130, now + .08);
+    g.gain.setValueAtTime(.0001, now);
+    g.gain.exponentialRampToValueAtTime(.035, now + .015);
+    g.gain.exponentialRampToValueAtTime(.0001, now + .18);
+    o.connect(g).connect(audioCtx.destination);
+    o.start(now); o.stop(now + .2);
+  }catch(e){}
+}
+var activeClip = null;
+function playClip(src, button, feedbackId){
+  if(!src) return;
+  if(activeClip){
+    try{ activeClip.pause(); activeClip.currentTime = 0; }catch(e){}
+  }
+  var clip = new Audio(src);
+  activeClip = clip;
+  if(button) button.classList.add("playing");
+  function clear(){ if(button) button.classList.remove("playing"); }
+  clip.addEventListener("ended", clear);
+  clip.addEventListener("pause", clear);
+  var playing;
+  try{ playing = clip.play(); }catch(e){ playing = Promise.reject(e); }
+  if(playing && playing.catch) playing.catch(function(){
+    clear();
+    if(feedbackId) setFeedback(feedbackId, "播放不了录音。请再按一次。");
+  });
+}
+function renderRoute(){
+  allSel(".route-button").forEach(function(btn, i){
+    btn.classList.toggle("current", i === activeSection);
+    btn.classList.toggle("done", completed[i]);
+    btn.disabled = i > activeSection && !completed[i];
+  });
+  byId("mobileRouteText").textContent = (activeSection + 1) + " / 5 · " + allSel(".route-button")[activeSection].querySelector("span").textContent;
+  allSel(".section-shell").forEach(function(sec, i){
+    sec.classList.toggle("active", i === activeSection);
+    sec.classList.toggle("collapsed", completed[i] && i !== activeSection);
+  });
+}
+function openSection(i){
+  if(i <= activeSection || completed[i]){
+    activeSection = i;
+    renderRoute();
+    byId("section" + (i+1)).scrollIntoView({behavior:"smooth", block:"start"});
+  }
+}
+function completeSection(i){
+  completed[i] = true;
+  renderRoute();
+  byId("continue" + (i+1)).hidden = false;
+}
+function goNext(i){
+  activeSection = Math.min(4, i + 1);
+  renderRoute();
+  byId("section" + (activeSection+1)).scrollIntoView({behavior:"smooth", block:"start"});
+}
+
+function initListen(){
+  renderListen();
+  byId("listenScene").addEventListener("click", function(){ chooseHotspot("__background__"); });
+  allSel("#listenScene .hotspot").forEach(function(h){
+    h.addEventListener("click", function(e){ e.stopPropagation(); chooseHotspot(h.dataset.hotspot); });
+  });
+}
+function renderListen(){
+  var item = DATA.listenFind[listenStep];
+  byId("listenCount").textContent = (listenStep + 1) + " / " + DATA.listenFind.length;
+  byId("listenTranscript").textContent = "";
+  byId("listenPromptButton").dataset.feedback = "listenFeedback";
+  byId("listenPromptButton").dataset.prompt = item.prompt;
+  byId("listenPromptButton").textContent = "听问题";
+  setFeedback("listenFeedback", "");
+  allSel("#listenScene .hotspot").forEach(function(h){ h.classList.remove("ok","bad"); });
+}
+function chooseHotspot(id){
+  var item = DATA.listenFind[listenStep];
+  sectionStats.listenAttempts += 1;
+  var hs = document.querySelector("#listenScene [data-hotspot='" + id + "']");
+  if(item.correct.indexOf(id) >= 0){
+    if(hs) hs.classList.add("ok");
+    sectionStats.listenCorrect += 1;
+    setFeedback("listenFeedback", "<strong>对了。</strong> <span class='teacher-hook'>" + item.success + "</span>");
+    playClip(AUDIO.listenCorrect[listenStep]);
+    setTimeout(function(){
+      listenStep += 1;
+      if(listenStep >= DATA.listenFind.length) completeSection(0);
+      else renderListen();
+    }, 650);
+  } else {
+    if(hs) hs.classList.add("bad");
+    var hookIndex = Math.floor(Math.random() * DATA.wrongHooks.length);
+    var hook = DATA.wrongHooks[hookIndex];
+    setFeedback("listenFeedback", "不是这里，再找找。 <span class='teacher-hook'>" + hook + "</span>");
+    playClip(AUDIO.wrongHooks[hookIndex]);
+    setTimeout(function(){ if(hs) hs.classList.remove("bad"); }, 450);
+  }
+}
+function holdText(btnId, targetId, textGetter, statKey){
+  var btn = byId(btnId), target = byId(targetId);
+  function show(e){ e.preventDefault(); target.textContent = textGetter(); if(statKey) sectionStats[statKey] += 1; }
+  function hide(){ target.textContent = ""; }
+  btn.addEventListener("pointerdown", show);
+  ["pointerup","pointercancel","lostpointercapture","mouseleave"].forEach(function(n){ btn.addEventListener(n, hide); });
+  window.addEventListener("blur", hide);
+}
+
+function parseTemplate(t){
+  var out = [], re = /<([^>]+)>/g, last = 0, m;
+  while((m = re.exec(t))){
+    if(m.index > last) out.push({type:"text", text:t.slice(last, m.index)});
+    out.push({type:"blank", answer:m[1]});
+    last = re.lastIndex;
+  }
+  if(last < t.length) out.push({type:"text", text:t.slice(last)});
+  return out;
+}
+function renderRecall(){
+  var box = byId("recallItems");
+  box.innerHTML = "";
+  DATA.recall.forEach(function(row, idx){
+    var item = el("div", "item recall-item" + (idx < recallStep ? " done" : ""));
+    item.appendChild(el("p", "cloze-question", row[0]));
+    var answer = el("p", "cloze-answer");
+    if(idx === recallStep){
+      parseTemplate(row[1]).forEach(function(part, n){
+        if(part.type === "text") answer.appendChild(document.createTextNode(part.text));
+        else {
+          var input = el("input", "blank-input");
+          input.type = "text";
+          input.autocomplete = "off";
+          input.autocapitalize = "none";
+          input.spellcheck = false;
+          input.dataset.answer = part.answer;
+          input.size = Math.max(4, Math.min(18, part.answer.length + 2));
+          input.style.width = Math.max(3.4, Math.min(18, part.answer.length * 1.05 + 1.8)) + "ch";
+          input.setAttribute("aria-label", "填空");
+          input.addEventListener("input", onRecallInput);
+          answer.appendChild(input);
+        }
+      });
+      item.appendChild(answer);
+      var actions = el("div", "btns");
+      var reveal = el("button", "ghost", "想不起来？显示答案");
+      reveal.addEventListener("click", revealRecallAnswer);
+      actions.appendChild(reveal);
+      item.appendChild(actions);
+    } else {
+      answer.textContent = row[1].replace(/[<>]/g, "");
+      item.appendChild(answer);
+    }
+    box.appendChild(item);
+  });
+  byId("recallCount").textContent = Math.min(recallStep + 1, DATA.recall.length) + " / " + DATA.recall.length;
+  setTimeout(focusRecall, 50);
+}
+function onRecallInput(e){
+  var input = e.target, typed = norm(input.value), answer = norm(input.dataset.answer);
+  input.classList.remove("ok", "impossible");
+  if(!typed) return;
+  if(answer.indexOf(typed) === 0){
+    if(typed === answer){
+      input.value = input.dataset.answer;
+      input.classList.add("ok");
+      input.disabled = true;
+      setTimeout(focusRecall, 80);
+      checkRecallDone();
+    }
+  } else input.classList.add("impossible");
+}
+function focusRecall(){
+  var open = byId("recallItems").querySelector(".blank-input:not(:disabled)");
+  if(open) open.focus({preventScroll:true});
+}
+function checkRecallDone(){
+  if(byId("recallItems").querySelector(".blank-input:not(:disabled)")) return;
+  sectionStats.recallDone += 1;
+  softSound("ok");
+  recallStep += 1;
+  if(recallStep >= DATA.recall.length) completeSection(1);
+  renderRecall();
+}
+function revealRecallAnswer(){
+  sectionStats.recallReveal += 1;
+  recallStep += 1;
+  if(recallStep >= DATA.recall.length) completeSection(1);
+  renderRecall();
+}
+
+function renderTf(){
+  var row = DATA.trueFalse[tfStep];
+  byId("tfCount").textContent = (tfStep + 1) + " / " + DATA.trueFalse.length;
+  byId("tfPromptButton").dataset.feedback = "tfFeedback";
+  byId("tfPromptButton").dataset.prompt = row[0];
+  byId("tfTranscript").textContent = "";
+  setFeedback("tfFeedback", "");
+  allSel(".tf-options button").forEach(function(b){ b.classList.remove("choice-ok","choice-bad"); b.disabled = false; });
+}
+function chooseTf(value, btn){
+  var row = DATA.trueFalse[tfStep], correct = value === row[1];
+  sectionStats.tfAttempts[tfStep] = (sectionStats.tfAttempts[tfStep] || 0) + 1;
+  if(correct){
+    if(sectionStats.tfAttempts[tfStep] === 1) sectionStats.tfFirstTry += 1;
+    sectionStats.tfDone += 1;
+    btn.classList.add("choice-ok");
+    setFeedback("tfFeedback", "对。");
+    softSound("ok");
+    setTimeout(function(){
+      tfStep += 1;
+      if(tfStep >= DATA.trueFalse.length) completeSection(2);
+      else renderTf();
+    }, 650);
+  } else {
+    btn.classList.add("choice-bad");
+    setFeedback("tfFeedback", "不对。");
+    softSound("bad");
+  }
+}
+function toggleHint(id){
+  byId(id).classList.toggle("show");
+}
+function finishFree(){
+  var a = byId("freeWhere").value.trim(), b = byId("freeWant").value.trim();
+  if(a && b) completeSection(3);
+  else setFeedback("freeFeedback", "写完两句以后再继续。");
+}
+var teacherTake = null;
+var teacherRecorder = null;
+var teacherStream = null;
+var teacherChunks = [];
+var teacherAudioUrl = null;
+function teacherMime(){
+  if(!window.MediaRecorder || !window.MediaRecorder.isTypeSupported) return "";
+  var types = ["audio/mp4", "audio/mp4;codecs=mp4a.40.2", "audio/webm;codecs=opus", "audio/webm"];
+  for(var i = 0; i < types.length; i++) try{ if(MediaRecorder.isTypeSupported(types[i])) return types[i]; }catch(e){}
+  return "";
+}
+function teacherRelease(){
+  if(teacherStream) try{ teacherStream.getTracks().forEach(function(t){ t.stop(); }); }catch(e){}
+  teacherStream = null;
+}
+function teacherError(err){
+  teacherRelease();
+  var name = (err && err.name) || "";
+  var msg = /MicroMessenger/i.test(navigator.userAgent || "") ?
+    "微信里不能录音。请点右上角的「…」，在 Safari 或 Chrome 里打开这一页。" :
+    (!window.isSecureContext ? "这个地址不能录音。请用老师给的 https 链接打开。" : "打不开麦克风。请允许浏览器使用麦克风，然后再试。");
+  if(name === "NotFoundError") msg = "找不到麦克风，或者别的 App 正在占用它。";
+  byId("teacherRecordStatus").textContent = msg;
+  byId("teacherRecord").disabled = false;
+}
+function finishTeacherRecording(){
+  var type = (teacherRecorder && teacherRecorder.mimeType) || (teacherChunks[0] && teacherChunks[0].type) || "audio/mp4";
+  var blob = new Blob(teacherChunks, {type:type});
+  teacherRelease();
+  var control = byId("teacherRecord");
+  control.classList.remove("recording");
+  control.textContent = "● 重录";
+  if(!blob.size){ byId("teacherRecordStatus").textContent = "没有录到声音，请再按一次「录音」。"; return; }
+  if(teacherAudioUrl) URL.revokeObjectURL(teacherAudioUrl);
+  teacherAudioUrl = URL.createObjectURL(blob);
+  teacherTake = {blob:blob, type:type, url:teacherAudioUrl};
+  byId("teacherPlayback").src = teacherAudioUrl;
+  byId("teacherPlayback").classList.add("ready");
+  var download = byId("teacherDownload");
+  download.href = teacherAudioUrl;
+  download.download = "donde-estan-pregunta" + (/mp4/.test(type) ? ".m4a" : (/webm/.test(type) ? ".webm" : ".audio"));
+  byId("teacherRecordStatus").textContent = "录好了。听一下；不满意可以重录。";
+  byId("teacherSend").classList.add("ready");
+  byId("teacherDone").disabled = false;
+}
+function startTeacherRecording(){
+  if(/MicroMessenger/i.test(navigator.userAgent || "") || !window.isSecureContext || !navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || !window.MediaRecorder){ teacherError(); return; }
+  var control = byId("teacherRecord");
+  control.disabled = true;
+  byId("teacherRecordStatus").textContent = "正在打开麦克风……";
+  navigator.mediaDevices.getUserMedia({audio:{autoGainControl:false,noiseSuppression:false,echoCancellation:false}}).then(function(stream){
+    teacherStream = stream;
+    var type = teacherMime();
+    try{ teacherRecorder = new MediaRecorder(stream, type ? {mimeType:type} : {}); }catch(e){ try{ teacherRecorder = new MediaRecorder(stream); }catch(e2){ teacherError(e2); return; } }
+    teacherChunks = [];
+    teacherRecorder.ondataavailable = function(e){ if(e.data && e.data.size) teacherChunks.push(e.data); };
+    teacherRecorder.onerror = function(e){ teacherError((e && e.error) || e); };
+    teacherRecorder.onstop = finishTeacherRecording;
+    try{ teacherRecorder.start(1000); }catch(e){ try{ teacherRecorder.start(); }catch(e2){ teacherError(e2); return; } }
+    control.disabled = false; control.classList.add("recording"); control.textContent = "■ 停止";
+    byId("teacherRecordStatus").textContent = "正在录…… 说完按「停止」。";
+  }, teacherError);
+}
+function toggleTeacherRecording(){
+  if(teacherRecorder && teacherRecorder.state === "recording"){ try{ teacherRecorder.stop(); }catch(e){ teacherError(e); } }
+  else startTeacherRecording();
+}
+function sendTeacherRecording(){
+  if(!teacherTake) return;
+  var ext = /mp4/.test(teacherTake.type) ? ".m4a" : (/webm/.test(teacherTake.type) ? ".webm" : ".audio");
+  var file = new File([teacherTake.blob], "donde-estan-pregunta" + ext, {type:teacherTake.type});
+  if(navigator.share && navigator.canShare && navigator.canShare({files:[file]})){
+    navigator.share({files:[file], title:"¿Dónde están?"}).catch(function(e){ if(e && e.name !== "AbortError") byId("teacherRecordStatus").textContent = "发送没成功。请用「下载录音」。"; });
+  } else byId("teacherRecordStatus").textContent = "请按「下载录音，发给老师」，然后在微信里发送这个文件。";
+}
+function finishTeacher(){
+  if(teacherTake){
+    completed[4] = true;
+    renderRoute();
+    buildReport();
+  } else setFeedback("teacherFeedback", "先录下你的问题。");
+}
+function buildReport(){
+  byId("reportListen").textContent = sectionStats.listenCorrect + " / " + DATA.listenFind.length;
+  byId("reportRecall").textContent = sectionStats.recallDone + " / " + DATA.recall.length;
+  byId("reportTf").textContent = sectionStats.tfFirstTry + " / " + DATA.trueFalse.length;
+  byId("reportWritten").textContent = "2 + 1";
+  byId("writtenRecord").textContent =
+    "你来描述\n" + (byId("freeWhere").value.trim() || "（空）") + "\n" +
+    (byId("freeWant").value.trim() || "（空）") + "\n\n换你当老师\n已录一条问题";
+  byId("finalReport").classList.add("show");
+  byId("finalReport").scrollIntoView({behavior:"smooth", block:"start"});
+}
+function reportText(){
+  return [
+    "学习记录：¿Dónde están?",
+    "听一听，找一找：" + sectionStats.listenCorrect + " / " + DATA.listenFind.length + "，共点击 " + sectionStats.listenAttempts + " 次",
+    "问答回忆：" + sectionStats.recallDone + " / " + DATA.recall.length + (sectionStats.recallReveal ? "，显示答案 " + sectionStats.recallReveal + " 次" : ""),
+    "真的吗？：" + sectionStats.tfFirstTry + " / " + DATA.trueFalse.length + " 首次答对",
+    "",
+    "你来描述：",
+    byId("freeWhere").value.trim(),
+    byId("freeWant").value.trim(),
+    "",
+    "学生的问题：已录音"
+  ].join("\n");
+}
+function copyReport(){
+  var text = reportText();
+  function ok(){ byId("copyState").textContent = "已复制，可以发给老师。"; }
+  function fallback(){
+    var ta = el("textarea");
+    ta.value = text; document.body.appendChild(ta); ta.select();
+    try{ document.execCommand("copy"); ok(); }catch(e){ byId("copyState").textContent = text; }
+    ta.remove();
+  }
+  if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(ok, fallback);
+  else fallback();
+}
+document.addEventListener("DOMContentLoaded", function(){
+  renderRoute();
+  initListen();
+  renderRecall();
+  renderTf();
+  holdText("listenHold", "listenTranscript", function(){ sectionStats.listenHelp += 1; return DATA.listenFind[listenStep].prompt; });
+  holdText("tfHold", "tfTranscript", function(){ sectionStats.tfHelp += 1; return DATA.trueFalse[tfStep][0]; });
+  allSel(".route-button").forEach(function(btn, i){ btn.addEventListener("click", function(){ openSection(i); }); });
+  allSel("[data-next]").forEach(function(btn){ btn.addEventListener("click", function(){ goNext(Number(btn.dataset.next)); }); });
+  byId("listenPromptButton").addEventListener("click", function(){ playClip(AUDIO.listenPrompts[listenStep], this, "listenFeedback"); });
+  byId("tfPromptButton").addEventListener("click", function(){ playClip(AUDIO.trueFalse[tfStep], this, "tfFeedback"); });
+  byId("tfTrue").addEventListener("click", function(){ chooseTf(true, this); });
+  byId("tfFalse").addEventListener("click", function(){ chooseTf(false, this); });
+  byId("freeDone").addEventListener("click", finishFree);
+  byId("teacherRecord").addEventListener("click", toggleTeacherRecording);
+  byId("teacherShare").addEventListener("click", sendTeacherRecording);
+  byId("teacherDone").addEventListener("click", finishTeacher);
+  byId("copyReport").addEventListener("click", copyReport);
+  byId("mobileRouteButton").addEventListener("click", function(){ byId("route").classList.toggle("compact"); });
+  byId("openScene").addEventListener("click", function(){ byId("sceneSheet").classList.add("open"); });
+  byId("closeScene").addEventListener("click", function(){ byId("sceneSheet").classList.remove("open"); });
+  byId("sceneSheet").addEventListener("click", function(e){ if(e.target.id === "sceneSheet") byId("sceneSheet").classList.remove("open"); });
+});
+</script>
+</body>
+</html>
