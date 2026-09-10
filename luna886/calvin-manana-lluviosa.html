@@ -1,0 +1,560 @@
+<!doctype html><html lang='zh'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><meta name='robots' content='noindex,nofollow'><title>Una mañana lluviosa</title><link rel='preconnect' href='https://fonts.googleapis.com'><link rel='preconnect' href='https://fonts.gstatic.com' crossorigin><link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400;1,8..60,600&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=Noto+Serif+SC:wght@400;500;700&amp;family=Noto+Sans+SC:wght@400;500&amp;display=swap'><style>:root{
+  --paper:#e9e7e1;--card:#f4f3ef;--ink:#1a1916;--ink2:#43413b;--muted:#78756c;
+  --rule:#cfcbc1;--rule-soft:#dcd8ce;
+  --red:#bb392a;--blue:#2b5378;--blue-rgb:43,83,120;
+  --tint-rgb:34,94,156;--tint-a:.175;--tint-b:.07;
+  --graph:#6e6f72;--graph-rgb:110,111,114;
+  --deep:#20303a;--deep-ink:#ebe8e1;--deep-dim:#93a1a8;--deep-rule:#3b4c57;
+  --deep-red:#e07a63;
+  --now:#20303a;--now-ink:#ebe8e1;
+  --hl:#d9b45e;--hl-ink:#1a1916;
+
+  --rhythm:30rem;      /* max width of a measure — an instrument, not a console */
+  --measure:47rem;     /* the page column */
+  --reading:19px;      /* reader pages override this from localStorage */
+  --read:"Source Serif 4",Georgia,serif;
+  --app:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  --hans:"Noto Serif SC","Songti SC",STSong,SimSun,serif;
+  --hanx:"Noto Sans SC","PingFang SC","Hiragino Sans GB",sans-serif;
+
+  --es-bg:var(--paper);        --es-card:var(--card);
+  --es-panel:var(--card);      --es-instrument:var(--card);
+  --es-ink:var(--ink);         --es-soft:var(--ink2);
+  --es-muted:var(--muted);     --es-rule:var(--rule);
+  --es-gold:var(--hl);         --es-accent:var(--blue);
+  --es-deep:var(--deep);       --es-rec:var(--deep);
+  --es-go:var(--blue);         --es-measure:var(--measure);
+  --es-serif:var(--read);      --es-han:var(--hans);
+  --es-sans:var(--hanx);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#16161a;--card:#1e1e24;--ink:#e8e6e0;--ink2:#c2bfb7;--muted:#8b887f;
+  --rule:#33333c;--rule-soft:#282830;
+  --red:#e77a67;--blue:#87afd6;--blue-rgb:135,175,214;
+  --tint-rgb:120,168,214;--tint-a:.20;--tint-b:.085;
+  --graph:#9b9ca0;--graph-rgb:155,156,160;
+  --deep:#242b33;--deep-ink:#e8e6e0;--deep-dim:#98a4ac;--deep-rule:#3a444d;
+  --deep-red:#e77a67;
+  --now:#cfd4d9;--now-ink:#14181c;
+  --hl:#d9b45e;--hl-ink:#14181c;
+}}
+:root[data-theme="dark"]{
+  --paper:#16161a;--card:#1e1e24;--ink:#e8e6e0;--ink2:#c2bfb7;--muted:#8b887f;
+  --rule:#33333c;--rule-soft:#282830;
+  --red:#e77a67;--blue:#87afd6;--blue-rgb:135,175,214;
+  --tint-rgb:120,168,214;--tint-a:.20;--tint-b:.085;
+  --graph:#9b9ca0;--graph-rgb:155,156,160;
+  --deep:#242b33;--deep-ink:#e8e6e0;--deep-dim:#98a4ac;--deep-rule:#3a444d;
+  --deep-red:#e77a67;
+  --now:#cfd4d9;--now-ink:#14181c;
+  --hl:#d9b45e;--hl-ink:#14181c;
+}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--read);font-size:17px;line-height:1.6;padding:0 0 4.5rem;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.wrap,.doc{max-width:var(--measure);margin:0 auto;padding:0 1.4rem}
+
+/* ---- the hand ----------------------------------------------------------- */
+.mk{display:inline-block;background-color:currentColor;vertical-align:middle;
+  pointer-events:none;-webkit-mask-image:var(--m);mask-image:var(--m);
+  -webkit-mask-size:100% 100%;mask-size:100% 100%;
+  -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.hand{color:var(--red)}
+.field .hand{color:var(--deep-red)}
+.sig{color:var(--blue);line-height:1}
+
+/* ---- masthead ----------------------------------------------------------- */
+.mstrip{background:var(--deep);color:var(--deep-ink);display:flex;
+  justify-content:space-between;gap:1rem;padding:.5rem 1.4rem;
+  font-family:var(--app);font-size:10px;letter-spacing:.16em;
+  text-transform:uppercase}
+.mstrip .zh{font-family:var(--hanx);letter-spacing:.2em;text-transform:none}
+.kicker{font-family:var(--hanx);font-size:.78rem;letter-spacing:.22em;
+  color:var(--muted);margin:2.4rem 0 .9rem}
+h1{font-family:var(--hans);font-weight:500;font-size:clamp(1.9rem,7vw,2.5rem);
+  line-height:1.15;letter-spacing:.02em;margin:0;
+  display:flex;align-items:center;gap:.85rem;flex-wrap:wrap}
+.sub{font-family:var(--hanx);font-size:.85rem;color:var(--muted);margin:.7rem 0 0}
+.rule{border:0;height:1px;background:var(--rule);margin:1.6rem 0 0}
+
+/* ---- movement heads. Arabic, with the count, because a student has to
+       count them and I·II·III reads as a chapter number. ------------------ */
+.mvh{display:flex;align-items:baseline;gap:1.1rem;border-top:2px solid var(--ink);
+  padding-top:.9rem;margin:4.2rem 0 0}
+.mvn{font-family:var(--read);font-variation-settings:"opsz" 60;font-weight:600;
+  font-size:clamp(2.4rem,8vw,3.2rem);line-height:.9;color:var(--ink);
+  letter-spacing:-.02em}
+.mvn .of{font-family:var(--app);font-weight:400;font-size:.85rem;
+  letter-spacing:.04em;color:var(--graph);margin-left:.18rem;vertical-align:super}
+.mvt{font-family:var(--hans);font-weight:700;font-size:clamp(1.5rem,5.4vw,2rem);
+  line-height:1.3;color:var(--ink)}
+
+/* ---- instructions ------------------------------------------------------- */
+/* No card. Generic containment is what made nine exercises look like nine
+   identical homework rows. */
+.how{font-family:var(--hanx);font-size:.95rem;line-height:2.05;color:var(--ink2);
+  max-width:32rem;margin:1.5rem 0 0}
+.how p{margin:0 0 .5rem}
+.how p:last-child{margin:0}
+.how .lead{color:var(--ink)}
+.how b,.how strong{font-weight:500;color:var(--ink);
+  box-shadow:inset 0 -.32em 0 rgba(var(--tint-rgb),.3)}
+.note,.legend{font-family:var(--hanx);font-size:.8rem;line-height:1.95;
+  color:var(--muted);margin:2.2rem 0 0;padding-top:1rem;
+  border-top:1px solid var(--rule);max-width:30rem}
+
+/* ---- controls: square, hairline, never a rounded pill ------------------- */
+button{font:inherit;color:var(--ink);cursor:pointer}
+button:not(.ghost):not(.cal){font-family:var(--hanx);font-size:.9rem;
+  min-height:44px;padding:0 1.1rem;border-radius:2px;
+  border:1px solid var(--rule);background:none;color:var(--ink2);
+  transition:border-color .15s ease,color .15s ease,background .15s ease}
+button:not(.ghost):hover:not(:disabled){border-color:var(--ink2);color:var(--ink)}
+button:not(.ghost):disabled{opacity:.38;cursor:default}
+button:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+/* yellow means live audio, playing or capturing — and nothing else */
+button.playing:not(.ghost),button.rec:not(.ghost){
+  background:var(--hl);border-color:var(--hl);color:var(--hl-ink)}
+button.ghost{border:0;background:none;border-radius:0;padding:.35rem 1px;
+  font-family:var(--hanx);font-size:.85rem;color:var(--blue);min-height:0;
+  border-bottom:1px dotted currentColor}
+button.ghost:disabled{color:var(--muted);opacity:.45;cursor:default}
+button.ghost.on{color:var(--ink);border-bottom-style:solid;
+  border-bottom-color:var(--blue)}
+.btns,.tp{display:flex;gap:.55rem;flex-wrap:wrap;margin:1.4rem 0 0}
+
+/* ---- items -------------------------------------------------------------- */
+.items{margin:2.2rem 0 0}
+.items>.item{padding:1.9rem 0 0;border-top:1px solid var(--rule);
+  background:none;border-radius:0;position:relative}
+.items>.item:first-child{border-top:0;padding-top:1rem}
+.ihd{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;
+  margin:0 0 .8rem}
+.n,.inum{font-family:var(--app);font-size:10.5px;letter-spacing:.16em;
+  color:var(--graph);margin:0}
+.izh,.item>.zh{font-family:var(--hanx);font-size:.82rem;color:var(--muted);
+  margin:0 0 .6rem}
+
+/* ---- the foot ----------------------------------------------------------- */
+.foot,.colophon{margin:3.4rem 0 0;padding-top:1.2rem;
+  border-top:1px solid var(--rule);display:flex;justify-content:space-between;
+  align-items:flex-end;gap:1.5rem;flex-wrap:wrap}
+.foot .who,.colophon .who{font-family:var(--hanx);font-size:.82rem;
+  letter-spacing:.16em;color:var(--muted)}
+.foot .who span,.colophon .who span{display:block;font-family:var(--app);
+  font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--graph);margin-top:.45rem}
+
+/* ---- family marks ------------------------------------------------------- */
+.fmw{display:inline-block;height:1.4em;line-height:1.4em}
+.fm{display:inline-flex;width:30px;height:14px;position:relative;
+  vertical-align:middle;color:var(--graph);gap:1.5px}
+.fm i{background:currentColor}
+.f-pron{align-items:flex-start}
+.f-pron i.c{flex:1;height:8px}
+.f-pron i.tie{position:absolute;left:24%;right:26%;bottom:1px;height:5px;
+  background:none;border:1px solid currentColor;border-top:0;border-radius:0 0 6px 6px}
+.f-song{align-items:flex-end}
+.f-song i.c{flex:1}
+.f-song i.h1{height:14px}.f-song i.h2{height:7px}
+.f-song i.h3{height:10.5px}.f-song i.h4{height:4px}
+.f-talk{flex-direction:column;justify-content:center;gap:3.5px}
+.f-talk i{height:4px;flex:none}
+.f-talk i.t1{width:55%}.f-talk i.t2{width:74%;margin-left:auto}
+.f-read{flex-direction:column;justify-content:center;gap:3px}
+.f-read i{height:2px;flex:none;width:100%;opacity:.85}
+.f-read i.s{width:58%}
+.f-grid{flex-wrap:wrap;gap:1.5px;align-content:center}
+.f-grid i.g{width:6.4px;height:6px;background:none;
+  box-shadow:inset 0 0 0 1px currentColor;opacity:.75}
+.f-grid i.g.on{background:currentColor;box-shadow:none;opacity:1}
+
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+/* ============================================== 动词填空 · the page layer ===
+   design.TOKENS + design.CHROME + this. No APPARATUS: nothing here measures
+   the language -- there is no syllable, no beat and no weld on this page.
+
+   The three-and-a-bit gap states are the whole design problem, and the
+   palette decides them, not taste:
+     neutral  what has been typed could still become the answer
+     .err     it cannot -- GREY (--graph), because red is the hand's alone
+     .acc     the letters are right and the accent is not -- blue, DOTTED,
+              and deliberately not locked: it is a nudge, not a verdict
+     .ok      right -- blue, filled, locked
+     .rev     handed over by 显示全部答案 -- blue tint, solid underline
+   ------------------------------------------------------------------------ */
+.vg .intro{font-family:var(--hanx);color:var(--muted);font-size:.96rem;
+  line-height:1.85;margin:1.5rem 0 0;white-space:pre-line;max-width:32rem}
+.vg h1{font-family:var(--read);font-style:italic;letter-spacing:0;
+  overflow-wrap:anywhere;word-break:normal;min-width:0}
+
+/* ---- the listen card ---------------------------------------------------- */
+/* Same instrument as the reading page: a card survives here because it is an
+   INSTRUMENT SURFACE and not a general container. The <audio> is native --
+   this is a plain listen-through with no cues to draw. */
+.listen{background:var(--card);border:1px solid var(--rule);border-radius:0;
+  padding:1rem 1.1rem 1.1rem;margin:2.2rem 0 2.8rem;max-width:34rem;
+  position:relative}
+.listen-top{display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:.55rem .8rem;margin-bottom:.7rem}
+.listen-label{font-family:var(--app);font-size:10px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--graph)}
+.listen-label .zh{font-family:var(--hanx);font-size:.8rem;letter-spacing:.12em;
+  text-transform:none;color:var(--ink2)}
+.listen audio{width:100%;height:34px}
+/* The mark hangs OUTSIDE the card -- a mark that sits inside the box it is
+   about reads as another part of the instrument. */
+.handnote{display:block;line-height:1}
+.listen .handnote{position:absolute;right:-.4rem;bottom:-1.5rem}
+@media(max-width:540px){.listen .handnote{right:auto;left:0;bottom:-1.7rem}}
+
+/* ---- pictures ----------------------------------------------------------- */
+.fig{margin:0 0 2.4rem}
+.fig a{display:block}
+.fig img{display:block;width:100%;height:auto;border:1px solid var(--rule)}
+.fig figcaption{font-family:var(--hanx);font-size:.78rem;color:var(--muted);
+  margin:.55rem 0 0}
+
+/* ---- the text ----------------------------------------------------------- */
+/* The sticky bar acts on the text you are reading, so it has to be reachable;
+   the PAGE reserves its height instead of letting it land across a line --
+   the same fault Pilot 5's #resume card and the illustrated reader's send bar
+   both had. On .doc and not on .text: the legend and the glossary come after
+   the text, and padding on .text would open a hole in the middle of the page
+   instead of leaving room at the end of it. */
+.vg .doc{padding-bottom:7rem}
+@media(max-width:560px){.vg .doc{padding-bottom:10rem}}
+.vg .text{margin:2.4rem 0 0}
+.vg .para{font-size:1.14rem;line-height:2.5;color:var(--ink);margin:0 0 1.7rem;
+  overflow-wrap:anywhere}
+.g{white-space:nowrap}
+.gap{display:inline-block;font:inherit;font-size:.98em;line-height:1.5;
+  min-width:3.4ch;max-width:100%;border:0;border-bottom:1.5px solid var(--graph);
+  border-radius:0;background:rgba(var(--graph-rgb),.07);color:var(--ink);
+  padding:.1rem .25rem .14rem;text-align:center;outline:none;
+  vertical-align:baseline;
+  transition:border-color .16s ease,background .16s ease,box-shadow .16s ease}
+.gap:focus{border-color:var(--blue);background:rgba(var(--blue-rgb),.08)}
+/* At this size the FILL is what a student reads across a page of gaps, not a
+   1.5px rule -- so the four states differ in fill first and in the underline
+   second. Grey and blue, never red and never green: red is the hand's alone,
+   and the system has no green (dictation.py and answering.py each lost one,
+   STATE §16.6, §16.7). */
+.gap.err{border-color:var(--graph);border-bottom-width:2px;
+  background:rgba(var(--graph-rgb),.24)}
+/* the accent nudge: the letters are there, so this is not the error state --
+   it is the answer, dotted, still open for one more keystroke */
+.gap.acc{border-bottom-style:dotted;border-bottom-width:2.5px;
+  border-color:var(--blue);background:rgba(var(--blue-rgb),.11)}
+.gap.ok{border-color:var(--blue);border-bottom-width:2px;
+  background:rgba(var(--blue-rgb),.24);animation:pop .26s ease}
+.gap.ok:disabled{opacity:1;color:var(--ink)}
+/* handed over, not earned -- dashed and italic, with no fill, so that a fully
+   revealed text still says which blanks the student closed and which ones
+   the page did. */
+.gap.rev,.gap.rev:disabled{opacity:1;border-color:var(--blue);
+  border-bottom-width:2px;border-bottom-style:dashed;background:none;
+  color:var(--blue);font-style:italic}
+@keyframes pop{50%{transform:translateY(-1px) scale(1.04)}}
+/* the bracketed prompt: the worksheet's own notation, kept */
+.cue{font-family:var(--app);font-size:.72em;letter-spacing:.02em;
+  color:var(--graph);margin-left:.18em;white-space:nowrap}
+.g.solved .cue{opacity:.42}
+
+/* ---- controls ----------------------------------------------------------- */
+.controls{position:sticky;bottom:0;z-index:5;margin:2rem 0 0;
+  padding:.8rem 1.4rem 1rem;background:var(--card);border-top:2px solid var(--blue)}
+.controls-inner{max-width:var(--measure);margin:0 auto;display:flex;
+  flex-wrap:wrap;gap:.65rem;align-items:center}
+.controls-lbl{font-family:var(--hanx);font-size:.78rem;font-weight:500;
+  letter-spacing:.12em;color:var(--blue);width:100%;margin:0}
+/* Name the buttons this page means: a bare `button{}` here also catches every
+   .ghost and pushes it from .85rem to 1rem. */
+.controls button:not(.ghost),.finish-actions button:not(.ghost){
+  font-family:var(--hanx);font-size:1rem}
+.controls button{padding:.62rem .95rem}
+/* :not(.ghost) is not decoration -- design.CHROME's
+   `button:not(.ghost):not(.cal)` scores 0-2-1 and a bare `button.reveal-btn`
+   scores 0-1-1, so without it CHROME's reset wins. DESIGN_README rule 8. */
+button.reveal-btn[aria-pressed=true]:not(.ghost){background:var(--deep);
+  border-color:var(--deep);color:var(--deep-ink)}
+/* --mono has never existed; the mono token is --app. */
+.progress{margin-left:auto;font-family:var(--app);font-size:.78rem;
+  letter-spacing:.1em;color:var(--muted)}
+
+/* ---- the reward, the finish, the glossary ------------------------------- */
+.burst{pointer-events:none;position:fixed;inset:0;z-index:30;overflow:hidden}
+.burst::before{content:"很好";position:absolute;left:50%;top:38%;
+  transform:translate(-50%,-50%);font-family:var(--hans);font-size:1.65rem;
+  color:var(--blue);background:var(--card);
+  border:1px solid rgba(var(--blue-rgb),.35);padding:.25rem .85rem;
+  animation:praise 1.05s ease forwards}
+.spark{position:absolute;width:9px;height:9px;border-radius:50%;
+  background:var(--blue);left:50%;top:42%;animation:spark 1.05s ease forwards}
+@keyframes praise{0%{opacity:0;transform:translate(-50%,-42%) scale(.92)}
+  20%,70%{opacity:1;transform:translate(-50%,-50%) scale(1)}
+  100%{opacity:0;transform:translate(-50%,-58%) scale(.98)}}
+@keyframes spark{0%{opacity:0;transform:translate(0,0) scale(.3)}
+  18%{opacity:1}to{transform:translate(var(--x),var(--y)) scale(.15);opacity:0}}
+.finish{display:none;margin-top:2.8rem;padding-top:2rem;
+  border-top:1px solid var(--rule)}
+.finish.show{display:block}
+.finish h2{font-family:var(--hans);font-size:1.75rem;margin:0 0 .75rem}
+.stats{font-family:var(--hanx);color:var(--ink2);line-height:1.9;margin:0 0 1.4rem}
+.finish-actions{display:flex;flex-wrap:wrap;gap:.6rem}
+.copied{font-family:var(--hanx);font-size:.9rem;color:var(--blue);
+  min-height:1.5rem;margin:.65rem 0 0}
+.gloss{margin-top:2.7rem}
+.gloss h2{font-family:var(--hanx);font-size:.78rem;letter-spacing:.16em;
+  color:var(--muted);font-weight:500;text-transform:uppercase;margin:0 0 .7rem}
+.gloss ul{list-style:none;margin:0;padding:0;border-top:1px solid var(--rule)}
+.gloss li{display:flex;gap:1rem;justify-content:space-between;
+  border-bottom:1px solid var(--rule);padding:.65rem .2rem}
+.gloss .zh{font-family:var(--hans);color:var(--muted);text-align:right}
+
+@media(max-width:560px){
+  .vg .para{font-size:1.05rem;line-height:2.4}
+  .controls-inner{align-items:stretch}
+  .controls button{flex:1 1 auto}
+  .progress{width:100%;margin-left:0}
+}
+</style></head><body>
+<body class='vg'>
+<div class='mstrip'><span class='zh'>阿弟西语研究社</span><span>luna886</span></div>
+<main class='doc'>
+<p class='kicker'>动词填空</p>
+<h1>Una mañana lluviosa<span class="fmw"><span class="fm f-read"><i class="l"></i><i class="l"></i><i class="l s"></i></span></span></h1>
+<p class='sub'>9 de septiembre de 2026</p>
+<hr class='rule'>
+<p class='intro'>看图，读课文，把括号里的动词变成正确的形式。
+这一课练的是简单过去时（indefinido）和未完成过去时（imperfecto）：发生的事用 indefinido，当时的情况和背景用 imperfecto。
+每写完一个空，页面会自动判断：写对了会变蓝并锁定，不用按任何按钮。</p>
+<div class='listen'><div class='listen-top'><div class='listen-label'>escuchar <span class='zh'>· 听音频</span></div></div><audio controls id='main-audio' src='audio/calvin-manana-lluviosa-lectura.mp3'></audio><span class="handnote hand"><i class="mk" style="--m:url(data:image/png;base64,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);width:36.0px;height:28px;transform:rotate(-3deg)"></i></span></div>
+<section class='text'>
+<figure class='fig'><a href='images/calvin-manana-lluviosa-1.jpg' target='_blank' rel='noopener'><img src='images/calvin-manana-lluviosa-1.jpg' alt=''></a><figcaption>Calvin &amp; Hobbes · Bill Watterson</figcaption></figure>
+<p class='para'>Aquella mañana, Calvin y Hobbes <span class='g'><input class='gap' type='text' autocomplete='off' autocapitalize='none' spellcheck='false' aria-label='填空' data-i='0' data-a="[&quot;se despertaron&quot;]" data-model="se despertaron" style='width:16.3ch'><span class='cue'>[despertarse]</span></span> a las siete. Calvin <span class='g'><input class='gap' type='text' autocomplete='off' autocapitalize='none' spellcheck='false' aria-label='填空' data-i='1' data-a="[&quot;miró&quot;]" data-model="miró" style='width:6.1ch'><span class='cue'>[mirar]</span></span> por la ventana y <span class='g'><input class='gap' type='text' autocomplete='off' autocapitalize='none' spellcheck='false' aria-label='填空' data-i='2' data-a="[&quot;vio&quot;]" data-model="vio" style='width:5.1ch'><span class='cue'>[ver]</span></span> que <span class='g'><input class='gap' type='text' autocomplete='off' autocapitalize='none' spellcheck='false' aria-label='填空' data-i='3' data-a="[&quot;llovía&quot;, &quot;estaba lloviendo&quot;]" data-model="llovía" style='width:18.3ch'><span class='cue'>[llover]</span></span>. Entonces, los dos <span class='g'><input class='gap' type='text' autocomplete='off' autocapitalize='none' spellcheck='false' aria-label='填空' data-i='4' data-a="[&quot;bajaron&quot;]" data-model="bajaron" style='width:9.1ch'><span class='cue'>[bajar]</span></span> al comedor a desayunar. <span class='g'><input class='gap' type='text' autocomplete='off' autocapitalize='none' spellcheck='false' aria-label='填空' data-i='5' data-a="[&quot;Desayunaron&quot;]" data-model="Desayunaron" style='width:13.2ch'><span class='cue'>[desayunar]</span></span> mientras <span class='g'><input class='gap' type='text' autocomplete='off' autocapitalize='none' spellcheck='false' aria-label='填空' data-i='6' data-a="[&quot;leían&quot;, &quot;leyeron&quot;]" data-model="leían" style='width:9.1ch'><span class='cue'>[leer]</span></span> juntos el periódico. Cuando <span class='g'><input class='gap' type='text' autocomplete='off' autocapitalize='none' spellcheck='false' aria-label='填空' data-i='7' data-a="[&quot;salieron&quot;]" data-model="salieron" style='width:10.2ch'><span class='cue'>[salir]</span></span> a la calle todavía <span class='g'><input class='gap' type='text' autocomplete='off' autocapitalize='none' spellcheck='false' aria-label='填空' data-i='8' data-a="[&quot;llovía&quot;, &quot;estaba lloviendo&quot;]" data-model="llovía" style='width:18.3ch'><span class='cue'>[llover]</span></span>, pero Calvin no <span class='g'><input class='gap' type='text' autocomplete='off' autocapitalize='none' spellcheck='false' aria-label='填空' data-i='9' data-a="[&quot;se mojó&quot;]" data-model="se mojó" style='width:9.1ch'><span class='cue'>[mojarse]</span></span> porque Hobbes <span class='g'><input class='gap' type='text' autocomplete='off' autocapitalize='none' spellcheck='false' aria-label='填空' data-i='10' data-a="[&quot;tenía&quot;]" data-model="tenía" style='width:7.1ch'><span class='cue'>[tener]</span></span> un paraguas.</p>
+<p class='para'>Calvin le <span class='g'><input class='gap' type='text' autocomplete='off' autocapitalize='none' spellcheck='false' aria-label='填空' data-i='11' data-a="[&quot;dijo&quot;]" data-model="dijo" style='width:6.1ch'><span class='cue'>[decir]</span></span> adiós a Hobbes y <span class='g'><input class='gap' type='text' autocomplete='off' autocapitalize='none' spellcheck='false' aria-label='填空' data-i='12' data-a="[&quot;subió&quot;]" data-model="subió" style='width:7.1ch'><span class='cue'>[subir]</span></span> al autobús. En casa, su madre <span class='g'><input class='gap' type='text' autocomplete='off' autocapitalize='none' spellcheck='false' aria-label='填空' data-i='13' data-a="[&quot;miró&quot;]" data-model="miró" style='width:6.1ch'><span class='cue'>[mirar]</span></span> por la ventana y <span class='g'><input class='gap' type='text' autocomplete='off' autocapitalize='none' spellcheck='false' aria-label='填空' data-i='14' data-a="[&quot;vio&quot;]" data-model="vio" style='width:5.1ch'><span class='cue'>[ver]</span></span> que Hobbes todavía <span class='g'><input class='gap' type='text' autocomplete='off' autocapitalize='none' spellcheck='false' aria-label='填空' data-i='15' data-a="[&quot;estaba&quot;]" data-model="estaba" style='width:8.1ch'><span class='cue'>[estar]</span></span> fuera, así que <span class='g'><input class='gap' type='text' autocomplete='off' autocapitalize='none' spellcheck='false' aria-label='填空' data-i='16' data-a="[&quot;fue&quot;]" data-model="fue" style='width:5.1ch'><span class='cue'>[ir]</span></span> a buscarlo. A las nueve y diez, Calvin <span class='g'><input class='gap' type='text' autocomplete='off' autocapitalize='none' spellcheck='false' aria-label='填空' data-i='17' data-a="[&quot;estaba&quot;]" data-model="estaba" style='width:8.1ch'><span class='cue'>[estar]</span></span> en clase. <span class='g'><input class='gap' type='text' autocomplete='off' autocapitalize='none' spellcheck='false' aria-label='填空' data-i='18' data-a="[&quot;Miró&quot;]" data-model="Miró" style='width:6.1ch'><span class='cue'>[mirar]</span></span> el reloj y <span class='g'><input class='gap' type='text' autocomplete='off' autocapitalize='none' spellcheck='false' aria-label='填空' data-i='19' data-a="[&quot;pensó&quot;]" data-model="pensó" style='width:7.1ch'><span class='cue'>[pensar]</span></span> que el tiempo <span class='g'><input class='gap' type='text' autocomplete='off' autocapitalize='none' spellcheck='false' aria-label='填空' data-i='20' data-a="[&quot;pasaba&quot;]" data-model="pasaba" style='width:8.1ch'><span class='cue'>[pasar]</span></span> muy lento porque <span class='g'><input class='gap' type='text' autocomplete='off' autocapitalize='none' spellcheck='false' aria-label='填空' data-i='21' data-a="[&quot;tenía&quot;]" data-model="tenía" style='width:7.1ch'><span class='cue'>[tener]</span></span> muchas ganas de volver a casa para jugar con Hobbes.</p>
+</section>
+<p class='legend'>灰色 = 还不对。蓝色虚线 = 字母都对了，只有重音符号不对。蓝色 = 正确。</p>
+<section class='gloss'><h2>参考</h2><ul><li><span>despertarse</span><span class='zh'>醒来</span></li><li><span>el comedor</span><span class='zh'>餐厅</span></li><li><span>el periódico</span><span class='zh'>报纸</span></li><li><span>el paraguas</span><span class='zh'>雨伞</span></li><li><span>mojarse</span><span class='zh'>淋湿</span></li><li><span>el reloj</span><span class='zh'>钟，表</span></li><li><span>pasar (el tiempo)</span><span class='zh'>（时间）过去</span></li><li><span>tener ganas de</span><span class='zh'>很想（做某事）</span></li></ul></section>
+<section id='finish' class='finish'>
+<h2>完成了</h2>
+<div id='stats' class='stats'></div>
+<div class='finish-actions'>
+<button id='againBtn'>再练一次</button>
+<button id='copyBtn'>复制学习记录，发给老师</button>
+</div><p id='copied' class='copied'></p>
+</section>
+<div class='colophon'><span class='who'>阿弟西语研究社<span>动词填空</span></span><span class="sig"><i class="mk" style="--m:url(data:image/png;base64,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);width:60.9px;height:46px;"></i></span></div>
+</main>
+<div class='controls'><div class='controls-inner'>
+<p class='controls-lbl'>动词填空</p>
+<button id='revealBtn' class='reveal-btn' aria-pressed='false'>显示全部答案</button>
+<span id='progress' class='progress'></span>
+</div></div>
+<script>
+var TITLE = "Una mañana lluviosa";
+var gaps = [].slice.call(document.querySelectorAll(".gap"));
+var revealBtn = document.getElementById("revealBtn");
+var progress = document.getElementById("progress");
+var finish = document.getElementById("finish");
+var stats = document.getElementById("stats");
+var copied = document.getElementById("copied");
+var revealed = false;
+var accentNudges = {};
+var audioCtx = null;
+
+function el(tag, cls, text){
+  var x = document.createElement(tag);
+  if(cls) x.className = cls;
+  if(text != null) x.textContent = text;
+  return x;
+}
+/* lowercase, punctuation out, spaces collapsed -- accents KEPT. On this page
+   the accent is the exercise, so it cannot be normalised away here. */
+function base(s){
+  s = (s || "").toLowerCase();
+  try { s = s.replace(/[^\p{L}\p{N}\s]/gu, " "); }
+  catch(e){ s = s.replace(/[^0-9a-zA-Zá-úñüÁ-ÚÑÜ\s]/g, " "); }
+  return s.replace(/\s+/g, " ").trim();
+}
+/* the accent-blind view. ñ is NOT folded to n: that is a spelling mistake,
+   not a missing accent. */
+var FOLD = {"á":"a","é":"e","í":"i","ó":"o","ú":"u","ü":"u","à":"a","è":"e",
+            "ì":"i","ò":"o","ù":"u","â":"a","ê":"e","î":"i","ô":"o","û":"u"};
+function loose(s){
+  return base(s).replace(/[áéíóúüàèìòùâêîôû]/g, function(c){ return FOLD[c] || c; });
+}
+function answersOf(g){ return JSON.parse(g.dataset.a); }
+
+function judge(g){
+  var v = g.value;
+  g.classList.remove("err", "acc");
+  if(!base(v)) return;
+  var list = answersOf(g), i;
+  for(i = 0; i < list.length; i++){
+    if(base(v) === base(list[i])){ lockIn(g, list[i]); return; }
+  }
+  for(i = 0; i < list.length; i++){
+    if(loose(v) === loose(list[i])){
+      g.classList.add("acc");
+      accentNudges[g.dataset.i] = true;
+      return;
+    }
+  }
+  for(i = 0; i < list.length; i++){
+    if(loose(list[i]).indexOf(loose(v)) === 0) return;   // still on the way
+  }
+  g.classList.add("err");
+}
+
+function lockIn(g, answer){
+  g.value = answer;
+  g.classList.remove("err", "acc", "rev");
+  g.classList.add("ok");
+  g.disabled = true;
+  g.parentNode.classList.add("solved");
+  update();
+  if(done()){ reward(); setTimeout(end, 900); }
+  else setTimeout(function(){ nextOpen(g); }, 90);
+}
+
+function nextOpen(from){
+  var i = gaps.indexOf(from);
+  for(var k = 1; k <= gaps.length; k++){
+    var g = gaps[(i + k) % gaps.length];
+    if(!g.disabled){ g.focus({preventScroll:false}); return; }
+  }
+}
+function okCount(){
+  return gaps.filter(function(g){ return g.classList.contains("ok"); }).length;
+}
+function done(){ return okCount() === gaps.length; }
+function update(){ progress.textContent = okCount() + " / " + gaps.length; }
+
+gaps.forEach(function(g){
+  g.addEventListener("input", function(){ judge(g); });
+  g.addEventListener("keydown", function(e){
+    if(e.key === "Enter"){ e.preventDefault(); nextOpen(g); }
+  });
+});
+
+/* ---- 显示全部答案 ------------------------------------------------------- */
+function setReveal(on){
+  revealed = on;
+  gaps.forEach(function(g){
+    if(g.classList.contains("ok")) return;
+    if(on){
+      g.dataset.typed = g.value;
+      g.value = g.dataset.model;
+      g.classList.remove("err", "acc");
+      g.classList.add("rev");
+      g.disabled = true;
+      g.dataset.saw = "1";
+    } else {
+      g.value = g.dataset.typed || "";
+      g.classList.remove("rev");
+      g.disabled = false;
+      judge(g);
+    }
+  });
+  revealBtn.setAttribute("aria-pressed", on ? "true" : "false");
+  revealBtn.textContent = on ? "隐藏答案，自己写" : "显示全部答案";
+}
+revealBtn.addEventListener("click", function(){ setReveal(!revealed); });
+
+/* ---- the reward -------------------------------------------------------- */
+function reward(){ popSound(); burst(); }
+function popSound(){
+  try{
+    var C = window.AudioContext || window.webkitAudioContext;
+    if(!C) return;
+    audioCtx = audioCtx || new C();
+    var now = audioCtx.currentTime;
+    var o = audioCtx.createOscillator(), g = audioCtx.createGain();
+    o.type = "sine";
+    o.frequency.setValueAtTime(660, now);
+    o.frequency.exponentialRampToValueAtTime(880, now + .08);
+    g.gain.setValueAtTime(.0001, now);
+    g.gain.exponentialRampToValueAtTime(.045, now + .015);
+    g.gain.exponentialRampToValueAtTime(.0001, now + .18);
+    o.connect(g).connect(audioCtx.destination);
+    o.start(now); o.stop(now + .2);
+  }catch(e){}
+}
+function burst(){
+  var layer = el("div", "burst");
+  for(var i = 0; i < 16; i++){
+    var s = el("i", "spark");
+    var a = Math.PI * 2 * i / 16, r = 48 + Math.random() * 38;
+    s.style.setProperty("--x", Math.cos(a) * r + "px");
+    s.style.setProperty("--y", Math.sin(a) * r + "px");
+    layer.appendChild(s);
+  }
+  document.body.appendChild(layer);
+  setTimeout(function(){ layer.remove(); }, 820);
+}
+
+/* ---- the finish -------------------------------------------------------- */
+function counts(){
+  var saw = gaps.filter(function(g){ return g.dataset.saw === "1"; }).length;
+  var acc = Object.keys(accentNudges).length;
+  return {total: gaps.length, saw: saw, alone: gaps.length - saw, acc: acc};
+}
+function end(){
+  var c = counts();
+  stats.innerHTML = "";
+  stats.appendChild(el("div", "", c.alone + " / " + c.total + " 个空完全靠自己写出来"));
+  if(c.saw) stats.appendChild(el("div", "", c.saw + " 个空看过答案"));
+  if(c.acc) stats.appendChild(el("div", "", c.acc + " 个空写对了字母，但重音符号写错过"));
+  finish.classList.add("show");
+  try{ finish.scrollIntoView({block:"center", behavior:"smooth"}); }catch(e){}
+}
+function summaryText(){
+  var c = counts();
+  var lines = ["学习记录", "题目：" + TITLE,
+               c.alone + " / " + c.total + " 个空完全靠自己写出来"];
+  if(c.saw) lines.push(c.saw + " 个空看过答案");
+  if(c.acc) lines.push(c.acc + " 个空重音符号写错过");
+  return lines.join("\n");
+}
+document.getElementById("copyBtn").addEventListener("click", function(){
+  var text = summaryText();
+  function ok(){ copied.textContent = "已复制，可以发给老师。"; }
+  function fallback(){
+    var ta = el("textarea");
+    ta.value = text; document.body.appendChild(ta); ta.select();
+    try{ document.execCommand("copy"); ok(); }catch(e){ copied.textContent = text; }
+    ta.remove();
+  }
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(ok, fallback);
+  } else fallback();
+});
+document.getElementById("againBtn").addEventListener("click", function(){
+  revealed = false;
+  accentNudges = {};
+  revealBtn.setAttribute("aria-pressed", "false");
+  revealBtn.textContent = "显示全部答案";
+  gaps.forEach(function(g){
+    g.value = "";
+    g.disabled = false;
+    g.className = "gap";
+    g.parentNode.classList.remove("solved");
+    delete g.dataset.saw;
+    delete g.dataset.typed;
+  });
+  finish.classList.remove("show");
+  copied.textContent = "";
+  update();
+  try{ gaps[0].focus(); }catch(e){}
+  window.scrollTo({top:0, behavior:"smooth"});
+});
+
+update();
+</script>
+</body></html>
