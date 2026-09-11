@@ -3,6 +3,8 @@
 # Newest lesson appears first on the index. Pages not listed here are
 # still linked, grouped under 其他 at the bottom.
 
+# bono: https://wakdjunkaga.github.io/lessons/index.html?c=ee39edf7f9
+
 2026-09-05 | donde-estan.html
 
 2026-09-01 | quiero-comer-aqui.html

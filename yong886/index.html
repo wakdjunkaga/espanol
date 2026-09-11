@@ -229,6 +229,13 @@ body > .mstrip,body > .field{
 .grp .gd{font-family:var(--app);font-size:10px;letter-spacing:.15em;
   color:var(--muted);margin:0 0 .1rem}
 
+/* --- 读物: reuses .arch/.grp, but needs its own top margin ---------------- */
+/* 以前的练习 gets its breathing room for free, from .grp.now's own 3.2rem
+   margin-bottom on the block before it. 读物 has no such block before it --
+   it follows a plain .grp archive group, which carries none -- so without
+   this it sits jammed against the last exercise row above it. */
+.arch.lect{margin-top:3rem}
+
 /* --- the hand ----------------------------------------------------------- */
 /* Off unless a lessons.txt asks for one. A mark that appeared here every week
    would be a stamp, and principle 5 is that a mark ships only if it has a
@@ -238,7 +245,18 @@ body > .mstrip,body > .field{
 @media(max-width:540px){
   .handnote{position:static;transform:rotate(-2deg);margin:.9rem 0 0;display:flex}
 }
-</style></head><body><div class='mstrip'><span class='zh'>阿弟西语研究社</span><span>yong886</span></div>
+
+/* --- the masthead's two quiet links: 读物, 课包卡 ------------------------ */
+/* Lives beside the strip code (YONG886 etc), same line, same weight -- one
+   more fact in a bar that already states two. --deep-dim, not --deep-ink:
+   the identifier is what the bar is FOR, these are a level down from that.
+   读物 is an in-page jump to the id below, not a second URL to remember --
+   the whole point is that one link (this page) reaches everything. */
+.mstrip .aux{color:var(--deep-dim)}
+.mstrip .aux a{color:inherit;text-decoration:underline;
+  text-decoration-style:dotted;text-underline-offset:2px}
+.mstrip .aux a:hover{color:var(--deep-ink)}
+</style></head><body><div class='mstrip'><span class='zh'>阿弟西语研究社</span><span>yong886<span class="zh aux"> · <a href="https://wakdjunkaga.github.io/lessons/index.html?c=ee39edf7f9">课包卡</a></span></span></div>
 <p class="kicker">课外练习</p>
 <div class="grp now">
 <p class="nd"><b>最新</b><span>9月5日</span></p>
