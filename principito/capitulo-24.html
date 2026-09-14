@@ -129,11 +129,19 @@ button.ui:focus-visible,select.ui:focus-visible{outline:2px solid var(--blue);
   line-height:.86;float:left;padding:.06em .1em 0 0;color:var(--ink)}
 .marg{display:none}
 .fig{margin:2.4rem 0;text-align:center}
+/* The drawings are opaque, with a white ground. On light paper `multiply`
+   drops that ground out: white x backdrop = backdrop.
+   DARK MODE IS THE MIRROR OF THAT, and it was not: `invert(.9)` turned the
+   white ground into rgb(26,26,26) and left it there, so every drawing sat in
+   a faintly visible near-black rectangle. `invert(1)` takes the ground to
+   pure black and `screen` drops black out exactly as multiply drops white —
+   screen(0, backdrop) = backdrop. The hue-rotate puts the colours back after
+   the inversion; the saturate keeps them from shouting on a dark page. */
 .fig img{max-width:100%;height:auto;mix-blend-mode:multiply}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .fig img{
-  mix-blend-mode:normal;filter:invert(.9) hue-rotate(180deg) saturate(.7)}}
-:root[data-theme="dark"] .fig img{mix-blend-mode:normal;
-  filter:invert(.9) hue-rotate(180deg) saturate(.7)}
+  mix-blend-mode:screen;filter:invert(1) hue-rotate(180deg) saturate(.7)}}
+:root[data-theme="dark"] .fig img{mix-blend-mode:screen;
+  filter:invert(1) hue-rotate(180deg) saturate(.7)}
 
 /* glossed words: blue = in the plan, graphite = no hurry. The one place this
    register touches the apparatus palette, and it is carrying real meaning. */
@@ -197,9 +205,13 @@ button.gloss[aria-expanded="true"]{background:rgba(var(--tint-rgb),.2)}
 /* The one object-moment this register gets. It is quiet — no fills, no rules
    except the one it already had — and it earns its presence from scale, air,
    and a plate that belongs to the book rather than to the design. */
-.cover{padding:3.4rem 0 0;display:grid;grid-template-columns:1fr;gap:2.4rem}
-@media(min-width:720px){.cover{grid-template-columns:1fr 15rem;gap:3rem;
-  align-items:end;padding-top:4.6rem}}
+.cover{padding:3.4rem 0 0;display:grid;grid-template-columns:1fr;gap:1.8rem}
+/* The plate column SHRINKS between 720 and ~1000px. A flat 19rem there leaves
+   the title about 370px, and `Principito` at its own maximum size is wider
+   than that — the two would meet. minmax lets the drawing give way to the
+   title, which is the right order of precedence on a cover. */
+@media(min-width:720px){.cover{grid-template-columns:1fr minmax(11rem,19rem);
+  gap:1.8rem;align-items:end;padding-top:4.6rem}}
 .cover h1{font-family:var(--read);font-variation-settings:"opsz" 60;
   font-style:italic;font-weight:400;font-size:clamp(3rem,11vw,4.8rem);
   line-height:.98;letter-spacing:-.025em;margin:0;color:var(--ink)}
@@ -207,11 +219,22 @@ button.gloss[aria-expanded="true"]{background:rgba(var(--tint-rgb),.2)}
   letter-spacing:.22em;color:var(--ink2);margin:1.1rem 0 0}
 .imprint{font-family:var(--app);font-size:10px;letter-spacing:.14em;
   text-transform:uppercase;color:var(--graph);line-height:2;margin:1.8rem 0 0}
-/* a tipped-in plate: its own paper, in both themes, because that is what a
-   frontispiece physically is */
-.plate{background:#f2efe8;padding:1.5rem 1.2rem;justify-self:start;max-width:15rem}
-@media(max-width:719px){.plate{justify-self:center;max-width:12rem}}
-.plate img{display:block;width:100%;height:auto;mix-blend-mode:multiply;filter:none}
+/* NO BOX. A tipped-in plate on its own cream paper is what a frontispiece
+   physically is, and it was right on a cream sheet — but the page ground is
+   the paper here, so the box was just a printed rectangle drawn around a
+   drawing. The prince sits on the page itself now, half again as large, and
+   nearer the title: `margin:0` matters, because a <figure> carries 40px of
+   browser margin and that was quietly part of the gap. */
+.plate{margin:0;justify-self:start;width:100%;max-width:19rem}
+@media(max-width:719px){.plate{justify-self:center;max-width:15rem}}
+/* Deliberately the SAME treatment as `.fig img`: without the cream ground
+   under it, the frontispiece is in exactly the position of every other drawing
+   in the book and must survive dark mode the same way. */
+.plate img{display:block;width:100%;height:auto;mix-blend-mode:multiply}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .plate img{
+  mix-blend-mode:screen;filter:invert(1) hue-rotate(180deg) saturate(.7)}}
+:root[data-theme="dark"] .plate img{mix-blend-mode:screen;
+  filter:invert(1) hue-rotate(180deg) saturate(.7)}
 .cover + .rule{margin-top:2.8rem}
 
 .toc{margin:3rem 0 0}
