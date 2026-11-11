@@ -3,6 +3,7 @@
 # Newest lesson appears first on the index. Pages not listed here are
 # still linked, grouped under 其他 at the bottom.
 # strip: Joseph · A1
+# bono: https://wakdjunkaga.github.io/lessons/index.html?c=nqepf5esdk
 2026-11-11 | esta-noche.html
 2026-11-10 | tingyin-blocks1-3.html | Escucha y elige
 2026-11-10 | word-order-bloques-1-2.html | Ordena las palabras
