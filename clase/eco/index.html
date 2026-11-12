@@ -52,79 +52,139 @@
 
 *{box-sizing:border-box}
 html,body{margin:0;background:var(--paper);color:var(--ink)}
-body{font-family:var(--read);min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;
-  -webkit-tap-highlight-color:transparent;padding:16px 16px calc(16px + env(safe-area-inset-bottom))}
-nav{display:flex;gap:8px;flex-wrap:wrap;margin:0 auto 14px;max-width:60rem;width:100%}
-nav[hidden]{display:none}
-nav button{font:500 15px var(--app);background:none;border:1px solid var(--rule);color:var(--ink2);
-  padding:8px 14px;border-radius:999px;cursor:pointer}
-nav button.sel{background:var(--ink);color:var(--paper);border-color:var(--ink)}
-main{flex:1;width:100%;max-width:60rem;margin:0 auto;display:grid;gap:14px;align-content:start;
-  grid-template-columns:repeat(auto-fill,minmax(min(100%,17rem),1fr))}
-.f{position:relative;min-height:7.5rem;padding:22px 18px 30px;border:1px solid var(--rule);border-radius:18px;
-  background:var(--card);color:var(--ink);font:600 calc(var(--fs)*1px)/1.2 var(--read);text-align:center;
-  cursor:pointer;touch-action:manipulation;user-select:none;-webkit-user-select:none;
-  transition:transform .08s,background .15s}
-.f:active{transform:scale(.97)}
+body{font-family:var(--read);min-height:100vh;min-height:100dvh;
+  -webkit-tap-highlight-color:transparent;padding:12px 12px calc(16px + env(safe-area-inset-bottom))}
+button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation}
+.wrap{max-width:60rem;margin:0 auto}
+header{display:flex;gap:6px;align-items:center;margin-bottom:12px}
+.boards{display:flex;gap:6px;overflow-x:auto;flex:1;scrollbar-width:none}
+.boards::-webkit-scrollbar{display:none}
+.chip{font:500 13px var(--app);background:none;border:1px solid var(--rule);color:var(--ink2);
+  padding:6px 12px;border-radius:999px;white-space:nowrap}
+.chip.sel{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.tool{font:500 13px var(--app);background:none;border:1px solid var(--rule);color:var(--ink2);
+  padding:6px 10px;border-radius:8px;white-space:nowrap}
+main{display:grid;gap:8px;grid-template-columns:repeat(auto-fill,minmax(6.5rem,1fr))}
+.f{position:relative;aspect-ratio:1;display:flex;align-items:center;justify-content:center;overflow:hidden;
+  overflow-wrap:anywhere;hyphens:auto;padding:8px 8px 14px;border:1px solid var(--rule);border-radius:12px;
+  background:var(--card);font:600 calc(var(--fs)*1px)/1.2 var(--read);text-align:center;
+  user-select:none;-webkit-user-select:none;transition:transform .08s,background .15s}
+.f:active{transform:scale(.96)}
 .f.on{background:var(--hl);color:var(--hl-ink);border-color:var(--hl)}
-.dots{position:absolute;left:0;right:0;bottom:12px;display:flex;justify-content:center;gap:6px}
-.dots i{width:7px;height:7px;border-radius:50%;border:1.5px solid currentColor;opacity:.45}
+.dots{position:absolute;left:0;right:0;bottom:6px;display:flex;justify-content:center;gap:4px}
+.dots i{width:5px;height:5px;border-radius:50%;border:1px solid currentColor;opacity:.45}
 .dots i.cur{background:currentColor;opacity:.8}
-footer{display:flex;justify-content:center;align-items:center;gap:8px;margin-top:18px;
-  font:400 14px var(--app);color:var(--muted)}
-footer button{font:500 14px var(--app);background:none;border:1px solid var(--rule);color:var(--ink2);
-  min-width:44px;height:36px;padding:0 10px;border-radius:8px;cursor:pointer}
-footer button.sel{border-color:var(--ink2);color:var(--ink)}
-footer .gap{width:14px}
-</style></head><body><nav></nav><main></main><footer><button data-fs='-' aria-label='Texto más pequeño'>A−</button><button data-fs='+' aria-label='Texto más grande'>A+</button><span class='gap'></span><button data-rate='0.8'>0,8×</button><button data-rate='1'>1×</button></footer><script>
-const DATA = [{"nombre": "Quiero", "frases": [{"texto": "Quiero comer ahora", "audios": ["audio/quiero-comer-ahora-1.mp3"]}, {"texto": "¿Quieres tomar algo?", "audios": ["audio/quieres-tomar-algo-1.mp3"]}, {"texto": "No puedo", "audios": ["audio/no-puedo-1.mp3", "audio/no-puedo-2.mp3"]}]}];
+.empty{grid-column:1/-1;color:var(--muted);font:400 14px var(--app);text-align:center;padding:30px 0}
+
+/* organizer */
+#org{position:fixed;inset:0;background:var(--paper);overflow-y:auto;
+  padding:12px 12px calc(24px + env(safe-area-inset-bottom))}
+#org[hidden]{display:none}
+#org h2{font:500 12px var(--app);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:20px 0 8px}
+#org .row{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+#org ul{list-style:none;margin:0;padding:0;border-top:1px solid var(--rule-soft)}
+#org li{display:flex;align-items:center;gap:6px;padding:6px 0;border-bottom:1px solid var(--rule-soft);
+  font:600 16px/1.25 var(--read)}
+#org li span{flex:1}
+#org li button{font:500 15px var(--app);background:none;border:1px solid var(--rule);color:var(--ink2);
+  width:36px;height:34px;border-radius:8px;padding:0}
+#org li button:disabled{opacity:.3}
+#org li button.add{color:var(--blue);border-color:var(--blue)}
+#org li.on span{color:var(--hl-ink);background:var(--hl);border-radius:4px;padding:0 4px;flex:0 1 auto;margin-right:auto}
+#org .none{color:var(--muted);font:400 13px var(--app);padding:10px 0;border-bottom:1px solid var(--rule-soft)}
+#org .top{display:flex;justify-content:space-between;align-items:center}
+#org .top b{font:600 18px var(--read)}
+#org .done{font:500 14px var(--app);background:var(--ink);color:var(--paper);border:0;padding:8px 16px;border-radius:8px}
+</style></head><body><div class='wrap'>
+<header><div class='boards'></div><button class='tool' id='open'>Organizar</button></header>
+<main></main>
+</div>
+<div id='org' hidden><div class='wrap'>
+  <div class='top'><b>Organizar</b><button class='done' id='close'>Listo</button></div>
+  <h2>Tableros</h2>
+  <div class='row' id='oboards'></div>
+  <div class='row' style='margin-top:8px'>
+    <button class='tool' id='new'>+ Nuevo</button><button class='tool' id='ren'>Renombrar</button>
+    <button class='tool' id='del'>Borrar</button>
+  </div>
+  <h2 id='inhead'>En este tablero</h2><ul id='inlist'></ul>
+  <h2>Biblioteca</h2><ul id='outlist'></ul>
+  <h2>Tamaño del texto</h2>
+  <div class='row'><button class='tool' id='fsm'>A−</button><button class='tool' id='fsp'>A+</button></div>
+</div></div><script>
+const LIB = {"quiero-comer-ahora": {"texto": "Quiero comer ahora", "audios": ["audio/quiero-comer-ahora-1-5a8c27.mp3"]}, "quieres-tomar-algo": {"texto": "¿Quieres tomar algo?", "audios": ["audio/quieres-tomar-algo-1-1ec792.mp3"]}, "no-puedo": {"texto": "No puedo", "audios": ["audio/no-puedo-1-7deb18.mp3", "audio/no-puedo-2-91caff.mp3"]}};            // id -> {texto, audios}
+const DEFAULT_BOARDS = [{"nombre": "Quiero", "ids": ["quiero-comer-ahora", "quieres-tomar-algo", "no-puedo"]}];
+const ORDER = Object.keys(LIB);
 const store = {get(k,d){try{const v=localStorage.getItem('eco.'+k);return v===null?d:JSON.parse(v)}catch(e){return d}},
                set(k,v){try{localStorage.setItem('eco.'+k,JSON.stringify(v))}catch(e){}}};
-let screen = Math.min(store.get('screen',0), DATA.length-1);
-let fs = store.get('fs',30), rate = store.get('rate',1);
-const players = {};            // url -> Audio, created once and reused
-let playing = null;             // {audio, btn}
-const nextTake = {};            // "screen/index" -> which take plays next
+let boards = store.get('boards', null) || DEFAULT_BOARDS;
+let cur = Math.min(store.get('cur',0), boards.length-1);
+let fs = store.get('fs2',15);
+const save = () => { store.set('boards', boards); store.set('cur', cur); };
+const $ = s => document.querySelector(s);
 
+const players = {}; let playing = null; const nextTake = {};
 function audioFor(url){ if(!players[url]){ const a=new Audio(url); a.preload='auto'; players[url]=a; } return players[url]; }
-function stop(){ if(!playing) return; playing.audio.pause(); playing.btn.classList.remove('on'); playing=null; }
-
-function tap(si, fi, btn){
-  const f = DATA[si].frases[fi], key = si+'/'+fi;
-  const take = (nextTake[key]||0) % f.audios.length;
-  nextTake[key] = take+1;
+function stop(){ if(!playing) return; playing.audio.pause(); playing.el.classList.remove('on'); playing=null; }
+function play(id, el){
+  const f = LIB[id]; if(!f) return;
+  const take = (nextTake[id]||0) % f.audios.length; nextTake[id] = take+1;
   stop();
-  const a = audioFor(f.audios[take]);
-  a.currentTime = 0; a.playbackRate = rate;
-  btn.classList.add('on');
-  btn.querySelectorAll('.dots i').forEach((d,i)=>d.classList.toggle('cur', i===take));
-  playing = {audio:a, btn};
+  const a = audioFor(f.audios[take]); a.currentTime = 0;
+  el.classList.add('on');
+  el.querySelectorAll('.dots i').forEach((d,i)=>d.classList.toggle('cur', i===take));
+  playing = {audio:a, el};
   a.onended = () => { if(playing && playing.audio===a) stop(); };
   a.play().catch(()=>stop());
 }
+const ids = b => b.ids.filter(id => LIB[id]);
 
-function render(){
+function chip(text, sel, onclick){ const b=document.createElement('button'); b.className='chip'+(sel?' sel':''); b.textContent=text; b.onclick=onclick; return b; }
+
+function renderMain(){
   document.documentElement.style.setProperty('--fs', fs);
-  const nav = document.querySelector('nav');
-  nav.hidden = DATA.length < 2;
-  nav.innerHTML = '';
-  DATA.forEach((s,i)=>{ const b=document.createElement('button'); b.textContent=s.nombre;
-    b.className = i===screen?'sel':''; b.onclick=()=>{stop(); screen=i; store.set('screen',i); render();}; nav.appendChild(b); });
-  const main = document.querySelector('main'); main.innerHTML = '';
-  DATA[screen].frases.forEach((f,fi)=>{
-    const b = document.createElement('button'); b.className='f'; b.textContent=f.texto;
-    if(f.audios.length>1){ const d=document.createElement('span'); d.className='dots';
-      f.audios.forEach(()=>d.appendChild(document.createElement('i'))); b.appendChild(d); }
-    b.addEventListener('click', ()=>tap(screen, fi, b));
-    main.appendChild(b);
-    f.audios.forEach(audioFor);   // warm up this screen's audio
+  const bar = $('.boards'); bar.innerHTML='';
+  if(boards.length>1) boards.forEach((b,i)=>bar.appendChild(chip(b.nombre, i===cur, ()=>{stop(); cur=i; save(); renderMain();})));
+  const main = $('main'); main.innerHTML='';
+  const list = boards.length ? ids(boards[cur]) : [];
+  if(!list.length){ const p=document.createElement('p'); p.className='empty'; p.textContent='Tablero vacío — toca «Organizar».'; main.appendChild(p); }
+  list.forEach(id=>{
+    const f = LIB[id], b = document.createElement('button'); b.className='f'; b.textContent=f.texto;
+    if(f.audios.length>1){ const d=document.createElement('span'); d.className='dots'; f.audios.forEach(()=>d.appendChild(document.createElement('i'))); b.appendChild(d); }
+    b.addEventListener('click', ()=>play(id, b));
+    main.appendChild(b); f.audios.forEach(audioFor);
   });
-  document.querySelectorAll('[data-rate]').forEach(b=>b.classList.toggle('sel', +b.dataset.rate===rate));
 }
-document.querySelector('[data-fs="-"]').onclick=()=>{fs=Math.max(18,fs-4);store.set('fs',fs);render();};
-document.querySelector('[data-fs="+"]').onclick=()=>{fs=Math.min(64,fs+4);store.set('fs',fs);render();};
-document.querySelectorAll('[data-rate]').forEach(b=>b.onclick=()=>{rate=+b.dataset.rate;store.set('rate',rate);
-  if(playing) playing.audio.playbackRate=rate; render();});
-render();
+
+function btn(label, title, fn, cls){ const b=document.createElement('button'); b.textContent=label; b.title=title; if(cls) b.className=cls; b.onclick=fn; return b; }
+function li(id, buttons){
+  const l=document.createElement('li'), s=document.createElement('span'); s.textContent=LIB[id].texto;
+  s.onclick=()=>play(id, l); l.appendChild(s); buttons.forEach(x=>l.appendChild(x)); return l;
+}
+function renderOrg(){
+  const ob=$('#oboards'); ob.innerHTML='';
+  boards.forEach((b,i)=>ob.appendChild(chip(b.nombre, i===cur, ()=>{stop(); cur=i; save(); renderOrg();})));
+  const has = boards.length>0; $('#ren').disabled=!has; $('#del').disabled=!has;
+  const inl=$('#inlist'), outl=$('#outlist'); inl.innerHTML=''; outl.innerHTML='';
+  $('#inhead').textContent = has ? 'En «'+boards[cur].nombre+'»' : 'En este tablero';
+  const on = has ? ids(boards[cur]) : [];
+  on.forEach((id,i)=>{
+    const move=(d)=>()=>{ const a=boards[cur].ids, j=a.indexOf(id), k=a.indexOf(on[i+d]); [a[j],a[k]]=[a[k],a[j]]; save(); renderOrg(); };
+    const up=btn('↑','Subir',move(-1)), dn=btn('↓','Bajar',move(1)); up.disabled=i===0; dn.disabled=i===on.length-1;
+    inl.appendChild(li(id,[up,dn,btn('✕','Quitar',()=>{ boards[cur].ids=boards[cur].ids.filter(x=>x!==id); save(); renderOrg(); })]));
+  });
+  if(!on.length){ const p=document.createElement('div'); p.className='none'; p.textContent= has?'Nada todavía. Añade frases desde la biblioteca.':'Crea un tablero primero.'; inl.appendChild(p); }
+  const off = ORDER.filter(id=>!on.includes(id));
+  off.forEach(id=>{ const add=btn('+','Añadir',()=>{ boards[cur].ids.push(id); save(); renderOrg(); },'add'); add.disabled=!has; outl.appendChild(li(id,[add])); });
+  if(!off.length){ const p=document.createElement('div'); p.className='none'; p.textContent='Todas las frases están en este tablero.'; outl.appendChild(p); }
+}
+$('#open').onclick=()=>{ stop(); renderOrg(); $('#org').hidden=false; };
+$('#close').onclick=()=>{ stop(); $('#org').hidden=true; renderMain(); };
+$('#new').onclick=()=>{ const n=prompt('Nombre del tablero:'); if(!n||!n.trim()) return; boards.push({nombre:n.trim(), ids:[]}); cur=boards.length-1; save(); renderOrg(); };
+$('#ren').onclick=()=>{ const n=prompt('Nuevo nombre:', boards[cur].nombre); if(!n||!n.trim()) return; boards[cur].nombre=n.trim(); save(); renderOrg(); };
+$('#del').onclick=()=>{ if(!confirm('¿Borrar el tablero «'+boards[cur].nombre+'»? Las frases siguen en la biblioteca.')) return; boards.splice(cur,1); cur=Math.max(0,cur-1); save(); renderOrg(); };
+$('#fsm').onclick=()=>{ fs=Math.max(12,fs-2); store.set('fs2',fs); renderMain(); };
+$('#fsp').onclick=()=>{ fs=Math.min(40,fs+2); store.set('fs2',fs); renderMain(); };
+renderMain();
 if('serviceWorker' in navigator && location.protocol.startsWith('http')) navigator.serviceWorker.register('sw.js');
 </script></body></html>
