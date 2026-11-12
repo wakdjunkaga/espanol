@@ -1,4 +1,4 @@
-const CACHE = 'eco-ceec9fa754';
+const CACHE = 'eco-55b9a167cb';
 const FILES = ["./", "audio/no-puedo-1-7deb18.mp3", "audio/no-puedo-2-91caff.mp3", "audio/no-tengo-dinero-1-1339c0.mp3", "audio/no-tengo-dinero-2-249994.mp3", "audio/no-tengo-tiempo-1-cd93b9.mp3", "audio/que-quieres-1-0a7e62.mp3", "audio/que-quieres-2-7825ae.mp3", "audio/quieres-tomar-algo-1-1ec792.mp3", "audio/quieres-tomar-algo-conmigo-1-d74a49.mp3", "audio/quieres-tomar-algo-conmigo-2-9b5428.mp3", "audio/quiero-comer-ahora-1-5a8c27.mp3", "audio/tienes-que-ir-1-627f64.mp3", "audio/tienes-que-ir-2-a7a287.mp3"];
 self.addEventListener('install', e => { self.skipWaiting(); e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES))); });
 self.addEventListener('activate', e => e.waitUntil(caches.keys().then(ks =>
