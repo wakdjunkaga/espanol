@@ -229,7 +229,7 @@ button.sm-start:not(.ghost){min-width:9rem;font-size:1.05rem}
 <div class='sm-over' id='over' hidden><p class='big'>你记住了 <span id='score'>0</span> 轮</p><p>应该点：<b id='rightzh'></b></p><p class='es' id='rightes'></p><p id='bestline'></p><p><button id='again' type='button'>再玩一次</button></p></div>
 </main>
 <script>
-const DATA = {"slug": "simon-quiero", "start": 4, "every": 3, "hues": [["#2b5378", "#87afd6"], ["#2f7a6a", "#6cc2ad"], ["#7a4f8f", "#c49be0"], ["#b0601c", "#e9a062"], ["#4c7a2a", "#9acb6e"], ["#a8456e", "#e58fb3"], ["#5a5f9e", "#a3a8e6"], ["#7a6a3a", "#c9b680"]], "items": [{"zh": "我现在想吃东西。", "es": "Quiero comer ahora", "audio": ["simon-quiero-quiero-comer-ahora-1.mp3"]}, {"zh": "你想喝点什么吗？", "es": "¿Quieres tomar algo?", "audio": ["simon-quiero-quieres-tomar-algo-1.mp3"]}, {"zh": "我不能。", "es": "No puedo", "audio": ["simon-quiero-no-puedo-1.mp3", "simon-quiero-no-puedo-2.mp3"]}, {"zh": "你想和我一起喝点东西吗？", "es": "¿Quieres tomar algo conmigo?", "audio": ["simon-quiero-quieres-tomar-algo-conmigo-1.mp3", "simon-quiero-quieres-tomar-algo-conmigo-2.mp3"]}, {"zh": "你想要什么？", "es": "¿Qué quieres?", "audio": ["simon-quiero-que-quieres-1.mp3", "simon-quiero-que-quieres-2.mp3"]}, {"zh": "我没有时间。", "es": "No tengo tiempo", "audio": ["simon-quiero-no-tengo-tiempo-1.mp3"]}, {"zh": "我没有钱。", "es": "No tengo dinero", "audio": ["simon-quiero-no-tengo-dinero-1.mp3", "simon-quiero-no-tengo-dinero-2.mp3"]}, {"zh": "你一定要去！", "es": "¡Tienes que ir!", "audio": ["simon-quiero-tienes-que-ir-1.mp3", "simon-quiero-tienes-que-ir-2.mp3"]}]};
+const DATA = {"slug": "simon-quiero", "start": 4, "every": 3, "hues": [["#2b5378", "#87afd6"], ["#2f7a6a", "#6cc2ad"], ["#7a4f8f", "#c49be0"], ["#b0601c", "#e9a062"], ["#4c7a2a", "#9acb6e"], ["#a8456e", "#e58fb3"], ["#5a5f9e", "#a3a8e6"], ["#7a6a3a", "#c9b680"]], "items": [{"zh": "我不能。", "es": "No puedo", "audio": ["simon-quiero-no-puedo-1.mp3", "simon-quiero-no-puedo-2.mp3"]}, {"zh": "你想和我一起喝点东西吗？", "es": "¿Quieres tomar algo conmigo?", "audio": ["simon-quiero-quieres-tomar-algo-conmigo-1.mp3", "simon-quiero-quieres-tomar-algo-conmigo-2.mp3"]}, {"zh": "你想要什么？", "es": "¿Qué quieres?", "audio": ["simon-quiero-que-quieres-1.mp3", "simon-quiero-que-quieres-2.mp3"]}, {"zh": "我没有钱。", "es": "No tengo dinero", "audio": ["simon-quiero-no-tengo-dinero-1.mp3", "simon-quiero-no-tengo-dinero-2.mp3"]}, {"zh": "你一定要去！", "es": "¡Tienes que ir!", "audio": ["simon-quiero-tienes-que-ir-1.mp3", "simon-quiero-tienes-que-ir-2.mp3"]}, {"zh": "谁想吃披萨？", "es": "¿Quién quiere pizza?", "audio": ["simon-quiero-quien-quiere-pizza-1.mp3", "simon-quiero-quien-quiere-pizza-2.mp3"]}, {"zh": "我今天不想工作。", "es": "Hoy no quiero trabajar", "audio": ["simon-quiero-hoy-no-quiero-trabajar-1.mp3", "simon-quiero-hoy-no-quiero-trabajar-2.mp3"]}, {"zh": "他不能等我。", "es": "No puede esperarme", "audio": ["simon-quiero-no-puede-esperarme-1.mp3", "simon-quiero-no-puede-esperarme-2.mp3"]}]};
 const START = DATA.start, EVERY = DATA.every;
 const $ = s => document.querySelector(s);
 const grid = $('#grid'), status = $('#status'), goBtn = $('#go'), over = $('#over');
@@ -250,10 +250,13 @@ const tiles = [];   // tiles[i] = button for item i (once shown)
 
 function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 function stop() { if (cur) { try { cur.src.onended = null; cur.src.stop(); } catch(e) {} cur.done(); cur = null; } }
-function sound(i) {
+// k = which take to play; omitted = the next one in rotation.
+function nextTake(i) { return takeN[i]++ % buffers[i].length; }
+function sound(i, k) {
   stop();
   const b = tiles[i]; b.classList.add('lit');
-  const list = buffers[i], k = takeN[i]++ % list.length, buf = list[k];
+  if (k === undefined) k = nextTake(i);
+  const buf = buffers[i][k];
   return new Promise(res => {
     const done = () => { b.classList.remove('lit'); res(); };
     if (!buf) { setTimeout(done, 600); return; }
@@ -306,9 +309,11 @@ async function nextRound() {
     const live = order.slice(0, shown);
     const n = seq.length;
     do { pick = live[Math.floor(Math.random() * live.length)]; }
-    while (n >= 2 && seq[n-1] === pick && seq[n-2] === pick);
+    while (n >= 2 && seq[n-1].i === pick && seq[n-2].i === pick);
   }
-  seq.push(pick);
+  // The take is fixed when the step is added: replays and the student's tap
+  // all play this same recording.
+  seq.push({ i: pick, k: nextTake(pick) });
   await playSeq();
 }
 
@@ -316,7 +321,7 @@ async function playSeq() {
   phase = 'show'; grid.classList.add('wait');
   status.textContent = '听…';
   await sleep(600);
-  for (const i of seq) { await sound(i); await sleep(280); }
+  for (const s of seq) { await sound(s.i, s.k); await sleep(280); }
   phase = 'input'; step = 0; grid.classList.remove('wait');
   status.textContent = '轮到你了！（' + seq.length + ' 句）';
 }
@@ -324,9 +329,9 @@ async function playSeq() {
 async function tap(i) {
   if (phase === 'idle' || phase === 'over') { try { await ctx.resume(); } catch(e) {} sound(i); return; }
   if (phase !== 'input') return;
-  if (i !== seq[step]) return gameOver(i);
+  if (i !== seq[step].i) return gameOver(i);
+  const p = sound(i, seq[step].k);
   step++;
-  const p = sound(i);
   if (step === seq.length) {
     phase = 'show'; grid.classList.add('wait');
     status.textContent = '对了！';
@@ -339,7 +344,7 @@ async function tap(i) {
 
 async function gameOver(i) {
   phase = 'over'; stop(); grid.classList.add('wait');
-  const right = seq[step], score = round - 1;
+  const right = seq[step].i, rightK = seq[step].k, score = round - 1;
   tiles[i].classList.add('wrong'); tiles[right].classList.add('should');
   status.textContent = '错了！';
   $('#score').textContent = score;
@@ -347,7 +352,7 @@ async function gameOver(i) {
   $('#rightes').textContent = DATA.items[right].es;
   $('#bestline').textContent = score > 0 && score >= best ? '新纪录！' : '最高纪录：' + best + ' 轮';
   over.hidden = false; over.scrollIntoView({behavior: 'smooth', block: 'nearest'});
-  await sleep(500); await sound(right);
+  await sleep(500); await sound(right, rightK);
   grid.classList.remove('wait');
 }
 
