@@ -200,6 +200,11 @@ button.sm-tile.lit.new::after{color:#fff}
 button.sm-tile.enter{animation:sm-in .45s ease}
 @keyframes sm-in{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:none}}
 .sm-grid.wait button.sm-tile{cursor:default}
+/* before the game: tiles not yet listened to have a dashed border and a dot */
+button.sm-tile.unheard:not(.ghost){border-style:dashed}
+button.sm-tile.unheard::before{content:"";position:absolute;top:.5rem;left:.55rem;
+  width:.5rem;height:.5rem;border-radius:50%;background:var(--c)}
+button.sm-start:disabled{opacity:.45;cursor:default}
 /* game over: the tile that should have been tapped is ringed; the wrong pick fades */
 button.sm-tile.should:not(.ghost){box-shadow:0 0 0 3px var(--ink)}
 button.sm-tile.wrong:not(.ghost){opacity:.35;text-decoration:line-through}
@@ -220,8 +225,9 @@ button.sm-start:not(.ghost){min-width:9rem;font-size:1.05rem}
 <h1>听音记忆<span class="fmw"><span class="fm f-grid"><i class="g on"></i><i class="g"></i><i class="g"></i><i class="g"></i><i class="g"></i><i class="g"></i><i class="g on"></i><i class="g"></i></span></span></h1>
 <hr class='rule'>
 <p class='how'>听西班牙语，记住顺序，然后按同样的顺序点中文。
-每一轮多一句，有时还会多一个新方块。点错一次，游戏就结束。
-开始以前，可以先点方块听一听。</p>
+每一轮多一句。最后那一句方块不会亮，要自己听出来是哪一个。
+有时还会多一个新方块。点错一次，游戏就结束。
+开始以前，先把每个方块点一下，听一听。</p>
 <div class='sm-bar'><span>第 <b id='round'>–</b> 轮</span><span>最高纪录 <b id='best'>0</b> 轮</span></div>
 <p class='sm-status' id='status' aria-live='polite'></p>
 <div class='sm-grid' id='grid'></div>
@@ -252,9 +258,10 @@ function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 function stop() { if (cur) { try { cur.src.onended = null; cur.src.stop(); } catch(e) {} cur.done(); cur = null; } }
 // k = which take to play; omitted = the next one in rotation.
 function nextTake(i) { return takeN[i]++ % buffers[i].length; }
-function sound(i, k) {
+// dark = play without lighting the tile (the newest sentence of a sequence).
+function sound(i, k, dark) {
   stop();
-  const b = tiles[i]; b.classList.add('lit');
+  const b = tiles[i]; if (!dark) b.classList.add('lit');
   if (k === undefined) k = nextTake(i);
   const buf = buffers[i][k];
   return new Promise(res => {
@@ -274,7 +281,19 @@ function makeTile(i, animate) {
   b.style.setProperty('--c', lt); b.style.setProperty('--c-dk', dk);
   b.textContent = it.zh; b.type = 'button';
   b.addEventListener('click', () => tap(i));
+  if (!heard.has(i)) b.classList.add('unheard');
   tiles[i] = b; grid.appendChild(b); shown++;
+}
+// Before starting, every tile on the board must have been listened to once.
+// Heard tiles stay heard for 再玩一次 (until the page is reloaded).
+const heard = new Set();
+function gate() {
+  if (phase !== 'idle') return;
+  const live = order.slice(0, shown), n = live.filter(i => heard.has(i)).length;
+  goBtn.disabled = n < live.length;
+  status.textContent = n < live.length
+    ? '先把每个方块点一下，听一听（' + n + '/' + live.length + '）'
+    : '都听过了！准备好了就开始。';
 }
 function setup() {
   grid.innerHTML = ''; tiles.length = 0; shown = 0; over.hidden = true;
@@ -282,8 +301,7 @@ function setup() {
   order.slice(0, START).forEach(i => makeTile(i, false));
   seq = []; round = 0; phase = 'idle';
   $('#round').textContent = '–'; $('#best').textContent = best;
-  status.textContent = '先点方块听一听，准备好了就开始。';
-  goBtn.hidden = false;
+  goBtn.hidden = false; gate();
 }
 
 async function begin() {
@@ -300,9 +318,9 @@ async function nextRound() {
   round++;
   $('#round').textContent = round;
   grid.querySelectorAll('.new').forEach(b => b.classList.remove('new'));
-  let pick;
+  let pick, intro = false;
   if (round > 1 && (round - 1) % EVERY === 0 && shown < order.length) {
-    pick = order[shown]; makeTile(pick, true);
+    pick = order[shown]; makeTile(pick, true); intro = true;
     status.textContent = '新句子！';
     await sleep(900);
   } else {
@@ -314,6 +332,8 @@ async function nextRound() {
   // The take is fixed when the step is added: replays and the student's tap
   // all play this same recording.
   seq.push({ i: pick, k: nextTake(pick) });
+  // A new tile is introduced once, lit, before the sequence that ends on it.
+  if (intro) { phase = 'show'; grid.classList.add('wait'); await sound(pick, seq[seq.length-1].k); await sleep(700); }
   await playSeq();
 }
 
@@ -321,13 +341,22 @@ async function playSeq() {
   phase = 'show'; grid.classList.add('wait');
   status.textContent = '听…';
   await sleep(600);
-  for (const s of seq) { await sound(s.i, s.k); await sleep(280); }
+  // The newest sentence plays without lighting its tile: a mini dictation.
+  for (let n = 0; n < seq.length; n++) {
+    const last = n === seq.length - 1;
+    if (last && seq.length > 1) status.textContent = '最后一句是哪个？';
+    await sound(seq[n].i, seq[n].k, last); await sleep(280);
+  }
   phase = 'input'; step = 0; grid.classList.remove('wait');
   status.textContent = '轮到你了！（' + seq.length + ' 句）';
 }
 
 async function tap(i) {
-  if (phase === 'idle' || phase === 'over') { try { await ctx.resume(); } catch(e) {} sound(i); return; }
+  if (phase === 'idle' || phase === 'over') {
+    try { await ctx.resume(); } catch(e) {}
+    heard.add(i); tiles[i].classList.remove('unheard'); gate();
+    sound(i); return;
+  }
   if (phase !== 'input') return;
   if (i !== seq[step].i) return gameOver(i);
   const p = sound(i, seq[step].k);
@@ -357,7 +386,7 @@ async function gameOver(i) {
 }
 
 goBtn.addEventListener('click', begin);
-$('#again').addEventListener('click', () => { setup(); begin(); });
+$('#again').addEventListener('click', () => { setup(); if (!goBtn.disabled) begin(); });
 setup();
 </script>
 </body></html>
