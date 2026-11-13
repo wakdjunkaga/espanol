@@ -1,0 +1,363 @@
+<!doctype html><html lang='zh'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><meta name='robots' content='noindex,nofollow'><title>听音记忆</title><link rel='preconnect' href='https://fonts.googleapis.com'><link rel='preconnect' href='https://fonts.gstatic.com' crossorigin><link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400;1,8..60,600&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=Noto+Serif+SC:wght@400;500;700&amp;family=Noto+Sans+SC:wght@400;500&amp;display=swap'><style>:root{
+  --paper:#e9e7e1;--card:#f4f3ef;--ink:#1a1916;--ink2:#43413b;--muted:#78756c;
+  --rule:#cfcbc1;--rule-soft:#dcd8ce;
+  --red:#bb392a;--blue:#2b5378;--blue-rgb:43,83,120;
+  --tint-rgb:34,94,156;--tint-a:.175;--tint-b:.07;
+  --graph:#6e6f72;--graph-rgb:110,111,114;
+  --deep:#20303a;--deep-ink:#ebe8e1;--deep-dim:#93a1a8;--deep-rule:#3b4c57;
+  --deep-red:#e07a63;
+  --now:#20303a;--now-ink:#ebe8e1;
+  --hl:#d9b45e;--hl-ink:#1a1916;
+
+  --rhythm:30rem;      /* max width of a measure — an instrument, not a console */
+  --measure:47rem;     /* the page column */
+  --reading:19px;      /* reader pages override this from localStorage */
+  --read:"Source Serif 4",Georgia,serif;
+  --app:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  --hans:"Noto Serif SC","Songti SC",STSong,SimSun,serif;
+  --hanx:"Noto Sans SC","PingFang SC","Hiragino Sans GB",sans-serif;
+
+  --es-bg:var(--paper);        --es-card:var(--card);
+  --es-panel:var(--card);      --es-instrument:var(--card);
+  --es-ink:var(--ink);         --es-soft:var(--ink2);
+  --es-muted:var(--muted);     --es-rule:var(--rule);
+  --es-gold:var(--hl);         --es-accent:var(--blue);
+  --es-deep:var(--deep);       --es-rec:var(--deep);
+  --es-go:var(--blue);         --es-measure:var(--measure);
+  --es-serif:var(--read);      --es-han:var(--hans);
+  --es-sans:var(--hanx);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#16161a;--card:#1e1e24;--ink:#e8e6e0;--ink2:#c2bfb7;--muted:#8b887f;
+  --rule:#33333c;--rule-soft:#282830;
+  --red:#e77a67;--blue:#87afd6;--blue-rgb:135,175,214;
+  --tint-rgb:120,168,214;--tint-a:.20;--tint-b:.085;
+  --graph:#9b9ca0;--graph-rgb:155,156,160;
+  --deep:#242b33;--deep-ink:#e8e6e0;--deep-dim:#98a4ac;--deep-rule:#3a444d;
+  --deep-red:#e77a67;
+  --now:#cfd4d9;--now-ink:#14181c;
+  --hl:#d9b45e;--hl-ink:#14181c;
+}}
+:root[data-theme="dark"]{
+  --paper:#16161a;--card:#1e1e24;--ink:#e8e6e0;--ink2:#c2bfb7;--muted:#8b887f;
+  --rule:#33333c;--rule-soft:#282830;
+  --red:#e77a67;--blue:#87afd6;--blue-rgb:135,175,214;
+  --tint-rgb:120,168,214;--tint-a:.20;--tint-b:.085;
+  --graph:#9b9ca0;--graph-rgb:155,156,160;
+  --deep:#242b33;--deep-ink:#e8e6e0;--deep-dim:#98a4ac;--deep-rule:#3a444d;
+  --deep-red:#e77a67;
+  --now:#cfd4d9;--now-ink:#14181c;
+  --hl:#d9b45e;--hl-ink:#14181c;
+}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--read);font-size:17px;line-height:1.6;padding:0 0 4.5rem;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.wrap,.doc{max-width:var(--measure);margin:0 auto;padding:0 1.4rem}
+
+/* ---- the hand ----------------------------------------------------------- */
+.mk{display:inline-block;background-color:currentColor;vertical-align:middle;
+  pointer-events:none;-webkit-mask-image:var(--m);mask-image:var(--m);
+  -webkit-mask-size:100% 100%;mask-size:100% 100%;
+  -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.hand{color:var(--red)}
+.field .hand{color:var(--deep-red)}
+.sig{color:var(--blue);line-height:1}
+
+/* ---- masthead ----------------------------------------------------------- */
+.mstrip{background:var(--deep);color:var(--deep-ink);display:flex;
+  justify-content:space-between;gap:1rem;padding:.5rem 1.4rem;
+  font-family:var(--app);font-size:10px;letter-spacing:.16em;
+  text-transform:uppercase}
+.mstrip .zh{font-family:var(--hanx);letter-spacing:.2em;text-transform:none}
+.kicker{font-family:var(--hanx);font-size:.78rem;letter-spacing:.22em;
+  color:var(--muted);margin:2.4rem 0 .9rem}
+h1{font-family:var(--hans);font-weight:500;font-size:clamp(1.9rem,7vw,2.5rem);
+  line-height:1.15;letter-spacing:.02em;margin:0;
+  display:flex;align-items:center;gap:.85rem;flex-wrap:wrap}
+.sub{font-family:var(--hanx);font-size:.85rem;color:var(--muted);margin:.7rem 0 0}
+.rule{border:0;height:1px;background:var(--rule);margin:1.6rem 0 0}
+
+/* ---- movement heads. Arabic, with the count, because a student has to
+       count them and I·II·III reads as a chapter number. ------------------ */
+.mvh{display:flex;align-items:baseline;gap:1.1rem;border-top:2px solid var(--ink);
+  padding-top:.9rem;margin:4.2rem 0 0}
+.mvn{font-family:var(--read);font-variation-settings:"opsz" 60;font-weight:600;
+  font-size:clamp(2.4rem,8vw,3.2rem);line-height:.9;color:var(--ink);
+  letter-spacing:-.02em}
+.mvn .of{font-family:var(--app);font-weight:400;font-size:.85rem;
+  letter-spacing:.04em;color:var(--graph);margin-left:.18rem;vertical-align:super}
+.mvt{font-family:var(--hans);font-weight:700;font-size:clamp(1.5rem,5.4vw,2rem);
+  line-height:1.3;color:var(--ink)}
+
+/* ---- instructions ------------------------------------------------------- */
+/* No card. Generic containment is what made nine exercises look like nine
+   identical homework rows. */
+.how{font-family:var(--hanx);font-size:.95rem;line-height:2.05;color:var(--ink2);
+  max-width:32rem;margin:1.5rem 0 0}
+.how p{margin:0 0 .5rem}
+.how p:last-child{margin:0}
+.how .lead{color:var(--ink)}
+.how b,.how strong{font-weight:500;color:var(--ink);
+  box-shadow:inset 0 -.32em 0 rgba(var(--tint-rgb),.3)}
+.note,.legend{font-family:var(--hanx);font-size:.8rem;line-height:1.95;
+  color:var(--muted);margin:2.2rem 0 0;padding-top:1rem;
+  border-top:1px solid var(--rule);max-width:30rem}
+
+/* ---- controls: square, hairline, never a rounded pill ------------------- */
+button{font:inherit;color:var(--ink);cursor:pointer}
+button:not(.ghost):not(.cal){font-family:var(--hanx);font-size:.9rem;
+  min-height:44px;padding:0 1.1rem;border-radius:2px;
+  border:1px solid var(--rule);background:none;color:var(--ink2);
+  transition:border-color .15s ease,color .15s ease,background .15s ease}
+button:not(.ghost):hover:not(:disabled){border-color:var(--ink2);color:var(--ink)}
+button:not(.ghost):disabled{opacity:.38;cursor:default}
+button:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+/* yellow means live audio, playing or capturing — and nothing else */
+button.playing:not(.ghost),button.rec:not(.ghost){
+  background:var(--hl);border-color:var(--hl);color:var(--hl-ink)}
+button.ghost{border:0;background:none;border-radius:0;padding:.35rem 1px;
+  font-family:var(--hanx);font-size:.85rem;color:var(--blue);min-height:0;
+  border-bottom:1px dotted currentColor}
+button.ghost:disabled{color:var(--muted);opacity:.45;cursor:default}
+button.ghost.on{color:var(--ink);border-bottom-style:solid;
+  border-bottom-color:var(--blue)}
+.btns,.tp{display:flex;gap:.55rem;flex-wrap:wrap;margin:1.4rem 0 0}
+
+/* ---- items -------------------------------------------------------------- */
+.items{margin:2.2rem 0 0}
+.items>.item{padding:1.9rem 0 0;border-top:1px solid var(--rule);
+  background:none;border-radius:0;position:relative}
+.items>.item:first-child{border-top:0;padding-top:1rem}
+.ihd{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;
+  margin:0 0 .8rem}
+.n,.inum{font-family:var(--app);font-size:10.5px;letter-spacing:.16em;
+  color:var(--graph);margin:0}
+.izh,.item>.zh{font-family:var(--hanx);font-size:.82rem;color:var(--muted);
+  margin:0 0 .6rem}
+
+/* ---- the foot ----------------------------------------------------------- */
+.foot,.colophon{margin:3.4rem 0 0;padding-top:1.2rem;
+  border-top:1px solid var(--rule);display:flex;justify-content:space-between;
+  align-items:flex-end;gap:1.5rem;flex-wrap:wrap}
+.foot .who,.colophon .who{font-family:var(--hanx);font-size:.82rem;
+  letter-spacing:.16em;color:var(--muted)}
+.foot .who span,.colophon .who span{display:block;font-family:var(--app);
+  font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--graph);margin-top:.45rem}
+
+/* ---- family marks ------------------------------------------------------- */
+.fmw{display:inline-block;height:1.4em;line-height:1.4em}
+.fm{display:inline-flex;width:30px;height:14px;position:relative;
+  vertical-align:middle;color:var(--graph);gap:1.5px}
+.fm i{background:currentColor}
+.f-pron{align-items:flex-start}
+.f-pron i.c{flex:1;height:8px}
+.f-pron i.tie{position:absolute;left:24%;right:26%;bottom:1px;height:5px;
+  background:none;border:1px solid currentColor;border-top:0;border-radius:0 0 6px 6px}
+.f-song{align-items:flex-end}
+.f-song i.c{flex:1}
+.f-song i.h1{height:14px}.f-song i.h2{height:7px}
+.f-song i.h3{height:10.5px}.f-song i.h4{height:4px}
+.f-talk{flex-direction:column;justify-content:center;gap:3.5px}
+.f-talk i{height:4px;flex:none}
+.f-talk i.t1{width:55%}.f-talk i.t2{width:74%;margin-left:auto}
+.f-read{flex-direction:column;justify-content:center;gap:3px}
+.f-read i{height:2px;flex:none;width:100%;opacity:.85}
+.f-read i.s{width:58%}
+.f-grid{flex-wrap:wrap;gap:1.5px;align-content:center}
+.f-grid i.g{width:6.4px;height:6px;background:none;
+  box-shadow:inset 0 0 0 1px currentColor;opacity:.75}
+.f-grid i.g.on{background:currentColor;box-shadow:none;opacity:1}
+
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+body{--pad:max(1.4rem,(100vw - var(--measure))/2);
+  padding-left:var(--pad);padding-right:var(--pad)}
+body > .mstrip,body > .field{
+  margin-left:calc(-1 * var(--pad));margin-right:calc(-1 * var(--pad))}
+
+.sm .how{white-space:pre-line}
+.sm-bar{display:flex;align-items:center;justify-content:space-between;gap:1rem;
+  margin:0 0 .8rem;font:500 .85rem/1.3 var(--app);color:var(--muted)}
+.sm-bar b{color:var(--ink);font-weight:500}
+.sm-status{min-height:1.6rem;margin:0 0 .7rem;font:600 1.15rem/1.4 var(--hans);color:var(--ink)}
+.sm-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.6rem;max-width:30rem}
+/* Rule 8: element + :not(.ghost) ties CHROME's button rule and wins on order. */
+button.sm-tile:not(.ghost){position:relative;display:flex;align-items:center;justify-content:center;
+  min-height:5.6rem;padding:.7rem .6rem;border-radius:14px;text-align:center;
+  font:600 1.08rem/1.35 var(--hans);color:var(--ink);
+  background:color-mix(in srgb,var(--c) 24%,var(--card));
+  border:2px solid color-mix(in srgb,var(--c) 70%,transparent);
+  transition:background .12s ease,transform .12s ease,box-shadow .12s ease,opacity .2s}
+button.sm-tile.lit:not(.ghost){background:var(--c);color:#fff;border-color:var(--c);
+  transform:scale(1.04);box-shadow:0 0 0 4px color-mix(in srgb,var(--c) 30%,transparent)}
+button.sm-tile.new::after{content:"新";position:absolute;top:.35rem;right:.5rem;
+  font:600 .72rem var(--hanx);color:var(--muted)}
+button.sm-tile.lit.new::after{color:#fff}
+button.sm-tile.enter{animation:sm-in .45s ease}
+@keyframes sm-in{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:none}}
+.sm-grid.wait button.sm-tile{cursor:default}
+/* game over: the tile that should have been tapped is ringed; the wrong pick fades */
+button.sm-tile.should:not(.ghost){box-shadow:0 0 0 3px var(--ink)}
+button.sm-tile.wrong:not(.ghost){opacity:.35;text-decoration:line-through}
+.sm-go{margin:1.1rem 0 0;max-width:30rem}
+button.sm-start:not(.ghost){min-width:9rem;font-size:1.05rem}
+.sm-over{margin:1rem 0 0;padding:1rem 1.1rem;border:1px solid var(--rule);border-radius:12px;
+  background:var(--card);max-width:30rem}
+.sm-over p{margin:0 0 .4rem}
+.sm-over .big{font:600 1.35rem/1.3 var(--hans)}
+.sm-over .es{font:italic 1.05rem var(--read);color:var(--ink2)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .sm-tile{--c:var(--c-dk)}}
+:root[data-theme="dark"] .sm-tile{--c:var(--c-dk)}
+@media (prefers-reduced-motion:reduce){button.sm-tile:not(.ghost){transition:none}
+  button.sm-tile.lit:not(.ghost){transform:none}button.sm-tile.enter{animation:none}}
+</style></head><body><div class='mstrip'><span class='zh'>阿弟西语研究社</span><span>零基础课程</span></div>
+<main class='sm'>
+<p class='kicker'>课外练习</p>
+<h1>听音记忆<span class="fmw"><span class="fm f-grid"><i class="g on"></i><i class="g"></i><i class="g"></i><i class="g"></i><i class="g"></i><i class="g"></i><i class="g on"></i><i class="g"></i></span></span></h1>
+<hr class='rule'>
+<p class='how'>听西班牙语，记住顺序，然后按同样的顺序点中文。
+每一轮多一句，有时还会多一个新方块。点错一次，游戏就结束。
+开始以前，可以先点方块听一听。</p>
+<div class='sm-bar'><span>第 <b id='round'>–</b> 轮</span><span>最高纪录 <b id='best'>0</b> 轮</span></div>
+<p class='sm-status' id='status' aria-live='polite'></p>
+<div class='sm-grid' id='grid'></div>
+<div class='sm-go'><button class='sm-start' id='go' type='button'>开始</button></div>
+<div class='sm-over' id='over' hidden><p class='big'>你记住了 <span id='score'>0</span> 轮</p><p>应该点：<b id='rightzh'></b></p><p class='es' id='rightes'></p><p id='bestline'></p><p><button id='again' type='button'>再玩一次</button></p></div>
+</main>
+<script>
+const DATA = {"slug": "simon-cortas", "start": 4, "every": 3, "hues": [["#2b5378", "#87afd6"], ["#2f7a6a", "#6cc2ad"], ["#7a4f8f", "#c49be0"], ["#b0601c", "#e9a062"], ["#4c7a2a", "#9acb6e"], ["#a8456e", "#e58fb3"], ["#5a5f9e", "#a3a8e6"], ["#7a6a3a", "#c9b680"]], "items": [{"zh": "你饿吗？", "es": "¿Tienes hambre?", "audio": ["simon-cortas-tienes-hambre-1.mp3", "simon-cortas-tienes-hambre-2.mp3"]}, {"zh": "为什么不呢？", "es": "¿Por qué no?", "audio": ["simon-cortas-por-que-no-1.mp3", "simon-cortas-por-que-no-2.mp3"]}, {"zh": "现在不行！", "es": "¡Ahora no!", "audio": ["simon-cortas-ahora-no-1.mp3", "simon-cortas-ahora-no-2.mp3"]}, {"zh": "你想喝咖啡吗？", "es": "¿Quieres café?", "audio": ["simon-cortas-quieres-cafe-1.mp3", "simon-cortas-quieres-cafe-2.mp3"]}, {"zh": "我想吃披萨！", "es": "¡Quiero pizza!", "audio": ["simon-cortas-quiero-pizza-1.mp3", "simon-cortas-quiero-pizza-2.mp3"]}, {"zh": "我想见你。", "es": "Quiero verte.", "audio": ["simon-cortas-quiero-verte-1.mp3", "simon-cortas-quiero-verte-2.mp3"]}, {"zh": "你能等我吗？", "es": "¿Puedes esperarme?", "audio": ["simon-cortas-puedes-esperarme-1.mp3", "simon-cortas-puedes-esperarme-2.mp3"]}, {"zh": "你什么时候可以？", "es": "¿Cuándo puedes?", "audio": ["simon-cortas-cuando-puedes-1.mp3", "simon-cortas-cuando-puedes-2.mp3"]}]};
+const START = DATA.start, EVERY = DATA.every;
+const $ = s => document.querySelector(s);
+const grid = $('#grid'), status = $('#status'), goBtn = $('#go'), over = $('#over');
+const AC = window.AudioContext || window.webkitAudioContext;
+const ctx = new AC();
+const buffers = DATA.items.map(it => it.audio.map(() => null));
+const takeN = DATA.items.map(() => 0);
+let loaded = Promise.all(DATA.items.flatMap((it, i) => it.audio.map((src, k) =>
+  fetch(src).then(r => r.arrayBuffer())
+    .then(b => new Promise((ok, no) => ctx.decodeAudioData(b, ok, no)))
+    .then(buf => { buffers[i][k] = buf; }))));
+
+let best = 0; try { best = +localStorage.getItem('simon.' + DATA.slug + '.best') || 0 } catch(e) {}
+const setBest = n => { best = n; try { localStorage.setItem('simon.' + DATA.slug + '.best', n) } catch(e) {} };
+
+let order = [], shown = 0, seq = [], step = 0, phase = 'idle', round = 0, cur = null;
+const tiles = [];   // tiles[i] = button for item i (once shown)
+
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+function stop() { if (cur) { try { cur.src.onended = null; cur.src.stop(); } catch(e) {} cur.done(); cur = null; } }
+// k = which take to play; omitted = the next one in rotation.
+function nextTake(i) { return takeN[i]++ % buffers[i].length; }
+function sound(i, k) {
+  stop();
+  const b = tiles[i]; b.classList.add('lit');
+  if (k === undefined) k = nextTake(i);
+  const buf = buffers[i][k];
+  return new Promise(res => {
+    const done = () => { b.classList.remove('lit'); res(); };
+    if (!buf) { setTimeout(done, 600); return; }
+    const src = ctx.createBufferSource(); src.buffer = buf; src.connect(ctx.destination);
+    const me = { src, done }; cur = me;
+    src.onended = () => { if (cur === me) cur = null; done(); };
+    src.start();
+  });
+}
+
+function makeTile(i, animate) {
+  const it = DATA.items[i], b = document.createElement('button');
+  b.className = 'sm-tile' + (animate ? ' enter new' : '');
+  const [lt, dk] = DATA.hues[shown % DATA.hues.length];
+  b.style.setProperty('--c', lt); b.style.setProperty('--c-dk', dk);
+  b.textContent = it.zh; b.type = 'button';
+  b.addEventListener('click', () => tap(i));
+  tiles[i] = b; grid.appendChild(b); shown++;
+}
+function setup() {
+  grid.innerHTML = ''; tiles.length = 0; shown = 0; over.hidden = true;
+  order = DATA.items.map((_, i) => i).sort(() => Math.random() - .5);
+  order.slice(0, START).forEach(i => makeTile(i, false));
+  seq = []; round = 0; phase = 'idle';
+  $('#round').textContent = '–'; $('#best').textContent = best;
+  status.textContent = '先点方块听一听，准备好了就开始。';
+  goBtn.hidden = false;
+}
+
+async function begin() {
+  goBtn.hidden = true; over.hidden = true;
+  try { await ctx.resume(); } catch(e) {}
+  status.textContent = '加载中…';
+  await loaded.catch(() => {});
+  if (phase !== 'idle') setup();
+  goBtn.hidden = true;
+  nextRound();
+}
+
+async function nextRound() {
+  round++;
+  $('#round').textContent = round;
+  grid.querySelectorAll('.new').forEach(b => b.classList.remove('new'));
+  let pick;
+  if (round > 1 && (round - 1) % EVERY === 0 && shown < order.length) {
+    pick = order[shown]; makeTile(pick, true);
+    status.textContent = '新句子！';
+    await sleep(900);
+  } else {
+    const live = order.slice(0, shown);
+    const n = seq.length;
+    do { pick = live[Math.floor(Math.random() * live.length)]; }
+    while (n >= 2 && seq[n-1].i === pick && seq[n-2].i === pick);
+  }
+  // The take is fixed when the step is added: replays and the student's tap
+  // all play this same recording.
+  seq.push({ i: pick, k: nextTake(pick) });
+  await playSeq();
+}
+
+async function playSeq() {
+  phase = 'show'; grid.classList.add('wait');
+  status.textContent = '听…';
+  await sleep(600);
+  for (const s of seq) { await sound(s.i, s.k); await sleep(280); }
+  phase = 'input'; step = 0; grid.classList.remove('wait');
+  status.textContent = '轮到你了！（' + seq.length + ' 句）';
+}
+
+async function tap(i) {
+  if (phase === 'idle' || phase === 'over') { try { await ctx.resume(); } catch(e) {} sound(i); return; }
+  if (phase !== 'input') return;
+  if (i !== seq[step].i) return gameOver(i);
+  const p = sound(i, seq[step].k);
+  step++;
+  if (step === seq.length) {
+    phase = 'show'; grid.classList.add('wait');
+    status.textContent = '对了！';
+    if (round > best) setBest(round);
+    $('#best').textContent = best;
+    await p; await sleep(700);
+    nextRound();
+  }
+}
+
+async function gameOver(i) {
+  phase = 'over'; stop(); grid.classList.add('wait');
+  const right = seq[step].i, rightK = seq[step].k, score = round - 1;
+  tiles[i].classList.add('wrong'); tiles[right].classList.add('should');
+  status.textContent = '错了！';
+  $('#score').textContent = score;
+  $('#rightzh').textContent = DATA.items[right].zh;
+  $('#rightes').textContent = DATA.items[right].es;
+  $('#bestline').textContent = score > 0 && score >= best ? '新纪录！' : '最高纪录：' + best + ' 轮';
+  over.hidden = false; over.scrollIntoView({behavior: 'smooth', block: 'nearest'});
+  await sleep(500); await sound(right, rightK);
+  grid.classList.remove('wait');
+}
+
+goBtn.addEventListener('click', begin);
+$('#again').addEventListener('click', () => { setup(); begin(); });
+setup();
+</script>
+</body></html>
